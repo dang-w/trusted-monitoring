@@ -78,6 +78,12 @@
           "model": "openai-api/llama-cpp/ministral-3-8b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8/runs/d133-gap-ministral-3-8b/2026-10-02T17-18-37-00-00_apps-generate-honest_eGYtccjcARtnkVroFv2Lfr.eval",
+        "verified": "2026-10-02T21:36:10+00:00"
+      },
       "revision": {
         "commit": "cb10aed",
         "dirty": false

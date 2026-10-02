@@ -53,6 +53,12 @@
       "inspect_run_id": "oGL7D6GvsVQVxgVBuBRLCj",
       "model": "openai-api/llama-cpp/qwen3-coder-30b-a3b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "58230eb94243be0daaecc474510d10b54d4e4af9",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/58230eb94243be0daaecc474510d10b54d4e4af9/runs/d141-smoke/2026-10-02T10-54-58-00-00_smoke_5WydHyd5dniwpKg85RnLis.eval",
+        "verified": "2026-10-02T21:35:31+00:00"
+      },
       "revision": {
         "commit": "6fa231d",
         "dirty": false

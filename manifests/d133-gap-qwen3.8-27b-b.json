@@ -81,6 +81,12 @@
           "model": "openai-api/llama-cpp/qwen3.8-27b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8/runs/d133-gap-qwen3.8-27b-b/2026-10-02T20-36-42-00-00_apps-generate-honest_dfqFNQR6NdAFK3tbgGjDew.eval",
+        "verified": "2026-10-02T21:36:10+00:00"
+      },
       "revision": {
         "commit": "ac1ba27",
         "dirty": false

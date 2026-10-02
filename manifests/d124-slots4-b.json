@@ -70,6 +70,12 @@
           "model": "openai-api/llama-cpp/qwen3-coder-30b-a3b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8/runs/d124-slots4-b/2026-10-02T12-03-42-00-00_apps-generate-honest_CPH86wSQexSwv5arqM8RhB.eval",
+        "verified": "2026-10-02T21:36:10+00:00"
+      },
       "revision": {
         "commit": "5b469fe",
         "dirty": false

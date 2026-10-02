@@ -75,6 +75,12 @@
           "model": "openai-api/llama-cpp/qwen3-coder-30b-a3b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/b6bc3689a7cfce0ea67523cf3a9cc77a31a372b8/runs/d123-apps-attack/2026-10-02T11-20-29-00-00_apps-tm-attack_LAk64DZ68aKVQpZrPdbThQ.eval",
+        "verified": "2026-10-02T21:36:10+00:00"
+      },
       "revision": {
         "commit": "9e2d15b",
         "dirty": true
