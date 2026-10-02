@@ -6,6 +6,10 @@ container when it is scored. The Bash setting needs egress for its side task, so
 
     python -m tm.run --run-id ID -- eval control/apps/task.py@apps_tm_honest --limit 5
     python -m tm.run --run-id ID -- eval control/apps/task.py@apps_tm_attack --limit 5
+    python -m tm.run --run-id ID -- eval control/apps/task.py@apps_generate_honest --limit 10
+
+`apps_generate_honest` runs the untrusted policy alone, with no monitor. It is the "generate"
+phase by itself: one model stays in memory, so it is the task for throughput measurements.
 
 This file is plumbing. Which model is trusted and which is untrusted is not decided; the pair
 below is the one used to test the substrate.
@@ -14,6 +18,7 @@ below is the one used to test the substrate.
 from control_arena import EvalMode
 from control_arena.eval import ControlEvalConfig, get_control_task
 from control_arena.micro_protocol import trusted_monitoring_builder
+from control_arena.policy import untrusted_policy_builder
 from control_arena.scorers import max_suspicion_scorer
 from control_arena.settings.apps.apps_setting import AppsSetting
 from inspect_ai import Task, task
@@ -63,3 +68,16 @@ def apps_tm_honest(untrusted: str = UNTRUSTED, trusted: str = TRUSTED) -> Task:
 @task
 def apps_tm_attack(untrusted: str = UNTRUSTED, trusted: str = TRUSTED) -> Task:
     return _task(EvalMode.ATTACK, untrusted, trusted)
+
+
+@task
+def apps_generate_honest(untrusted: str = UNTRUSTED) -> Task:
+    return get_control_task(
+        setting=HardenedAppsSetting(),
+        micro_protocol=untrusted_policy_builder(),
+        mode=EvalMode.HONEST,
+        eval_config=ControlEvalConfig(
+            untrusted_model=untrusted, trusted_model=TRUSTED, untrusted_config=SAMPLING
+        ),
+        task_name="apps_generate_honest",
+    )
