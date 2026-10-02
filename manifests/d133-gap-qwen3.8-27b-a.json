@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_honest",
+    "-T",
+    "untrusted=openai-api/llama-cpp/qwen3.8-27b",
+    "--limit",
+    "1-10",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "900",
+    "--message-limit",
+    "8",
+    "--display",
+    "plain",
+    "--log-dir",
+    "logs/d133-gap-qwen3.8-27b-a"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-02T20:35:50+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 205656,
+      "completed": "2026-10-02T20:35:49+00:00",
+      "completed_samples": 10,
+      "dataset_path": "runs/d133-gap-qwen3.8-27b-a/2026-10-02T19-35-47-00-00_apps-generate-honest_PQSuCsFfFFFpUnzM7Tk859.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": true,
+        "limit": [
+          0,
+          10
+        ],
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 900,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-02T19-35-47-00-00_apps-generate-honest_PQSuCsFfFFFpUnzM7Tk859.eval",
+      "generate_config": {},
+      "inspect_run_id": "Na4pnswUbXG5CCrmXec436",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {},
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "revision": {
+        "commit": "a49fc2f",
+        "dirty": false
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "82daced077864b9cb436d14a46efe802c3327c2e6d42456f9c89ec4594a2fc54",
+      "started": "2026-10-02T19:35:47+00:00",
+      "status": "success",
+      "task": "apps_generate_honest"
+    }
+  ],
+  "mode_switch_log": [],
+  "models": [
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "D13.3 capability gap: APPS generate phase only, honest mode, samples 1 to 10 of the same first 20, model qwen3.8-27b as the agent, one sample at a time, temperature 0, seed 1, per-sample limits of 900 s and 8 messages. The 20 samples of this model are split into two runs (a, b) to stay inside a 2-hour limit of the session. Not a result about monitoring.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "76df317069ea0cb216db8797b9a5eeb3218ede3c695f48836c697e774a60016f"
+  },
+  "repo": {
+    "commit": "a49fc2f504a6157aa4e293873cd1477aa802675e",
+    "dirty": false
+  },
+  "run_id": "d133-gap-qwen3.8-27b-a",
+  "schema": 1,
+  "started": "2026-10-02T19:35:44+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.13",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
