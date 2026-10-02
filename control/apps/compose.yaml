@@ -1,0 +1,21 @@
+# Sandbox for the ControlArena APPS setting, hardened to this repository's policy.
+# ControlArena's own compose file for APPS already sets `network_mode: none`; it runs as root
+# and keeps the default capabilities. This file adds a non-root user, drops all capabilities
+# and forbids new privileges. The image and the limits are the same as in ControlArena 19.0.0.
+services:
+  default:
+    # ControlArena pins Python 3.4 because some reference solutions do not run on later versions.
+    image: python:3.4
+    init: true
+    command: tail -f /dev/null
+    cpus: 1.0
+    mem_limit: 0.5gb
+    network_mode: none
+    user: "65534:65534"
+    working_dir: /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    stop_grace_period: 1s
