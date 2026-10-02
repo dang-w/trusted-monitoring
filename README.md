@@ -3,8 +3,8 @@
 **Status: infrastructure in progress. There are no findings yet.**
 
 This repository will hold control evaluations of *trusted monitoring* that run fully on local
-models, on one machine. Today it holds only the project skeleton: pinned dependencies, a
-secret-scanning commit hook and this description. No experiment has run.
+models, on one machine. Today it holds the project skeleton and one smoke test of the plumbing.
+No experiment has run.
 
 ## The question
 
@@ -26,6 +26,9 @@ The planned method is in [METHOD.md](METHOD.md). It is a plan, not a result.
 |---|---|
 | Dependencies | [Inspect AI](https://inspect.aisi.org.uk/) 0.3.275 and [ControlArena](https://github.com/UKGovernmentBEIS/control-arena) 19.0.0, pinned in `uv.lock` |
 | Commit hook | `.githooks/pre-commit` runs [gitleaks](https://github.com/gitleaks/gitleaks) with `.gitleaks.toml` on every staged change |
+| Smoke test | `smoke/`: one sample that checks the plumbing only (model, tool call, sandbox, result). It says nothing about monitoring. |
+| Sandbox policy | `smoke/compose.yaml`: no network, non-root user, no host mounts, all capabilities dropped |
+| Local model wrapper | `scripts/inspect-local` runs Inspect against a local llama.cpp server; the API key is read from a file outside the repository |
 | Evaluation code | none yet |
 | Results | none yet |
 

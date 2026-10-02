@@ -1,0 +1,16 @@
+# Sandbox for the smoke test. The policy for every task container in this repository:
+# no network, a non-root user, no host mounts and no Docker socket.
+services:
+  default:
+    build: .
+    init: true
+    command: tail -f /dev/null
+    network_mode: none
+    user: "1000:1000"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 1g
+    pids_limit: 256
+    stop_grace_period: 1s

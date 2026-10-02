@@ -1,0 +1,14 @@
+#!/bin/sh
+# Run Inspect against the local llama.cpp research router.
+#   scripts/inspect-local eval smoke/task.py --model openai-api/llama-cpp/qwen3-coder-30b-a3b
+#
+# Inspect's OpenAI-compatible provider takes "openai-api/<service>/<model>" and reads
+# <SERVICE>_API_KEY and <SERVICE>_BASE_URL. The key stays in a file outside every repository
+# and is read here at run time; it is never written to a config file.
+set -eu
+KEY_FILE="${LLAMA_KEY_FILE:-$HOME/.config/llama/research.key}"
+[ -r "$KEY_FILE" ] || { echo "inspect-local: cannot read the key file $KEY_FILE" >&2; exit 1; }
+LLAMA_CPP_API_KEY="$(cat "$KEY_FILE")"
+export LLAMA_CPP_API_KEY
+export LLAMA_CPP_BASE_URL="${LLAMA_CPP_BASE_URL:-http://127.0.0.1:8081/v1}"
+exec uv run inspect "$@"
