@@ -32,6 +32,7 @@ The planned method is in [METHOD.md](METHOD.md). It is a plan, not a result.
 | Run wrapper and manifests | `python -m tm.run --run-id ID -- eval …` runs one Inspect command and always writes `manifests/ID.json`; tests in `tests/` |
 | ControlArena plumbing | `control/apps/`: the APPS setting with ControlArena's trusted-monitoring micro-protocol and a hardened sandbox config. Honest and attack mode each ran once on 5 samples as a test of the substrate (manifests `d123-apps-honest`, `d123-apps-attack`). These runs are not results. |
 | Run report | `python -m tm.report RUN_ID` prints plain counts from the logs of a run |
+| Capability-gap runs | manifests `d133-gap-*`: the same 20 honest APPS samples with each of seven local models as the agent, to measure which models are weaker. A measurement of the substrate, not a result about monitoring. |
 | Evaluation code | none yet |
 | Results | none yet |
 
