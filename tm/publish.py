@@ -15,8 +15,8 @@ its manifest. The token is read from a file outside the repository and never pri
 from __future__ import annotations
 
 import argparse
-import os
 import json
+import os
 import sys
 import tempfile
 from pathlib import Path
