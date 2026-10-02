@@ -1,0 +1,155 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_honest",
+    "-T",
+    "untrusted=openai-api/llama-cpp/ornith-1.5-9b",
+    "--limit",
+    "20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "900",
+    "--message-limit",
+    "8",
+    "--display",
+    "plain",
+    "--log-dir",
+    "logs/d133-gap-ornith-1.5-9b"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-02T19:35:01+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 375364,
+      "completed": "2026-10-02T19:35:00+00:00",
+      "completed_samples": 20,
+      "dataset_path": "runs/d133-gap-ornith-1.5-9b/2026-10-02T18-47-38-00-00_apps-generate-honest_YGxCxrExu4FtUzqGDbTsAw.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": true,
+        "limit": 20,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 900,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-02T18-47-38-00-00_apps-generate-honest_YGxCxrExu4FtUzqGDbTsAw.eval",
+      "generate_config": {},
+      "inspect_run_id": "6LRB2NGBStjLKg9BepYz32",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {},
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/ornith-1.5-9b"
+        }
+      },
+      "revision": {
+        "commit": "3541d41",
+        "dirty": false
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "d9eb960b38c5a880d8e3cdc8cf10a62e36e5a318a13017a6716ba53f9909e6dd",
+      "started": "2026-10-02T18:47:38+00:00",
+      "status": "success",
+      "task": "apps_generate_honest"
+    }
+  ],
+  "mode_switch_log": [],
+  "models": [
+    {
+      "file": "Ornith-1.5-9B-Q8_0.gguf",
+      "id": "ornith-1.5-9b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "22086870b009dbe9815ee752c48a82de930118a7c5ce5599590892ae03b8b010",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": null,
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "D13.3 capability gap: APPS generate phase only, honest mode, the same first 20 samples, model ornith-1.5-9b as the agent, one sample at a time, temperature 0, seed 1, per-sample limits of 900 s and 8 messages. Not a result about monitoring.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "76df317069ea0cb216db8797b9a5eeb3218ede3c695f48836c697e774a60016f"
+  },
+  "repo": {
+    "commit": "3541d4191fa6ec5325f8eeb1fc7495936b481106",
+    "dirty": false
+  },
+  "run_id": "d133-gap-ornith-1.5-9b",
+  "schema": 1,
+  "started": "2026-10-02T18:47:35+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.13",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
