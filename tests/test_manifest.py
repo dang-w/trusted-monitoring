@@ -81,8 +81,11 @@ def test_model_record_takes_the_sha256_from_the_checksum_list():
 
 def test_model_ids_come_from_the_main_model_and_the_roles():
     headers = [
-        {"model": "openai-api/llama-cpp/large", "model_roles": {"trusted": "openai-api/llama-cpp/small"}},
-        {"model": "openai-api/llama-cpp/large", "model_roles": {}},
+        {
+            "model": "openai-api/llama-cpp/large",
+            "model_roles": {"trusted": {"model": "openai-api/llama-cpp/small"}},
+        },
+        {"model": "none/none", "model_roles": {}},  # Inspect's placeholder for a roles-only task
     ]
     assert model_ids(headers) == ["large", "small"]
 

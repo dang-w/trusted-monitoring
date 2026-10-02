@@ -29,22 +29,46 @@ from pathlib import Path
 from typing import Any
 
 from tm.machine import machine
-from tm.manifest import REPO, build_manifest, git_state, image_record, run_output, utc_now, write_manifest
+from tm.manifest import (
+    REPO,
+    build_manifest,
+    git_state,
+    image_record,
+    loaded_models,
+    run_output,
+    server_settings,
+    utc_now,
+    write_manifest,
+)
 
 RUN_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,80}")
-IMAGE_POLL_SECONDS = 3
+POLL_SECONDS = 3
 
 
 def default_run_id() -> str:
     return dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
-def watch_images(records: dict[str, dict[str, Any]], stop: threading.Event) -> None:
-    """Record each image of a running container once, while the image still exists."""
-    while not stop.wait(IMAGE_POLL_SECONDS):
+def watch(
+    images: dict[str, dict[str, Any]],
+    servers: dict[str, dict[str, Any]],
+    stop: threading.Event,
+    base_url: str,
+    key: str,
+) -> None:
+    """Record facts that exist only during the run.
+
+    Each image of a running container, while the image still exists. The server settings of each
+    model, while it is loaded: the router keeps one model in memory, so at the end of a run with
+    two models only the last one can still be asked.
+    """
+    while not stop.wait(POLL_SECONDS):
         for name in (run_output("docker", "ps", "--format", "{{.Image}}") or "").split():
-            if name not in records:
-                records[name] = image_record(name)
+            if name not in images:
+                images[name] = image_record(name)
+        for model_id in loaded_models(base_url, key):
+            if model_id not in servers and (settings := server_settings(base_url, key, model_id)):
+                servers[model_id] = settings
 
 
 def main() -> int:
@@ -79,8 +103,9 @@ def main() -> int:
     inspect = Path(sys.executable).parent / "inspect"
 
     images: dict[str, dict[str, Any]] = {}
+    servers: dict[str, dict[str, Any]] = {}
     stop = threading.Event()
-    watcher = threading.Thread(target=watch_images, args=(images, stop), daemon=True)
+    watcher = threading.Thread(target=watch, args=(images, servers, stop, on.base_url, key), daemon=True)
     interrupted = False
     started = utc_now()
     repo_state = git_state(REPO)  # before the run: the run itself adds files
@@ -101,7 +126,7 @@ def main() -> int:
         exit_code = child.wait()
     finally:
         stop.set()
-        watcher.join(timeout=IMAGE_POLL_SECONDS + 30)
+        watcher.join(timeout=POLL_SECONDS + 30)
 
     if interrupted:
         status = "interrupted"
@@ -118,6 +143,7 @@ def main() -> int:
         command=command,
         images=[images[name] for name in sorted(images)],
         repo_state=repo_state,
+        servers=servers,
         note=args.note,
         on=on,
     )

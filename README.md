@@ -3,8 +3,8 @@
 **Status: infrastructure in progress. There are no findings yet.**
 
 This repository will hold control evaluations of *trusted monitoring* that run fully on local
-models, on one machine. Today it holds the project skeleton and one smoke test of the plumbing.
-No experiment has run.
+models, on one machine. Today it holds the project skeleton, the run tooling and smoke tests of
+the plumbing. No experiment has run.
 
 ## The question
 
@@ -30,6 +30,8 @@ The planned method is in [METHOD.md](METHOD.md). It is a plan, not a result.
 | Sandbox policy | `smoke/compose.yaml`: no network, non-root user, no host mounts, all capabilities dropped |
 | Local model wrapper | `scripts/inspect-local` runs Inspect against a local llama.cpp server; the API key is read from a file outside the repository |
 | Run wrapper and manifests | `python -m tm.run --run-id ID -- eval …` runs one Inspect command and always writes `manifests/ID.json`; tests in `tests/` |
+| ControlArena plumbing | `control/apps/`: the APPS setting with ControlArena's trusted-monitoring micro-protocol and a hardened sandbox config. Honest and attack mode each ran once on 5 samples as a test of the substrate (manifests `d123-apps-honest`, `d123-apps-attack`). These runs are not results. |
+| Run report | `python -m tm.report RUN_ID` prints plain counts from the logs of a run |
 | Evaluation code | none yet |
 | Results | none yet |
 

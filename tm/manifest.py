@@ -99,8 +99,9 @@ def model_ids(log_headers: list[dict[str, Any]]) -> list[str]:
     names: set[str] = set()
     for header in log_headers:
         names.add(header["model"])
-        names.update(header.get("model_roles", {}).values())
-    return sorted(name.removeprefix(MODEL_PREFIX) for name in names if name)
+        names.update(role["model"] for role in header.get("model_roles", {}).values())
+    # "none/none" is Inspect's placeholder when a task names its models only through roles.
+    return sorted(name.removeprefix(MODEL_PREFIX) for name in names if name and name != "none/none")
 
 
 def model_record(
@@ -195,6 +196,19 @@ def server_settings(base_url: str, key: str | None, model_id: str) -> dict[str, 
     }
 
 
+def loaded_models(base_url: str, key: str | None) -> list[str]:
+    """Ids of the models that the router has in memory now. Best effort."""
+    request = urllib.request.Request(f"{base_url}/models")
+    if key:
+        request.add_header("Authorization", f"Bearer {key}")
+    try:
+        with urllib.request.urlopen(request, timeout=5) as response:
+            data = json.load(response).get("data", [])
+    except (OSError, ValueError):
+        return []
+    return [m["id"] for m in data if m.get("status", {}).get("value") == "loaded"]
+
+
 def image_record(name: str) -> dict[str, Any]:
     """Identity of one container image. Needs the Docker daemon, and the image must still exist."""
     out = run_output("docker", "image", "inspect", name, "--format", "{{json .}}")
@@ -231,7 +245,11 @@ def log_headers(log_dir: Path) -> list[dict[str, Any]]:
             "status": log.status,
             "task": log.eval.task,
             "model": log.eval.model,
-            "model_roles": {role: config.model for role, config in roles.items()},
+            # request-side sampling settings of each role (temperature, seed, max_tokens, ...)
+            "model_roles": {
+                role: {"model": config.model, "config": config.config.model_dump(exclude_none=True)}
+                for role, config in roles.items()
+            },
             "samples": log.eval.dataset.samples,
             "completed_samples": log.results.completed_samples if log.results else None,
             "generate_config": log.eval.model_generate_config.model_dump(exclude_none=True),
@@ -262,6 +280,7 @@ def build_manifest(
     command: list[str],
     images: list[dict[str, Any]] | None,
     repo_state: dict[str, Any] | None = None,
+    servers: dict[str, dict[str, Any]] | None = None,
     note: str | None = None,
     repo: Path = REPO,
     on: Machine | None = None,
@@ -300,7 +319,8 @@ def build_manifest(
         "models": [
             model_record(model_id, presets, checksums)
             | {"slots": slot_settings(presets.get(model_id, {}))}
-            | {"server": server_settings(on.base_url, key, model_id)}
+            # read while the model was loaded (the router keeps one model in memory), else read now
+            | {"server": (servers or {}).get(model_id) or server_settings(on.base_url, key, model_id)}
             for model_id in used
         ],
         "container_images": images,
@@ -325,15 +345,48 @@ def write_manifest(manifest: dict[str, Any], repo: Path = REPO, on: Machine | No
     return path
 
 
+def refresh_logs(run_id: str, logs: list[dict[str, Any]], note: str | None) -> int:
+    """Read the log headers again into a manifest that was written at run time.
+
+    Everything that was recorded during the run stays as it is. The sha256 of every log must be
+    the one already in the manifest: a refresh never accepts a changed log.
+    """
+    path = REPO / "manifests" / f"{run_id}.json"
+    manifest = json.loads(path.read_text())
+    recorded = {r["file"]: r["sha256"] for r in manifest["logs"]}
+    if recorded != {r["file"]: r["sha256"] for r in logs}:
+        print(
+            "the logs are not the ones in the manifest (name or sha256 differs); nothing written",
+            file=sys.stderr,
+        )
+        return 1
+    for record in logs:
+        record["dataset_path"] = f"runs/{run_id}/{record['file']}"
+    known = {m["id"]: m for m in manifest["models"]}
+    manifest["models"] = [known[m] for m in model_ids([r for r in logs if r.get("model")]) if m in known]
+    manifest["logs"] = logs
+    manifest["note"] = " ".join(filter(None, [manifest.get("note"), note]))
+    manifest["log_headers_refreshed"] = utc_now()
+    print(write_manifest(manifest).relative_to(REPO))
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="(Re)build the manifest of the logs in logs/<run-id>/.")
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--note", help="free text, for example why the manifest was built after the run")
+    parser.add_argument(
+        "--refresh-logs",
+        action="store_true",
+        help="keep the manifest written at run time and read only the log headers again",
+    )
     args = parser.parse_args()
     logs = log_headers(REPO / "logs" / args.run_id)
     if not logs:
         print(f"no .eval file in logs/{args.run_id}/", file=sys.stderr)
         return 1
+    if args.refresh_logs:
+        return refresh_logs(args.run_id, logs, args.note)
     manifest = build_manifest(
         args.run_id,
         started=min((r["started"] for r in logs if r.get("started")), default=None),
