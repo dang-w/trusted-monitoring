@@ -113,3 +113,26 @@ def test_a_manifest_with_the_home_directory_or_the_key_is_refused(tmp_path: Path
     assert not (tmp_path / "manifests").exists() or not list((tmp_path / "manifests").iterdir())
     path = write_manifest({"run_id": "r1", "status": "completed"}, repo=tmp_path, on=on)
     assert path.read_text().endswith("\n")
+
+
+def test_scrub_finds_planted_content_and_passes_clean_bytes():
+    from tm.scrub import check_bytes
+
+    secrets, hosts = [b"sekret-key-value"], [b"some-other-box"]
+    clean = (
+        b'{"base_url": "http://127.0.0.1:8081/v1", "task_file": "smoke/task.py", '
+        b'"host": "research-mini.local"}'
+    )
+    assert check_bytes(clean, known_secrets=secrets, denied_hosts=hosts) == []
+    planted = (  # planted test strings; the commit hook is told to allow them on these lines
+        b"path /Users/someone/research/logs/x.eval and /Users/someone/other/ "  # gitleaks:allow
+        b"addr 100.101.102.103 name laptop.local key sekret-key-value box some-other-box"  # gitleaks:allow
+    )
+    rules = [rule for rule, _ in check_bytes(planted, known_secrets=secrets, denied_hosts=hosts)]
+    assert rules.count("home-directory path") == 1  # one finding per distinct match
+    assert "tailnet address" in rules
+    assert "host name" in rules
+    assert "host name (denylist)" in rules
+    assert "contents of a local key file" in rules
+    details = [detail for _, detail in check_bytes(planted, known_secrets=secrets, denied_hosts=hosts)]
+    assert all("sekret" not in detail for detail in details)

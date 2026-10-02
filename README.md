@@ -31,6 +31,7 @@ The planned method is in [METHOD.md](METHOD.md). It is a plan, not a result.
 | Local model wrapper | `scripts/inspect-local` runs Inspect against a local llama.cpp server; the API key is read from a file outside the repository |
 | Run wrapper and manifests | `python -m tm.run --run-id ID -- eval …` runs one Inspect command and always writes `manifests/ID.json`; tests in `tests/` |
 | ControlArena plumbing | `control/apps/`: the APPS setting with ControlArena's trusted-monitoring micro-protocol and a hardened sandbox config. Honest and attack mode each ran once on 5 samples as a test of the substrate (manifests `d123-apps-honest`, `d123-apps-attack`). These runs are not results. |
+| Scrub check and log publishing | `scripts/scrub-check RUN_ID` fails on key material, home paths, private addresses and host names; `scripts/push-logs RUN_ID …` publishes a batch to the dataset and verifies it |
 | Run report | `python -m tm.report RUN_ID` prints plain counts from the logs of a run |
 | Capability-gap runs | manifests `d133-gap-*`: the same 20 honest APPS samples with each of seven local models as the agent, to measure which models are weaker. A measurement of the substrate, not a result about monitoring. |
 | Evaluation code | none yet |
@@ -46,8 +47,9 @@ abandoned runs:
 - Raw Inspect logs do not go into git. They will be published as a dataset at
   <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>. That dataset is empty today.
 
-The manifest part is built (`tm/`, `manifests/`). The publishing of logs is not built yet, so no
-log is public yet; each manifest already names the path its log will have in the dataset.
+Both parts are built: `tm/` writes the manifests, `scripts/scrub-check` runs the scrub check, and
+`scripts/push-logs` publishes a batch of logs and verifies each file against its manifest after a
+fresh download. A manifest records, for each log, the dataset commit at which it was published.
 
 ## Environment
 

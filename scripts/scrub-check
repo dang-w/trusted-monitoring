@@ -1,0 +1,3 @@
+#!/bin/sh
+# D14.1b: check that log files hold nothing that may not be published. See tm/scrub.py.
+exec uv run python -m tm.scrub "$@"

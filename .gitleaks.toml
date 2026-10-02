@@ -20,3 +20,12 @@ regex = '''\b[a-z0-9-]+\.ts\.net\b'''
 id = "home-directory-path"
 description = "Absolute path into a home directory"
 regex = '''/(?:Users|home)/[A-Za-z0-9._-]+/'''
+
+# Inspect logs: the APPS attack prompt ends with "secret input." and the next JSON value is a
+# 32-hex attachment id of the log, which gitleaks' generic-api-key rule reads as a key. Allow
+# exactly that shape and nothing else. The scrub check looks for the real key files on its own.
+[[rules]]
+id = "generic-api-key"
+[rules.allowlist]
+regexTarget = "match"
+regexes = ['''secret input\."\s*,\s*"[0-9a-f]{32}"''']
