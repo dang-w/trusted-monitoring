@@ -1,0 +1,23 @@
+#!/bin/sh
+# Refuse a commit that contains a secret, a tailnet address or name, or a home-directory path.
+# Enable once per clone:  git config core.hooksPath .githooks
+set -eu
+
+command -v gitleaks >/dev/null 2>&1 || {
+  echo "pre-commit: gitleaks is not installed (brew install gitleaks); commit refused" >&2
+  exit 1
+}
+gitleaks git --pre-commit --staged --redact --no-banner .
+
+# The exact contents of local key files must never be staged, whatever their format.
+# TM_SECRET_FILES adds more files (colon-separated); the tests of this hook use it.
+files="$HOME/.config/llama/research.key:$HOME/.config/huggingface/trusted-monitoring.token:${TM_SECRET_FILES:-}"
+old_ifs=$IFS; IFS=:
+for f in $files; do
+  [ -s "$f" ] || continue
+  if git diff --cached --no-color -U0 | grep -q -F -f "$f"; then
+    echo "pre-commit: the staged change contains the contents of a local key file; commit refused" >&2
+    exit 1
+  fi
+done
+IFS=$old_ifs

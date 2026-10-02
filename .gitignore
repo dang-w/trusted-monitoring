@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Raw eval logs never go into git. Each run commits a manifest with the sha256 of its log;
+# the logs themselves are published as a dataset (see README).
+logs/
+
+# Secrets and key material
+.env
+.env.*
+*.key
+*.token
+*.pem
+
+# Local scratch
+scratch/
+tmp/
+.DS_Store

@@ -1,0 +1,22 @@
+# gitleaks configuration. This repository is public from its first commit, so the hook in
+# .githooks/pre-commit scans every staged change with the default rules and with three more
+# rules for things that are not secrets in the usual sense but must not be published.
+title = "trusted-monitoring"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "tailnet-address"
+description = "Tailscale address (100.64.0.0/10)"
+regex = '''\b100\.(?:6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.[0-9]{1,3}\.[0-9]{1,3}\b'''
+
+[[rules]]
+id = "tailnet-name"
+description = "Tailscale MagicDNS name"
+regex = '''\b[a-z0-9-]+\.ts\.net\b'''
+
+[[rules]]
+id = "home-directory-path"
+description = "Absolute path into a home directory"
+regex = '''/(?:Users|home)/[A-Za-z0-9._-]+/'''
