@@ -15,6 +15,7 @@ its manifest. The token is read from a file outside the repository and never pri
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import sys
 import tempfile
@@ -26,6 +27,7 @@ from tm.machine import DATASET
 from tm.manifest import REPO, sha256_file, utc_now, write_manifest
 from tm.scrub import run_logs, scrub
 
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")  # the log line per file is enough
 TOKEN_FILE = Path("~/.config/huggingface/trusted-monitoring.token").expanduser()
 
 
