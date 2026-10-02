@@ -29,6 +29,7 @@ The planned method is in [METHOD.md](METHOD.md). It is a plan, not a result.
 | Smoke test | `smoke/`: one sample that checks the plumbing only (model, tool call, sandbox, result). It says nothing about monitoring. |
 | Sandbox policy | `smoke/compose.yaml`: no network, non-root user, no host mounts, all capabilities dropped |
 | Local model wrapper | `scripts/inspect-local` runs Inspect against a local llama.cpp server; the API key is read from a file outside the repository |
+| Run wrapper and manifests | `python -m tm.run --run-id ID -- eval …` runs one Inspect command and always writes `manifests/ID.json`; tests in `tests/` |
 | Evaluation code | none yet |
 | Results | none yet |
 
@@ -42,7 +43,8 @@ abandoned runs:
 - Raw Inspect logs do not go into git. They will be published as a dataset at
   <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>. That dataset is empty today.
 
-Neither part is built yet.
+The manifest part is built (`tm/`, `manifests/`). The publishing of logs is not built yet, so no
+log is public yet; each manifest already names the path its log will have in the dataset.
 
 ## Environment
 
@@ -55,6 +57,7 @@ containers with networking off. The machine-level configuration is not part of t
 ```sh
 uv sync
 git config core.hooksPath .githooks   # needs gitleaks on PATH
+uv run pytest
 ```
 
 ## Licence

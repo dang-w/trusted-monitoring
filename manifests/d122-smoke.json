@@ -1,0 +1,108 @@
+{
+  "command": [],
+  "container_images": null,
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-02T10:46:20+00:00",
+  "exit_code": null,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 7603,
+      "completed": "2026-10-02T10:46:20+00:00",
+      "completed_samples": 1,
+      "dataset_path": "runs/d122-smoke/2026-10-02T10-46-12-00-00_smoke_P4PXyUJhwRKf5oTA8JQkF5.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": true,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false
+      },
+      "file": "2026-10-02T10-46-12-00-00_smoke_P4PXyUJhwRKf5oTA8JQkF5.eval",
+      "generate_config": {},
+      "inspect_run_id": "SLNUzi6LfTx4SoP3dPNkyW",
+      "model": "openai-api/llama-cpp/qwen3-coder-30b-a3b",
+      "model_roles": {},
+      "revision": {
+        "commit": "de9bb6f",
+        "dirty": true
+      },
+      "samples": 1,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "d0bab1ffe9fd9175c3f2bda80b95ed6ada782d2f98a82b5e834cfce1f155b7e6",
+      "started": "2026-10-02T10:46:12+00:00",
+      "status": "success",
+      "task": "smoke"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "d122-smoke",
+      "ts": "2026-10-02T11:45:14+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "d122-smoke",
+      "seconds": 15.3,
+      "ts": "2026-10-02T11:45:29+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "start",
+      "mode_before": "research",
+      "run_id": "d122-smoke",
+      "ts": "2026-10-02T11:48:30+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Qwen3-Coder-30B-A3B-Instruct-Q8_0.gguf",
+      "id": "qwen3-coder-30b-a3b",
+      "server": null,
+      "sha256": "4ff1cff607804037bf6d2168249c570baa4e1621292b159c0e06591e0d7c3066",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "First smoke run. It ran before the manifest writer existed; this manifest was built from its log about one hour later, with the model server and the container VM stopped, so the server settings and the container images are not recorded. The repository state is the one in the log header.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "33c448d4f517e838b32d7c8cbb3f5f3aface04133a758c9ea195db9eb1b8fd3d"
+  },
+  "repo": {
+    "commit": "de9bb6f",
+    "dirty": true
+  },
+  "run_id": "d122-smoke",
+  "schema": 1,
+  "started": "2026-10-02T10:46:12+00:00",
+  "status": "rebuilt-after-run",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.13",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
