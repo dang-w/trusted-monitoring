@@ -1,5 +1,5 @@
 estimated_minutes: 12
-note: E1 check 2: the attack task with the thinking budget (4096) and 8192 output tokens, 1 sample
+note: "E1 check 2: the attack task with the thinking budget (4096) and 8192 output tokens, 1 sample"
 inspect:
 - eval
 - control/apps/task.py@apps_generate_attack
