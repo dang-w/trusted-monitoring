@@ -1,14 +1,196 @@
 {
+  "attempts": [
+    {
+      "command": [
+        "inspect",
+        "eval",
+        "control/apps/task.py@apps_tm_honest",
+        "--limit",
+        "3",
+        "--max-samples",
+        "1",
+        "--time-limit",
+        "1200",
+        "--log-dir",
+        "logs/d142-preempt-test-3"
+      ],
+      "container_images": [
+        {
+          "architecture": "arm64",
+          "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+          "name": "python:3.4",
+          "repo_digests": [
+            "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+          ]
+        }
+      ],
+      "dataset": "dang-w/trusted-monitoring-logs",
+      "ended": "2026-10-03T08:50:56+00:00",
+      "exit_code": 0,
+      "interruption": {
+        "at": "2026-10-03T09:50:57+01:00",
+        "logs_kept_local": [
+          {
+            "file": "interrupted/2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
+            "sha256": "0157239fccac9b48678a8f0e94f0bc88777c5352579908306adc826656fe9dac"
+          }
+        ],
+        "reason": "preempt",
+        "requeued": true
+      },
+      "llama_cpp": {
+        "build": 11189,
+        "commit": "a25c9865f",
+        "version": "0.5.0-dev"
+      },
+      "logs": [
+        {
+          "bytes": 52489,
+          "completed": "2026-10-03T08:50:55+00:00",
+          "completed_samples": 1,
+          "dataset_path": "runs/d142-preempt-test-3/2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
+          "eval_config": {
+            "continue_on_fail": false,
+            "epochs": 1,
+            "fail_on_error": true,
+            "limit": 3,
+            "log_images": true,
+            "log_realtime": true,
+            "log_samples": true,
+            "log_shared": 0,
+            "max_samples": 1,
+            "sandbox_cleanup": true,
+            "sandbox_prebuilt": false,
+            "score_display": true,
+            "score_on_error": false,
+            "time_limit": 1200,
+            "token_limit": 1000000
+          },
+          "file": "2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
+          "generate_config": {},
+          "inspect_run_id": "3QHFLzxCiXBPtBxRwjjxJP",
+          "model": "none/none",
+          "model_roles": {
+            "trusted": {
+              "config": {
+                "max_tokens": 4096,
+                "seed": 1,
+                "temperature": 0.0
+              },
+              "model": "openai-api/llama-cpp/ministral-3-8b"
+            },
+            "untrusted": {
+              "config": {
+                "max_tokens": 4096,
+                "seed": 1,
+                "temperature": 0.0
+              },
+              "model": "openai-api/llama-cpp/qwen3.8-27b"
+            }
+          },
+          "revision": {
+            "commit": "6cdbe83",
+            "dirty": true
+          },
+          "samples": 2981,
+          "sandbox": {
+            "config": "compose.yaml",
+            "type": "docker"
+          },
+          "sha256": "0157239fccac9b48678a8f0e94f0bc88777c5352579908306adc826656fe9dac",
+          "started": "2026-10-03T08:45:41+00:00",
+          "status": "cancelled",
+          "task": "apps_tm_honest"
+        }
+      ],
+      "mode_switch_log": [
+        {
+          "command": "research",
+          "event": "start",
+          "force": false,
+          "run_id": "d142-preempt-test-3",
+          "ts": "2026-10-03T09:45:15+01:00"
+        },
+        {
+          "command": "research",
+          "container_vm": "running",
+          "event": "done",
+          "run_id": "d142-preempt-test-3",
+          "seconds": 13.2,
+          "ts": "2026-10-03T09:45:29+01:00"
+        },
+        {
+          "command": "interactive",
+          "event": "preempt-signal",
+          "pid": 26740,
+          "run_id": "d142-preempt-test-3",
+          "ts": "2026-10-03T09:50:54+01:00"
+        }
+      ],
+      "models": [
+        {
+          "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+          "id": "ministral-3-8b",
+          "server": null,
+          "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        },
+        {
+          "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+          "id": "qwen3.8-27b",
+          "server": {
+            "build_info": "b11189-a25c9865f",
+            "n_ctx": 32768,
+            "sampling_defaults": {
+              "min_p": 0.05000000074505806,
+              "n_predict": -1,
+              "repeat_penalty": 1.0,
+              "seed": 4294967295,
+              "temperature": 1.0,
+              "top_k": 20,
+              "top_p": 0.949999988079071
+            },
+            "total_slots": 4
+          },
+          "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        }
+      ],
+      "note": "D14.2 preempt test, third run (uv-managed Python and environment outside the home directory); preempt during the run, then resume with eval-retry",
+      "presets": {
+        "file": "models.research.ini",
+        "sha256": "76df317069ea0cb216db8797b9a5eeb3218ede3c695f48836c697e774a60016f"
+      },
+      "repo": {
+        "commit": "6cdbe83802f36be9ecf89b95c6e272e64bb295f6",
+        "dirty": true
+      },
+      "run_id": "d142-preempt-test-3",
+      "schema": 1,
+      "started": "2026-10-03T08:45:29+00:00",
+      "status": "interrupted",
+      "versions": {
+        "control_arena": "19.0.0",
+        "inspect_ai": "0.3.275",
+        "python": "3.12.14",
+        "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+      }
+    }
+  ],
   "command": [
     "inspect",
-    "eval",
-    "control/apps/task.py@apps_tm_honest",
-    "--limit",
-    "3",
-    "--max-samples",
-    "1",
-    "--time-limit",
-    "1200",
+    "eval-retry",
+    "logs/d142-preempt-test-3/interrupted/2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
     "--log-dir",
     "logs/d142-preempt-test-3"
   ],
@@ -23,19 +205,8 @@
     }
   ],
   "dataset": "dang-w/trusted-monitoring-logs",
-  "ended": "2026-10-03T08:50:56+00:00",
+  "ended": "2026-10-03T08:56:52+00:00",
   "exit_code": 0,
-  "interruption": {
-    "at": "2026-10-03T09:50:57+01:00",
-    "logs_kept_local": [
-      {
-        "file": "interrupted/2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
-        "sha256": "0157239fccac9b48678a8f0e94f0bc88777c5352579908306adc826656fe9dac"
-      }
-    ],
-    "reason": "preempt",
-    "requeued": true
-  },
   "llama_cpp": {
     "build": 11189,
     "commit": "a25c9865f",
@@ -43,10 +214,10 @@
   },
   "logs": [
     {
-      "bytes": 52489,
-      "completed": "2026-10-03T08:50:55+00:00",
-      "completed_samples": 1,
-      "dataset_path": "runs/d142-preempt-test-3/2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
+      "bytes": 78040,
+      "completed": "2026-10-03T08:56:51+00:00",
+      "completed_samples": 3,
+      "dataset_path": "runs/d142-preempt-test-3/2026-10-03T08-51-42-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
       "eval_config": {
         "continue_on_fail": false,
         "epochs": 1,
@@ -64,9 +235,9 @@
         "time_limit": 1200,
         "token_limit": 1000000
       },
-      "file": "2026-10-03T08-45-41-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
+      "file": "2026-10-03T08-51-42-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
       "generate_config": {},
-      "inspect_run_id": "3QHFLzxCiXBPtBxRwjjxJP",
+      "inspect_run_id": "C5KdUxsS3py3HdC4XyJCvM",
       "model": "none/none",
       "model_roles": {
         "trusted": {
@@ -86,8 +257,14 @@
           "model": "openai-api/llama-cpp/qwen3.8-27b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "d43e1eebc12ed1072e27b225a5ef74c319cb4715",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/d43e1eebc12ed1072e27b225a5ef74c319cb4715/runs/d142-preempt-test-3/2026-10-03T08-51-42-00-00_apps-tm-honest_XqwwpdmyrG4juAayzup4Mz.eval",
+        "verified": "2026-10-03T08:56:54+00:00"
+      },
       "revision": {
-        "commit": "6cdbe83",
+        "commit": "0d3d356",
         "dirty": true
       },
       "samples": 2981,
@@ -95,9 +272,9 @@
         "config": "compose.yaml",
         "type": "docker"
       },
-      "sha256": "0157239fccac9b48678a8f0e94f0bc88777c5352579908306adc826656fe9dac",
-      "started": "2026-10-03T08:45:41+00:00",
-      "status": "cancelled",
+      "sha256": "e9c58f7be2bad8582eaecef9bfdcc7867c36e7b59e592c36da9738120d5769ab",
+      "started": "2026-10-03T08:51:42+00:00",
+      "status": "success",
       "task": "apps_tm_honest"
     }
   ],
@@ -123,6 +300,41 @@
       "pid": 26740,
       "run_id": "d142-preempt-test-3",
       "ts": "2026-10-03T09:50:54+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "start",
+      "mode_before": "research",
+      "run_id": "d142-preempt-test-3",
+      "ts": "2026-10-03T09:50:59+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "preempt-done",
+      "run_id": "d142-preempt-test-3",
+      "ts": "2026-10-03T09:51:21+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "done",
+      "run_id": "d142-preempt-test-3",
+      "seconds": 22.5,
+      "ts": "2026-10-03T09:51:21+01:00"
+    },
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "d142-preempt-test-3",
+      "ts": "2026-10-03T09:51:27+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "d142-preempt-test-3",
+      "seconds": 12.0,
+      "ts": "2026-10-03T09:51:39+01:00"
     }
   ],
   "models": [
@@ -170,13 +382,13 @@
     "sha256": "76df317069ea0cb216db8797b9a5eeb3218ede3c695f48836c697e774a60016f"
   },
   "repo": {
-    "commit": "6cdbe83802f36be9ecf89b95c6e272e64bb295f6",
+    "commit": "0d3d356903f977d7e4623513e1c32618f5633242",
     "dirty": true
   },
   "run_id": "d142-preempt-test-3",
   "schema": 1,
-  "started": "2026-10-03T08:45:29+00:00",
-  "status": "interrupted",
+  "started": "2026-10-03T08:51:39+00:00",
+  "status": "completed",
   "versions": {
     "control_arena": "19.0.0",
     "inspect_ai": "0.3.275",
