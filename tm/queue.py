@@ -65,7 +65,7 @@ from typing import Any
 
 import yaml
 
-from tm.manifest import REPO
+from tm.manifest import REPO, sha256_file
 from tm.run import RUN_ID
 
 QUEUE = REPO / "queue"
@@ -282,10 +282,30 @@ def window_deadline(at: dt.datetime, end: dt.time = WINDOW_END) -> dt.datetime:
     return deadline if deadline > at else deadline + dt.timedelta(days=1)
 
 
-def partial_log(run_id: str) -> Path | None:
-    """The newest Inspect log of a run, relative to the repository, or None."""
+def set_aside_partial_logs(run_id: str, reason: str) -> dict[str, Any] | None:
+    """Move the logs of an interrupted attempt into logs/<run id>/interrupted/ and describe them.
+
+    A log that Inspect closed on an interruption holds, in the error of the cancelled sample, a
+    traceback with a path of this machine, which the scrub check refuses. The retry writes a new
+    log that holds the finished samples again, so the dataset loses nothing; the partial log
+    stays local and the manifest and the spec record its name and sha256. `inspect eval-retry`
+    reads it from the new place.
+    """
     logs = sorted((REPO / "logs" / run_id).glob("*.eval"), key=lambda p: p.stat().st_mtime)
-    return logs[-1].relative_to(REPO) if logs else None
+    if not logs:
+        return None
+    aside = REPO / "logs" / run_id / "interrupted"
+    aside.mkdir(exist_ok=True)
+    moved = []
+    for path in logs:
+        target = aside / path.name
+        path.rename(target)
+        moved.append({"file": f"interrupted/{path.name}", "sha256": sha256_file(target)})
+    return {
+        "log": (aside / logs[-1].name).relative_to(REPO).as_posix(),
+        "reason": reason,
+        "kept_local": moved,
+    }
 
 
 # ---------------------------------------------------------------- the ledger
@@ -330,11 +350,8 @@ class Runner:
         """Specs left in running/ go back to pending/ with a resume marker; the box is restored."""
         recovered = []
         for spec in specs_in("running"):
-            spec.resume = {
-                "log": partial_log(spec.run_id).as_posix() if partial_log(spec.run_id) else None,
-                "reason": "killed",
-                "at": now().isoformat(timespec="seconds"),
-            }
+            aside = set_aside_partial_logs(spec.run_id, "killed") or {"log": None, "reason": "killed"}
+            spec.resume = aside | {"at": now().isoformat(timespec="seconds")}
             save_spec(spec, "pending")
             recovered.append(spec.run_id)
             log(f"{spec.run_id}: found in running/ (the runner was killed); requeued with a resume marker")
@@ -412,16 +429,18 @@ class Runner:
     def requeue(self, spec: Spec, reason: str) -> None:
         """The interrupted spec goes back to pending/ with a resume marker; the manifest records it."""
         at = now().isoformat(timespec="seconds")
-        spec.resume = {
-            "log": (p.as_posix() if (p := partial_log(spec.run_id)) else None),
-            "reason": reason,
-            "at": at,
-        }
+        aside = set_aside_partial_logs(spec.run_id, reason) or {"log": None, "reason": reason}
+        spec.resume = aside | {"at": at}
         save_spec(spec, "pending")
         manifest_path = REPO / "manifests" / f"{spec.run_id}.json"
         if manifest_path.exists():
             manifest = json.loads(manifest_path.read_text())
-            manifest["interruption"] = {"reason": reason, "at": at, "requeued": True}
+            manifest["interruption"] = {
+                "reason": reason,
+                "at": at,
+                "requeued": True,
+                "logs_kept_local": aside.get("kept_local", []),
+            }
             manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 
     def commit(self, spec: Spec, message: str) -> tuple[bool, bool]:
@@ -480,10 +499,8 @@ class Runner:
                     break
                 log(f"{spec.run_id}: router said '{MODEL_LIMIT_TEXT}'; retry in {wait} s")
                 self.stop.event.wait(wait)
-                spec.resume = {
-                    "log": (p.as_posix() if (p := partial_log(spec.run_id)) else None),
-                    "reason": "model-limit",
-                }
+                aside = set_aside_partial_logs(spec.run_id, "model-limit")
+                spec.resume = aside or {"log": None, "reason": "model-limit"}
                 spec.attempts += 1
                 save_spec(spec, "running")
                 code, tail = self.run_inspect(spec)
