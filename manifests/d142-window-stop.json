@@ -1,14 +1,189 @@
 {
+  "attempts": [
+    {
+      "command": [
+        "inspect",
+        "eval",
+        "control/apps/task.py@apps_tm_honest",
+        "--limit",
+        "6",
+        "--max-samples",
+        "1",
+        "--time-limit",
+        "1200",
+        "--log-dir",
+        "logs/d142-window-stop"
+      ],
+      "container_images": [
+        {
+          "architecture": "arm64",
+          "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+          "name": "python:3.4",
+          "repo_digests": [
+            "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+          ]
+        }
+      ],
+      "dataset": "dang-w/trusted-monitoring-logs",
+      "ended": "2026-10-03T08:09:23+00:00",
+      "exit_code": 0,
+      "interruption": {
+        "at": "2026-10-03T09:09:23+01:00",
+        "logs_kept_local": [
+          {
+            "file": "interrupted/2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
+            "sha256": "76bbde75d0cc087fcc4c689ebd502f7d80ca20f0b48a6ecc5e2a0a05fe1b0d2e"
+          }
+        ],
+        "reason": "window-end",
+        "requeued": true
+      },
+      "llama_cpp": {
+        "build": 11189,
+        "commit": "a25c9865f",
+        "version": "0.5.0-dev"
+      },
+      "logs": [
+        {
+          "bytes": 100841,
+          "completed": "2026-10-03T08:09:22+00:00",
+          "completed_samples": 3,
+          "dataset_path": "runs/d142-window-stop/2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
+          "eval_config": {
+            "continue_on_fail": false,
+            "epochs": 1,
+            "fail_on_error": true,
+            "limit": 6,
+            "log_images": true,
+            "log_realtime": true,
+            "log_samples": true,
+            "log_shared": 0,
+            "max_samples": 1,
+            "sandbox_cleanup": true,
+            "sandbox_prebuilt": false,
+            "score_display": true,
+            "score_on_error": false,
+            "time_limit": 1200,
+            "token_limit": 1000000
+          },
+          "file": "2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
+          "generate_config": {},
+          "inspect_run_id": "SA9ykj37tnPAQuE8tHD49W",
+          "model": "none/none",
+          "model_roles": {
+            "trusted": {
+              "config": {
+                "max_tokens": 4096,
+                "seed": 1,
+                "temperature": 0.0
+              },
+              "model": "openai-api/llama-cpp/ministral-3-8b"
+            },
+            "untrusted": {
+              "config": {
+                "max_tokens": 4096,
+                "seed": 1,
+                "temperature": 0.0
+              },
+              "model": "openai-api/llama-cpp/qwen3.8-27b"
+            }
+          },
+          "revision": {
+            "commit": "50ea454",
+            "dirty": true
+          },
+          "samples": 2981,
+          "sandbox": {
+            "config": "compose.yaml",
+            "type": "docker"
+          },
+          "sha256": "76bbde75d0cc087fcc4c689ebd502f7d80ca20f0b48a6ecc5e2a0a05fe1b0d2e",
+          "started": "2026-10-03T07:55:37+00:00",
+          "status": "cancelled",
+          "task": "apps_tm_honest"
+        }
+      ],
+      "mode_switch_log": [
+        {
+          "command": "research",
+          "event": "start",
+          "force": false,
+          "run_id": "d142-window-stop",
+          "ts": "2026-10-03T08:55:22+01:00"
+        },
+        {
+          "command": "research",
+          "container_vm": "running",
+          "event": "done",
+          "run_id": "d142-window-stop",
+          "seconds": 12.1,
+          "ts": "2026-10-03T08:55:34+01:00"
+        }
+      ],
+      "models": [
+        {
+          "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+          "id": "ministral-3-8b",
+          "server": null,
+          "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        },
+        {
+          "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+          "id": "qwen3.8-27b",
+          "server": {
+            "build_info": "b11189-a25c9865f",
+            "n_ctx": 32768,
+            "sampling_defaults": {
+              "min_p": 0.05000000074505806,
+              "n_predict": -1,
+              "repeat_penalty": 1.0,
+              "seed": 4294967295,
+              "temperature": 1.0,
+              "top_k": 20,
+              "top_p": 0.949999988079071
+            },
+            "total_slots": 4
+          },
+          "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        }
+      ],
+      "note": "D14.2 compressed-window test; the estimate is deliberately too low so that the window end stops this run",
+      "presets": {
+        "file": "models.research.ini",
+        "sha256": "76df317069ea0cb216db8797b9a5eeb3218ede3c695f48836c697e774a60016f"
+      },
+      "repo": {
+        "commit": "50ea4542ee8e82bcae4c182385de39ff7a46df45",
+        "dirty": true
+      },
+      "run_id": "d142-window-stop",
+      "schema": 1,
+      "started": "2026-10-03T07:55:34+00:00",
+      "status": "interrupted",
+      "versions": {
+        "control_arena": "19.0.0",
+        "inspect_ai": "0.3.275",
+        "python": "3.12.13",
+        "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+      }
+    }
+  ],
   "command": [
     "inspect",
-    "eval",
-    "control/apps/task.py@apps_tm_honest",
-    "--limit",
-    "6",
-    "--max-samples",
-    "1",
-    "--time-limit",
-    "1200",
+    "eval-retry",
+    "logs/d142-window-stop/interrupted/2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
     "--log-dir",
     "logs/d142-window-stop"
   ],
@@ -23,19 +198,8 @@
     }
   ],
   "dataset": "dang-w/trusted-monitoring-logs",
-  "ended": "2026-10-03T08:09:23+00:00",
+  "ended": "2026-10-03T08:43:41+00:00",
   "exit_code": 0,
-  "interruption": {
-    "at": "2026-10-03T09:09:23+01:00",
-    "logs_kept_local": [
-      {
-        "file": "interrupted/2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
-        "sha256": "76bbde75d0cc087fcc4c689ebd502f7d80ca20f0b48a6ecc5e2a0a05fe1b0d2e"
-      }
-    ],
-    "reason": "window-end",
-    "requeued": true
-  },
   "llama_cpp": {
     "build": 11189,
     "commit": "a25c9865f",
@@ -43,10 +207,10 @@
   },
   "logs": [
     {
-      "bytes": 100841,
-      "completed": "2026-10-03T08:09:22+00:00",
-      "completed_samples": 3,
-      "dataset_path": "runs/d142-window-stop/2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
+      "bytes": 146839,
+      "completed": "2026-10-03T08:43:40+00:00",
+      "completed_samples": 6,
+      "dataset_path": "runs/d142-window-stop/2026-10-03T08-16-24-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
       "eval_config": {
         "continue_on_fail": false,
         "epochs": 1,
@@ -64,9 +228,9 @@
         "time_limit": 1200,
         "token_limit": 1000000
       },
-      "file": "2026-10-03T07-55-37-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
+      "file": "2026-10-03T08-16-24-00-00_apps-tm-honest_amiHDbhKhupFT7tTf2Rf3G.eval",
       "generate_config": {},
-      "inspect_run_id": "SA9ykj37tnPAQuE8tHD49W",
+      "inspect_run_id": "8mkGbRbor8Pp9cpyt3TVDi",
       "model": "none/none",
       "model_roles": {
         "trusted": {
@@ -87,7 +251,7 @@
         }
       },
       "revision": {
-        "commit": "50ea454",
+        "commit": "d185dc4",
         "dirty": true
       },
       "samples": 2981,
@@ -95,9 +259,9 @@
         "config": "compose.yaml",
         "type": "docker"
       },
-      "sha256": "76bbde75d0cc087fcc4c689ebd502f7d80ca20f0b48a6ecc5e2a0a05fe1b0d2e",
-      "started": "2026-10-03T07:55:37+00:00",
-      "status": "cancelled",
+      "sha256": "c9e5ea8d537a28a9642803d16a9d6d440e80c57c74126c36f30ebc4bd03fa8fb",
+      "started": "2026-10-03T08:16:24+00:00",
+      "status": "success",
       "task": "apps_tm_honest"
     }
   ],
@@ -116,13 +280,55 @@
       "run_id": "d142-window-stop",
       "seconds": 12.1,
       "ts": "2026-10-03T08:55:34+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "start",
+      "mode_before": "research",
+      "run_id": "d142-window-stop",
+      "ts": "2026-10-03T09:09:25+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "done",
+      "run_id": "d142-window-stop",
+      "seconds": 22.5,
+      "ts": "2026-10-03T09:09:48+01:00"
+    },
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "d142-window-stop",
+      "ts": "2026-10-03T09:16:08+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "d142-window-stop",
+      "seconds": 13.0,
+      "ts": "2026-10-03T09:16:21+01:00"
     }
   ],
   "models": [
     {
       "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
       "id": "ministral-3-8b",
-      "server": null,
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
       "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
       "slots": {
         "ctx_size": null,
@@ -163,13 +369,17 @@
     "sha256": "76df317069ea0cb216db8797b9a5eeb3218ede3c695f48836c697e774a60016f"
   },
   "repo": {
-    "commit": "50ea4542ee8e82bcae4c182385de39ff7a46df45",
+    "commit": "d185dc4bc109568df726fda5163d7327dbf1be49",
     "dirty": true
   },
   "run_id": "d142-window-stop",
   "schema": 1,
-  "started": "2026-10-03T07:55:34+00:00",
-  "status": "interrupted",
+  "scrub": {
+    "checked": "2026-10-03T08:43:42+00:00",
+    "findings": 2
+  },
+  "started": "2026-10-03T08:16:21+00:00",
+  "status": "scrub-failed",
   "versions": {
     "control_arena": "19.0.0",
     "inspect_ai": "0.3.275",

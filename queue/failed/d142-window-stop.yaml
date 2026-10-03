@@ -1,0 +1,14 @@
+estimated_minutes: 1
+note: D14.2 compressed-window test; the estimate is deliberately too low so that the
+  window end stops this run
+inspect:
+- eval
+- control/apps/task.py@apps_tm_honest
+- --limit
+- '6'
+- --max-samples
+- '1'
+- --time-limit
+- '1200'
+queued: '2026-10-03T08:55:34+01:00'
+attempts: 2
