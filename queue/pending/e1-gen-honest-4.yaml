@@ -1,10 +1,10 @@
-estimated_minutes: 270
-note: E1 honest generation, samples 1-50, untrusted qwen3.8-27b (D13.3 rate 4.55 min per sample)
+estimated_minutes: 135
+note: E1 honest generation, samples 76-100 of the APPS set, untrusted qwen3.8-27b (part 4 of 4)
 inspect:
   - eval
   - control/apps/task.py@apps_generate_honest
   - --limit
-  - "50"
+  - "76-100"
   - --max-samples
   - "1"
   - --time-limit
