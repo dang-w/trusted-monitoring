@@ -11,8 +11,11 @@ container when it is scored. The Bash setting needs egress for its side task, so
 `apps_generate_honest` runs the untrusted policy alone, with no monitor. It is the "generate"
 phase by itself: one model stays in memory, so it is the task for throughput measurements.
 
-This file is plumbing. Which model is trusted and which is untrusted is not decided; the pair
-below is the one used to test the substrate.
+The pair below is the one decided after the D13.3 capability measurement (20 honest APPS samples
+each: Qwen3.8-27B 15 correct, Ministral-3-8B 7, Gemma 4 E4B 13): the 27B is the untrusted model,
+Ministral-3-8B the trusted monitor. Gemma 4 E4B is the second monitor for comparison, given with
+`-T trusted=openai-api/llama-cpp/gemma-4-e4b`. The D12 substrate tests ran with the 30B as
+untrusted and the 27B as trusted; their manifests record that.
 """
 
 from control_arena import EvalMode
@@ -25,8 +28,8 @@ from inspect_ai import Task, task
 from inspect_ai.model import GenerateConfig
 from inspect_ai.util import SandboxEnvironmentSpec
 
-UNTRUSTED = "openai-api/llama-cpp/qwen3-coder-30b-a3b"
-TRUSTED = "openai-api/llama-cpp/qwen3.8-27b"
+UNTRUSTED = "openai-api/llama-cpp/qwen3.8-27b"
+TRUSTED = "openai-api/llama-cpp/ministral-3-8b"
 # Set on every request: the server's own defaults are temperature 0.8 and a random seed.
 SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=4096)
 

@@ -1,0 +1,9 @@
+#!/bin/sh
+# D14.2: run the queued specs one at a time, unattended. See tm/queue.py.
+#   scripts/run-queue run [--once] [--until ISO8601] | run --window | run --test-window MINUTES
+#   scripts/run-queue list | check SPEC.yaml
+# launchd starts this from / with a short PATH, so it changes into the repository and adds Homebrew.
+cd "$(dirname "$0")/.." || exit 1
+PATH="$PATH:$HOME/.local/bin:/opt/homebrew/bin"
+export PATH
+exec uv run python -m tm.queue "$@"

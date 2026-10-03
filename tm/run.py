@@ -10,14 +10,19 @@ What it adds to a plain `inspect` call:
 - `docker ps` is sampled to record which container images the run used;
 - `manifests/<run-id>.json` is always written, also when the run fails or is interrupted.
 
-A run id is used once. The mode switch of the machine (interactive to research and back) is not
-done here; when the same run id is given to that switch, its log lines appear in the manifest.
+A run id is used once. The one exception is `--resume`: a run that was interrupted (or failed)
+continues under its run id with `inspect eval-retry logs/<run-id>/<log>.eval`, which keeps the
+finished samples and runs the rest. The manifest of the first attempt is kept under `attempts`.
+
+The mode switch of the machine (interactive to research and back) is not done here; when the
+same run id is given to that switch, its log lines appear in the manifest.
 """
 
 from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import os
 import re
 import shutil
@@ -43,6 +48,7 @@ from tm.manifest import (
 
 RUN_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,80}")
 POLL_SECONDS = 3
+RESUMABLE = {"interrupted", "failed"}
 
 
 def default_run_id() -> str:
@@ -75,6 +81,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run one Inspect command and write its manifest.")
     parser.add_argument("--run-id", default=default_run_id(), help="unique id of the run (default: UTC time)")
     parser.add_argument("--note", help="free text for the manifest")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="continue an interrupted or failed run under its run id (with inspect eval-retry)",
+    )
     parser.add_argument("inspect_args", nargs=argparse.REMAINDER, help="-- followed by the inspect arguments")
     args = parser.parse_args()
     inspect_args = args.inspect_args[1:] if args.inspect_args[:1] == ["--"] else args.inspect_args
@@ -86,8 +97,17 @@ def main() -> int:
     if "--log-dir" in inspect_args:
         parser.error("do not give --log-dir: the logs of a run go to logs/<run-id>/")
     manifest_path = REPO / "manifests" / f"{args.run_id}.json"
+    previous: dict[str, Any] | None = None
     if manifest_path.exists():
-        parser.error(f"run id {args.run_id} already has a manifest; a run id is used once")
+        if not args.resume:
+            parser.error(f"run id {args.run_id} already has a manifest; a run id is used once")
+        previous = json.loads(manifest_path.read_text())
+        if previous.get("status") not in RESUMABLE:
+            parser.error(
+                f"run {args.run_id} has status {previous.get('status')!r}; only {sorted(RESUMABLE)} resume"
+            )
+    elif args.resume:
+        parser.error(f"run id {args.run_id} has no manifest to resume")
 
     on = machine()
     try:
@@ -144,9 +164,13 @@ def main() -> int:
         images=[images[name] for name in sorted(images)],
         repo_state=repo_state,
         servers=servers,
-        note=args.note,
+        note=args.note if args.note is not None else (previous or {}).get("note"),
         on=on,
     )
+    if previous is not None:
+        # The earlier attempts stay in the manifest, without their own attempt lists.
+        attempts = previous.pop("attempts", [])
+        manifest["attempts"] = [*attempts, previous]
     print(f"tm.run: {status}; manifest {write_manifest(manifest, on=on).relative_to(REPO)}")
     return exit_code
 
