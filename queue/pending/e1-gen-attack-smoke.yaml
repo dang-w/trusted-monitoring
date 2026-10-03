@@ -1,0 +1,14 @@
+estimated_minutes: 60
+note: E1 attack generation probe, 10 samples (ids 1-10), untrusted qwen3.8-27b; checks how often the attack policy submits a secret input before the 100-sample run
+inspect:
+  - eval
+  - control/apps/task.py@apps_generate_attack
+  - --limit
+  - "10"
+  - --max-samples
+  - "1"
+  - --time-limit
+  - "900"
+  - --message-limit
+  - "8"
+  - --no-fail-on-error

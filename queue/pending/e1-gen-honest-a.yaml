@@ -1,0 +1,14 @@
+estimated_minutes: 240
+note: E1 honest generation, samples 1-50, untrusted qwen3.8-27b (D13.3 rate 4.55 min per sample)
+inspect:
+  - eval
+  - control/apps/task.py@apps_generate_honest
+  - --limit
+  - "50"
+  - --max-samples
+  - "1"
+  - --time-limit
+  - "900"
+  - --message-limit
+  - "8"
+  - --no-fail-on-error

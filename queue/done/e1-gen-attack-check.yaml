@@ -1,0 +1,16 @@
+estimated_minutes: 12
+note: E1 check of the new apps_generate_attack task, 1 sample, before the first night
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- --limit
+- '1'
+- --max-samples
+- '1'
+- --time-limit
+- '900'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-03T13:07:18+01:00'
+attempts: 1
