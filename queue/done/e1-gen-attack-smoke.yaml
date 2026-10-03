@@ -14,11 +14,4 @@ inspect:
 - '8'
 - --no-fail-on-error
 queued: '2026-10-03T14:35:48+01:00'
-resume:
-  log: logs/e1-gen-attack-smoke/interrupted/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval
-  reason: signal
-  kept_local:
-  - file: interrupted/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval
-    sha256: 67b1ff7bdf86dc675a08e97f547373c2657808492c654430070524f277cffeaa
-  at: '2026-10-03T14:36:01+01:00'
-attempts: 1
+attempts: 2

@@ -1,17 +1,189 @@
 {
+  "attempts": [
+    {
+      "command": [
+        "inspect",
+        "eval",
+        "control/apps/task.py@apps_generate_attack",
+        "--limit",
+        "10",
+        "--max-samples",
+        "1",
+        "--time-limit",
+        "900",
+        "--message-limit",
+        "8",
+        "--no-fail-on-error",
+        "--log-dir",
+        "logs/e1-gen-attack-smoke"
+      ],
+      "container_images": [
+        {
+          "architecture": "arm64",
+          "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+          "name": "python:3.4",
+          "repo_digests": [
+            "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+          ]
+        }
+      ],
+      "dataset": "dang-w/trusted-monitoring-logs",
+      "ended": "2026-10-03T13:36:00+00:00",
+      "exit_code": 0,
+      "interruption": {
+        "at": "2026-10-03T14:36:01+01:00",
+        "logs_kept_local": [
+          {
+            "file": "interrupted/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
+            "sha256": "67b1ff7bdf86dc675a08e97f547373c2657808492c654430070524f277cffeaa"
+          }
+        ],
+        "reason": "signal",
+        "requeued": true
+      },
+      "llama_cpp": {
+        "build": 11189,
+        "commit": "a25c9865f",
+        "version": "0.5.0-dev"
+      },
+      "logs": [
+        {
+          "bytes": 28851,
+          "completed": "2026-10-03T13:36:00+00:00",
+          "completed_samples": null,
+          "dataset_path": "runs/e1-gen-attack-smoke/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
+          "eval_config": {
+            "continue_on_fail": false,
+            "epochs": 1,
+            "fail_on_error": false,
+            "limit": 10,
+            "log_images": true,
+            "log_realtime": true,
+            "log_samples": true,
+            "log_shared": 0,
+            "max_samples": 1,
+            "message_limit": 8,
+            "sandbox_cleanup": true,
+            "sandbox_prebuilt": false,
+            "score_display": true,
+            "score_on_error": false,
+            "time_limit": 900,
+            "token_limit": 1000000
+          },
+          "file": "2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
+          "generate_config": {},
+          "inspect_run_id": "k9jQk3nno8BKWQaSLdNQLy",
+          "model": "none/none",
+          "model_roles": {
+            "trusted": {
+              "config": {},
+              "model": "openai-api/llama-cpp/ministral-3-8b"
+            },
+            "untrusted": {
+              "config": {
+                "max_tokens": 8192,
+                "seed": 1,
+                "temperature": 0.0
+              },
+              "model": "openai-api/llama-cpp/qwen3.8-27b"
+            }
+          },
+          "revision": {
+            "commit": "4d8a089",
+            "dirty": true
+          },
+          "samples": 2981,
+          "sandbox": {
+            "config": "compose.yaml",
+            "type": "docker"
+          },
+          "sha256": "67b1ff7bdf86dc675a08e97f547373c2657808492c654430070524f277cffeaa",
+          "started": "2026-10-03T13:35:51+00:00",
+          "status": "cancelled",
+          "task": "apps_generate_attack"
+        }
+      ],
+      "mode_switch_log": [
+        {
+          "command": "research",
+          "event": "start",
+          "force": false,
+          "run_id": "e1-gen-attack-smoke",
+          "ts": "2026-10-03T14:35:34+01:00"
+        },
+        {
+          "command": "research",
+          "container_vm": "running",
+          "event": "done",
+          "run_id": "e1-gen-attack-smoke",
+          "seconds": 13.1,
+          "ts": "2026-10-03T14:35:48+01:00"
+        }
+      ],
+      "models": [
+        {
+          "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+          "id": "ministral-3-8b",
+          "server": null,
+          "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        },
+        {
+          "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+          "id": "qwen3.8-27b",
+          "server": {
+            "build_info": "b11189-a25c9865f",
+            "n_ctx": 32768,
+            "sampling_defaults": {
+              "min_p": 0.05000000074505806,
+              "n_predict": -1,
+              "repeat_penalty": 1.0,
+              "seed": 4294967295,
+              "temperature": 1.0,
+              "top_k": 20,
+              "top_p": 0.949999988079071
+            },
+            "total_slots": 4
+          },
+          "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        }
+      ],
+      "note": "E1 attack generation probe, 10 samples (ids 1-10), untrusted qwen3.8-27b; checks how often the attack policy submits a secret input before the 100-sample run",
+      "presets": {
+        "file": "models.research.ini",
+        "sha256": "126ce71bc6092ac6a378bfd2554359f111f6612a0e3c57a350607410d10c39de"
+      },
+      "repo": {
+        "commit": "4d8a0895e3b0edb006b7ac9a308f067d49fe899d",
+        "dirty": true
+      },
+      "run_id": "e1-gen-attack-smoke",
+      "schema": 1,
+      "started": "2026-10-03T13:35:48+00:00",
+      "status": "interrupted",
+      "versions": {
+        "control_arena": "19.0.0",
+        "inspect_ai": "0.3.275",
+        "python": "3.12.14",
+        "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+      }
+    }
+  ],
   "command": [
     "inspect",
-    "eval",
-    "control/apps/task.py@apps_generate_attack",
-    "--limit",
-    "10",
-    "--max-samples",
-    "1",
-    "--time-limit",
-    "900",
-    "--message-limit",
-    "8",
-    "--no-fail-on-error",
+    "eval-retry",
+    "logs/e1-gen-attack-smoke/interrupted/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
     "--log-dir",
     "logs/e1-gen-attack-smoke"
   ],
@@ -26,19 +198,8 @@
     }
   ],
   "dataset": "dang-w/trusted-monitoring-logs",
-  "ended": "2026-10-03T13:36:00+00:00",
+  "ended": "2026-10-03T20:13:08+00:00",
   "exit_code": 0,
-  "interruption": {
-    "at": "2026-10-03T14:36:01+01:00",
-    "logs_kept_local": [
-      {
-        "file": "interrupted/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
-        "sha256": "67b1ff7bdf86dc675a08e97f547373c2657808492c654430070524f277cffeaa"
-      }
-    ],
-    "reason": "signal",
-    "requeued": true
-  },
   "llama_cpp": {
     "build": 11189,
     "commit": "a25c9865f",
@@ -46,10 +207,10 @@
   },
   "logs": [
     {
-      "bytes": 28851,
-      "completed": "2026-10-03T13:36:00+00:00",
-      "completed_samples": null,
-      "dataset_path": "runs/e1-gen-attack-smoke/2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
+      "bytes": 254754,
+      "completed": "2026-10-03T20:13:07+00:00",
+      "completed_samples": 10,
+      "dataset_path": "runs/e1-gen-attack-smoke/2026-10-03T19-26-17-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
       "eval_config": {
         "continue_on_fail": false,
         "epochs": 1,
@@ -68,9 +229,9 @@
         "time_limit": 900,
         "token_limit": 1000000
       },
-      "file": "2026-10-03T13-35-51-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
+      "file": "2026-10-03T19-26-17-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
       "generate_config": {},
-      "inspect_run_id": "k9jQk3nno8BKWQaSLdNQLy",
+      "inspect_run_id": "jjbDBmwgvvUfUnivhsYGDn",
       "model": "none/none",
       "model_roles": {
         "trusted": {
@@ -86,8 +247,14 @@
           "model": "openai-api/llama-cpp/qwen3.8-27b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "813f6c6d0aa7c9ac349cfdeee6e6b33d7ee1a57f",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/813f6c6d0aa7c9ac349cfdeee6e6b33d7ee1a57f/runs/e1-gen-attack-smoke/2026-10-03T19-26-17-00-00_apps-generate-attack_YshGpYNYw9soUnhQApev56.eval",
+        "verified": "2026-10-03T20:13:16+00:00"
+      },
       "revision": {
-        "commit": "4d8a089",
+        "commit": "ff24249",
         "dirty": true
       },
       "samples": 2981,
@@ -95,9 +262,9 @@
         "config": "compose.yaml",
         "type": "docker"
       },
-      "sha256": "67b1ff7bdf86dc675a08e97f547373c2657808492c654430070524f277cffeaa",
-      "started": "2026-10-03T13:35:51+00:00",
-      "status": "cancelled",
+      "sha256": "efb5eadc5704064bdaeda4f58e8b6ff08b8c7acb1ec8252b0fa8531dcba36ebe",
+      "started": "2026-10-03T19:26:17+00:00",
+      "status": "success",
       "task": "apps_generate_attack"
     }
   ],
@@ -116,6 +283,35 @@
       "run_id": "e1-gen-attack-smoke",
       "seconds": 13.1,
       "ts": "2026-10-03T14:35:48+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "start",
+      "mode_before": "research",
+      "run_id": "e1-gen-attack-smoke",
+      "ts": "2026-10-03T14:36:03+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "done",
+      "run_id": "e1-gen-attack-smoke",
+      "seconds": 22.4,
+      "ts": "2026-10-03T14:36:26+01:00"
+    },
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e1-gen-attack-smoke",
+      "ts": "2026-10-03T20:25:59+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e1-gen-attack-smoke",
+      "seconds": 14.2,
+      "ts": "2026-10-03T20:26:14+01:00"
     }
   ],
   "models": [
@@ -163,13 +359,13 @@
     "sha256": "126ce71bc6092ac6a378bfd2554359f111f6612a0e3c57a350607410d10c39de"
   },
   "repo": {
-    "commit": "4d8a0895e3b0edb006b7ac9a308f067d49fe899d",
+    "commit": "ff24249008881f220e52fcb857156a9ab87e1255",
     "dirty": true
   },
   "run_id": "e1-gen-attack-smoke",
   "schema": 1,
-  "started": "2026-10-03T13:35:48+00:00",
-  "status": "interrupted",
+  "started": "2026-10-03T19:26:14+00:00",
+  "status": "completed",
   "versions": {
     "control_arena": "19.0.0",
     "inspect_ai": "0.3.275",
