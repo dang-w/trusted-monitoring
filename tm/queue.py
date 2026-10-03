@@ -236,7 +236,7 @@ def save_spec(spec: Spec, state: str) -> Spec:
     target.parent.mkdir(parents=True, exist_ok=True)
     text = yaml.safe_dump(spec.to_dict(), sort_keys=False, allow_unicode=True)
     target.write_text(text)
-    if spec.path != target and spec.path.exists():
+    if spec.path.resolve() != target.resolve() and spec.path.exists():
         spec.path.unlink()
     spec.path = target
     return spec

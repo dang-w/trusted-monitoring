@@ -105,3 +105,15 @@ def test_save_spec_moves_and_keeps_the_marker(tmp_path: Path, monkeypatch: pytes
     assert again.resume == spec.resume
     assert again.attempts == 2
     assert again.state == "running"
+
+
+def test_save_spec_in_place_with_a_relative_path_keeps_the_file(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(queue, "QUEUE", tmp_path)
+    monkeypatch.chdir(tmp_path.parent)
+    (tmp_path / "pending").mkdir()
+    write(tmp_path / "pending", "r.yaml", "estimated_minutes: 5\ninspect: [eval, x]\n")
+    spec = queue.load_spec(Path(tmp_path.name) / "pending" / "r.yaml")  # relative, as a person types it
+    queue.save_spec(spec, "pending")
+    assert (tmp_path / "pending/r.yaml").exists()

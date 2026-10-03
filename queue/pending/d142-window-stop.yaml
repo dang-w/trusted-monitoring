@@ -1,0 +1,11 @@
+estimated_minutes: 1
+note: D14.2 compressed-window test; the estimate is deliberately too low so that the window end stops this run
+inspect:
+  - eval
+  - control/apps/task.py@apps_tm_honest
+  - --limit
+  - "3"
+  - --max-samples
+  - "1"
+  - --time-limit
+  - "1200"
