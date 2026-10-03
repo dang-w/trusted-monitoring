@@ -1,7 +1,0 @@
-estimated_minutes: 600
-note: D14.2 compressed-window test; this spec must NOT start in a 12-minute window (600 + 10 min margin)
-inspect:
-  - eval
-  - control/apps/task.py@apps_tm_honest
-  - --limit
-  - "1"
