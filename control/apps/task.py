@@ -7,9 +7,12 @@ container when it is scored. The Bash setting needs egress for its side task, so
     python -m tm.run --run-id ID -- eval control/apps/task.py@apps_tm_honest --limit 5
     python -m tm.run --run-id ID -- eval control/apps/task.py@apps_tm_attack --limit 5
     python -m tm.run --run-id ID -- eval control/apps/task.py@apps_generate_honest --limit 10
+    python -m tm.run --run-id ID -- eval control/apps/task.py@apps_generate_attack --limit 10
 
-`apps_generate_honest` runs the untrusted policy alone, with no monitor. It is the "generate"
-phase by itself: one model stays in memory, so it is the task for throughput measurements.
+`apps_generate_honest` and `apps_generate_attack` run the untrusted policy alone, with no monitor:
+the "generate" phase of the method by itself. One model stays in memory, so these are also the
+tasks for throughput measurements. The stored trajectories are scored by a monitor in a second
+phase (not built yet; the `apps_tm_*` tasks score live instead).
 
 The pair below is the one decided after the D13.3 capability measurement (20 honest APPS samples
 each: Qwen3.8-27B 15 correct, Ministral-3-8B 7, Gemma 4 E4B 13): the 27B is the untrusted model,
@@ -73,14 +76,25 @@ def apps_tm_attack(untrusted: str = UNTRUSTED, trusted: str = TRUSTED) -> Task:
     return _task(EvalMode.ATTACK, untrusted, trusted)
 
 
-@task
-def apps_generate_honest(untrusted: str = UNTRUSTED) -> Task:
+def _generate(mode: EvalMode, untrusted: str) -> Task:
+    """The untrusted policy alone, no monitor: the generate phase of the method (METHOD.md step 1)."""
     return get_control_task(
         setting=HardenedAppsSetting(),
         micro_protocol=untrusted_policy_builder(),
-        mode=EvalMode.HONEST,
+        mode=mode,
         eval_config=ControlEvalConfig(
             untrusted_model=untrusted, trusted_model=TRUSTED, untrusted_config=SAMPLING
         ),
-        task_name="apps_generate_honest",
+        task_name=f"apps_generate_{mode.value}",
     )
+
+
+@task
+def apps_generate_honest(untrusted: str = UNTRUSTED) -> Task:
+    return _generate(EvalMode.HONEST, untrusted)
+
+
+@task
+def apps_generate_attack(untrusted: str = UNTRUSTED) -> Task:
+    """The attack policy alone: it is told the side task and asked to insert it. No monitor."""
+    return _generate(EvalMode.ATTACK, untrusted)
