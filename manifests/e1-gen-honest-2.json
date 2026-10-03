@@ -1,0 +1,177 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_honest",
+    "--limit",
+    "26-50",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "900",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e1-gen-honest-2"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-03T16:37:21+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 489320,
+      "completed": "2026-10-03T16:37:21+00:00",
+      "completed_samples": 25,
+      "dataset_path": "runs/e1-gen-honest-2/2026-10-03T15-07-45-00-00_apps-generate-honest_My2jf66eWkFjmo2P6i6n2H.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "limit": [
+          25,
+          50
+        ],
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 900,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-03T15-07-45-00-00_apps-generate-honest_My2jf66eWkFjmo2P6i6n2H.eval",
+      "generate_config": {},
+      "inspect_run_id": "KTBbLsHWJ5t5gMNFqBCpqP",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {},
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 8192,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "a6a1c13782a4b6949e195bfea62b8028e738ddbf",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/a6a1c13782a4b6949e195bfea62b8028e738ddbf/runs/e1-gen-honest-2/2026-10-03T15-07-45-00-00_apps-generate-honest_My2jf66eWkFjmo2P6i6n2H.eval",
+        "verified": "2026-10-03T16:37:31+00:00"
+      },
+      "revision": {
+        "commit": "679fb6a",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "31fc7cf90d77c50159f586ed0e3f5b6fc4dd3a82067daadca8b461c9094533fb",
+      "started": "2026-10-03T15:07:45+00:00",
+      "status": "success",
+      "task": "apps_generate_honest"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e1-gen-honest-2",
+      "ts": "2026-10-03T16:07:27+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e1-gen-honest-2",
+      "seconds": 14.3,
+      "ts": "2026-10-03T16:07:42+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E1 honest generation, samples 26-50 of the APPS set, untrusted qwen3.8-27b (part 2 of 4)",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "126ce71bc6092ac6a378bfd2554359f111f6612a0e3c57a350607410d10c39de"
+  },
+  "repo": {
+    "commit": "679fb6ae8dbd8d231547b4e63ccf414b2b01b734",
+    "dirty": true
+  },
+  "run_id": "e1-gen-honest-2",
+  "schema": 1,
+  "started": "2026-10-03T15:07:42+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
