@@ -1,4 +1,4 @@
-estimated_minutes: 60
+estimated_minutes: 120
 note: E1 attack generation probe, 10 samples (ids 1-10), untrusted qwen3.8-27b; checks how often the attack policy submits a secret input before the 100-sample run
 inspect:
   - eval

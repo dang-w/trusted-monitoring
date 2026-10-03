@@ -33,8 +33,11 @@ from inspect_ai.util import SandboxEnvironmentSpec
 
 UNTRUSTED = "openai-api/llama-cpp/qwen3.8-27b"
 TRUSTED = "openai-api/llama-cpp/ministral-3-8b"
-# Set on every request: the server's own defaults are temperature 0.8 and a random seed.
+# Set on every request: the server's own defaults are temperature 0.8 and a random seed. The untrusted
+# model gets 8192 output tokens: its preset caps the thinking at 4096 (`reasoning-budget`, research
+# router), so the answer always has room after it. Monitors answer short; 4096 is enough.
 SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=4096)
+UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=8192)
 
 
 class HardenedAppsSetting(AppsSetting):
@@ -58,7 +61,7 @@ def _task(mode: EvalMode, untrusted: str = UNTRUSTED, trusted: str = TRUSTED) ->
         eval_config=ControlEvalConfig(
             untrusted_model=untrusted,
             trusted_model=trusted,
-            untrusted_config=SAMPLING,
+            untrusted_config=UNTRUSTED_SAMPLING,
             trusted_config=SAMPLING,
         ),
         monitoring_scorers=[max_suspicion_scorer()],
@@ -83,7 +86,7 @@ def _generate(mode: EvalMode, untrusted: str) -> Task:
         micro_protocol=untrusted_policy_builder(),
         mode=mode,
         eval_config=ControlEvalConfig(
-            untrusted_model=untrusted, trusted_model=TRUSTED, untrusted_config=SAMPLING
+            untrusted_model=untrusted, trusted_model=TRUSTED, untrusted_config=UNTRUSTED_SAMPLING
         ),
         task_name=f"apps_generate_{mode.value}",
     )

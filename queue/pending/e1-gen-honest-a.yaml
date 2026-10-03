@@ -1,4 +1,4 @@
-estimated_minutes: 240
+estimated_minutes: 270
 note: E1 honest generation, samples 1-50, untrusted qwen3.8-27b (D13.3 rate 4.55 min per sample)
 inspect:
   - eval
