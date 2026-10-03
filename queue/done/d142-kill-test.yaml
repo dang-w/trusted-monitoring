@@ -1,0 +1,14 @@
+estimated_minutes: 20
+note: D14.2 kill-recovery test; the runner is killed with SIGKILL during the run,
+  the next runner recovers the spec
+inspect:
+- eval
+- control/apps/task.py@apps_tm_honest
+- --limit
+- '3'
+- --max-samples
+- '1'
+- --time-limit
+- '1200'
+queued: '2026-10-03T08:13:29+01:00'
+attempts: 2

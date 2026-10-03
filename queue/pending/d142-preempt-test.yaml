@@ -1,5 +1,5 @@
 estimated_minutes: 20
-note: D14.2 kill-recovery test; the runner is killed with SIGKILL during the run, the next runner recovers the spec
+note: D14.2 preempt test; `mini-mode interactive --preempt` during the run, then the spec resumes with eval-retry
 inspect:
   - eval
   - control/apps/task.py@apps_tm_honest
