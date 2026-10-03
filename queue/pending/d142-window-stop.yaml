@@ -4,7 +4,7 @@ inspect:
   - eval
   - control/apps/task.py@apps_tm_honest
   - --limit
-  - "3"
+  - "6"
   - --max-samples
   - "1"
   - --time-limit
