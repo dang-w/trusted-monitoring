@@ -60,10 +60,15 @@ containers with networking off. The machine-level configuration is not part of t
 ## Set up a clone
 
 ```sh
+. scripts/env.sh                      # the environment lives outside the home directory (why: see the file)
 uv sync
 git config core.hooksPath .githooks   # needs gitleaks on PATH
 uv run pytest
 ```
+
+The wrappers in `scripts/` source `scripts/env.sh` themselves. Without it, `uv` makes a `.venv` in the
+repository; that works, but an error traceback in a log then holds the home-directory path and the scrub
+check refuses the log.
 
 ## Licence
 

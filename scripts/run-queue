@@ -4,6 +4,7 @@
 #   scripts/run-queue list | check SPEC.yaml
 # launchd starts this from / with a short PATH, so it changes into the repository and adds Homebrew.
 cd "$(dirname "$0")/.." || exit 1
+. scripts/env.sh
 PATH="$PATH:$HOME/.local/bin:/opt/homebrew/bin"
 export PATH
 exec uv run python -m tm.queue "$@"

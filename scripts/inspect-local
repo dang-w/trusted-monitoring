@@ -6,6 +6,7 @@
 # <SERVICE>_API_KEY and <SERVICE>_BASE_URL. The key stays in a file outside every repository
 # and is read here at run time; it is never written to a config file.
 set -eu
+. "$(dirname "$0")/env.sh"
 KEY_FILE="${LLAMA_KEY_FILE:-$HOME/.config/llama/research.key}"
 [ -r "$KEY_FILE" ] || { echo "inspect-local: cannot read the key file $KEY_FILE" >&2; exit 1; }
 LLAMA_CPP_API_KEY="$(cat "$KEY_FILE")"
