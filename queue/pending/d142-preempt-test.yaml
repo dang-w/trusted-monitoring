@@ -1,11 +1,18 @@
 estimated_minutes: 20
-note: D14.2 preempt test; `mini-mode interactive --preempt` during the run, then the spec resumes with eval-retry
+note: D14.2 preempt test; `mini-mode interactive --preempt` during the run, then the
+  spec resumes with eval-retry
 inspect:
-  - eval
-  - control/apps/task.py@apps_tm_honest
-  - --limit
-  - "3"
-  - --max-samples
-  - "1"
-  - --time-limit
-  - "1200"
+- eval
+- control/apps/task.py@apps_tm_honest
+- --limit
+- '3'
+- --max-samples
+- '1'
+- --time-limit
+- '1200'
+queued: '2026-10-03T08:29:07+01:00'
+resume:
+  log: logs/d142-preempt-test/2026-10-03T07-29-11-00-00_apps-tm-honest_2KCPUxhSoQzL7k5HQhVCk8.eval
+  reason: preempt
+  at: '2026-10-03T08:34:43+01:00'
+attempts: 1
