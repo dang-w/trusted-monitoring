@@ -61,6 +61,7 @@ containers with networking off. The machine-level configuration is not part of t
 
 ```sh
 . scripts/env.sh                      # the environment lives outside the home directory (why: see the file)
+uv python install 3.12
 uv sync
 git config core.hooksPath .githooks   # needs gitleaks on PATH
 uv run pytest
