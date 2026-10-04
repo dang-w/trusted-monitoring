@@ -34,11 +34,13 @@ from inspect_ai.util import SandboxEnvironmentSpec
 UNTRUSTED = "openai-api/llama-cpp/qwen3.8-27b"
 TRUSTED = "openai-api/llama-cpp/ministral-3-8b"
 # Set on every request: the server's own defaults are temperature 0.8 and a random seed. The untrusted
-# model gets 16384 output tokens: its preset caps the thinking at 12288 (`reasoning-budget`, research
-# router; 4096 cut 40 of 100 honest and all attack samples in E1 night 1), so the answer always has room
-# after it. Monitors answer short; 4096 is enough.
+# model gets 12288 output tokens: its preset caps the thinking at 8192 (`reasoning-budget`, research
+# router; 4096 cut 40 of 100 honest and all attack samples in E1 night 1; 12288 took 960 s per call, past the
+# OpenAI SDK's 600 s default request timeout, E2), so the answer always has room after it. Every spec must
+# also pass `--timeout 1500 -M client_timeout=1500`: an abandoned request keeps generating on the server and
+# slows every later one. Monitors answer short; 4096 is enough.
 SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=4096)
-UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=16384)
+UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=12288)
 
 
 class HardenedAppsSetting(AppsSetting):

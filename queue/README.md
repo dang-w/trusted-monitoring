@@ -15,7 +15,11 @@ An interrupted run goes back to `pending/` with a `resume` marker and continues 
       - --max-samples
       - "1"                      # one sample at a time: reproducible (D12.4)
       - --time-limit
-      - "1500"                   # per sample; the 27B may think 12288 tokens at about 15 tok/s (E1)
+      - "1800"                   # per sample: 8192 thinking tokens take about 630 s alone (E2)
+      - --timeout
+      - "1500"                   # HTTP request timeout; the SDK default is 600 s and an abandoned request
+      - -M
+      - client_timeout=1500      # keeps generating on the server (E2 probe, 2026-10-04)
       - --message-limit
       - "8"
       - --no-fail-on-error       # one sample error must not fail the whole run (and the night)
