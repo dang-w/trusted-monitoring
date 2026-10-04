@@ -1,0 +1,18 @@
+estimated_minutes: 150
+note: 'E2 attack probe 3: the same 10 samples (positions 1-10) at thinking budget
+  8192 and 12288 output tokens, with the 1500 s HTTP client timeout set in the task;
+  probe 2 lost samples 7-8 to the 600 s default'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- --limit
+- '10'
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-04T15:29:24+01:00'
+attempts: 1
