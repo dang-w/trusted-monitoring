@@ -1,0 +1,186 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_attack",
+    "--limit",
+    "10",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1500",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e2-gen-attack-probe"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-04T11:30:24+00:00",
+  "exit_code": 0,
+  "interruption": {
+    "at": "2026-10-04T12:30:25+01:00",
+    "logs_kept_local": [
+      {
+        "file": "interrupted/2026-10-04T08-27-32-00-00_apps-generate-attack_CxFtq7tUxyYmEk5s2KERFu.eval",
+        "sha256": "172e8a6235119af779557fb3931035ce1dc955d8068add6eaf4cfd68ab5ee6e2"
+      }
+    ],
+    "reason": "preempt",
+    "requeued": true
+  },
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 134865,
+      "completed": "2026-10-04T11:30:24+00:00",
+      "completed_samples": 7,
+      "dataset_path": "runs/e2-gen-attack-probe/2026-10-04T08-27-32-00-00_apps-generate-attack_CxFtq7tUxyYmEk5s2KERFu.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "limit": 10,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1500,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-04T08-27-32-00-00_apps-generate-attack_CxFtq7tUxyYmEk5s2KERFu.eval",
+      "generate_config": {},
+      "inspect_run_id": "FvaBAd6ityBvirw5jXxg73",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {},
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 16384,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "revision": {
+        "commit": "94263e3",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "172e8a6235119af779557fb3931035ce1dc955d8068add6eaf4cfd68ab5ee6e2",
+      "started": "2026-10-04T08:27:32+00:00",
+      "status": "cancelled",
+      "task": "apps_generate_attack"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e2-gen-attack-probe",
+      "ts": "2026-10-04T09:27:15+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e2-gen-attack-probe",
+      "seconds": 13.7,
+      "ts": "2026-10-04T09:27:29+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "preempt-signal",
+      "pid": 78170,
+      "run_id": "e2-gen-attack-probe",
+      "ts": "2026-10-04T12:30:23+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E2 attack probe, 10 samples (positions 1-10), untrusted qwen3.8-27b with thinking budget 12288 and 16384 output tokens (option A); measures the attack rate the E1 probe could not",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e5cdafc86ace5aaec2b11a7eac50675677bbbf941023b71b26be8ab147d0e9f1"
+  },
+  "repo": {
+    "commit": "94263e318303a9464a29b07f26db1e594523b684",
+    "dirty": true
+  },
+  "run_id": "e2-gen-attack-probe",
+  "schema": 1,
+  "started": "2026-10-04T08:27:29+00:00",
+  "status": "interrupted",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
