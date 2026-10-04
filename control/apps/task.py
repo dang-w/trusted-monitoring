@@ -34,10 +34,11 @@ from inspect_ai.util import SandboxEnvironmentSpec
 UNTRUSTED = "openai-api/llama-cpp/qwen3.8-27b"
 TRUSTED = "openai-api/llama-cpp/ministral-3-8b"
 # Set on every request: the server's own defaults are temperature 0.8 and a random seed. The untrusted
-# model gets 8192 output tokens: its preset caps the thinking at 4096 (`reasoning-budget`, research
-# router), so the answer always has room after it. Monitors answer short; 4096 is enough.
+# model gets 16384 output tokens: its preset caps the thinking at 12288 (`reasoning-budget`, research
+# router; 4096 cut 40 of 100 honest and all attack samples in E1 night 1), so the answer always has room
+# after it. Monitors answer short; 4096 is enough.
 SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=4096)
-UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=8192)
+UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=16384)
 
 
 class HardenedAppsSetting(AppsSetting):

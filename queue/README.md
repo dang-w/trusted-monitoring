@@ -15,7 +15,7 @@ An interrupted run goes back to `pending/` with a `resume` marker and continues 
       - --max-samples
       - "1"                      # one sample at a time: reproducible (D12.4)
       - --time-limit
-      - "900"                    # per sample; one sample looped at the token limit for 1033 s (D12.4)
+      - "1500"                   # per sample; the 27B may think 12288 tokens at about 15 tok/s (E1)
       - --message-limit
       - "8"
       - --no-fail-on-error       # one sample error must not fail the whole run (and the night)

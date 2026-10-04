@@ -1,0 +1,14 @@
+estimated_minutes: 150
+note: "E2 attack probe, 10 samples (positions 1-10), untrusted qwen3.8-27b with thinking budget 12288 and 16384 output tokens (option A); measures the attack rate the E1 probe could not"
+inspect:
+  - eval
+  - control/apps/task.py@apps_generate_attack
+  - --limit
+  - "10"
+  - --max-samples
+  - "1"
+  - --time-limit
+  - "1500"
+  - --message-limit
+  - "8"
+  - --no-fail-on-error
