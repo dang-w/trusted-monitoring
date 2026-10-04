@@ -79,6 +79,12 @@
           "model": "openai-api/llama-cpp/qwen3.8-27b"
         }
       },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "39bed7f4bbb8aaa1e8ae6134eaef379a65b047e0",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/39bed7f4bbb8aaa1e8ae6134eaef379a65b047e0/runs/e2-gen-attack-probe-2/2026-10-04T11-48-50-00-00_apps-generate-attack_EYL84HBHb9Xf5Ccm6MttZM.eval",
+        "verified": "2026-10-04T14:28:41+00:00"
+      },
       "revision": {
         "commit": "bfbf98e",
         "dirty": true
@@ -162,11 +168,15 @@
   "run_id": "e2-gen-attack-probe-2",
   "schema": 1,
   "scrub": {
-    "checked": "2026-10-04T14:23:35+00:00",
-    "findings": 6
+    "checked": "2026-10-04T14:28:38+00:00",
+    "findings": 0,
+    "previous": {
+      "checked": "2026-10-04T14:23:35+00:00",
+      "findings": 6
+    }
   },
   "started": "2026-10-04T11:48:47+00:00",
-  "status": "scrub-failed",
+  "status": "completed",
   "versions": {
     "control_arena": "19.0.0",
     "inspect_ai": "0.3.275",

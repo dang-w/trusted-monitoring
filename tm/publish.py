@@ -89,6 +89,13 @@ def main() -> int:
             manifest["status"] = "scrub-failed"
             manifest["scrub"] = {"checked": utc_now(), "findings": len(report.findings)}
             write_manifest(manifest)
+    for run_id in pending:
+        if run_id not in failed and manifests[run_id].get("status") == "scrub-failed":
+            # A run marked scrub-failed earlier (an allowlist or a rule changed since) is clean now.
+            manifest = manifests[run_id]
+            previous = manifest.get("scrub", {})
+            manifest["status"] = "completed"
+            manifest["scrub"] = {"checked": utc_now(), "findings": 0, "previous": previous}
     if failed:
         print(
             f"publish: scrub FAILED for {', '.join(failed)}; nothing published from this batch",

@@ -28,4 +28,9 @@ regex = '''/(?:Users|home)/[A-Za-z0-9._-]+/'''
 id = "generic-api-key"
 [rules.allowlist]
 regexTarget = "match"
-regexes = ['''secret input\."\s*,\s*"[0-9a-f]{32}"''']
+regexes = [
+  '''secret input\."\s*,\s*"[0-9a-f]{32}"''',
+  # A sample that printed the sandbox's environment: the official python Docker images carry the
+  # release-signing key fingerprint in GPG_KEY (public; e2-gen-attack-probe-2, sample 5).
+  '''GPG_KEY['"]?\s*[:=]\s*['"][0-9A-F]{40}['"]''',
+]

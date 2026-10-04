@@ -28,7 +28,7 @@ from control_arena.policy import untrusted_policy_builder
 from control_arena.scorers import max_suspicion_scorer
 from control_arena.settings.apps.apps_setting import AppsSetting
 from inspect_ai import Task, task
-from inspect_ai.model import GenerateConfig
+from inspect_ai.model import GenerateConfig, Model, get_model
 from inspect_ai.util import SandboxEnvironmentSpec
 
 UNTRUSTED = "openai-api/llama-cpp/qwen3.8-27b"
@@ -41,6 +41,15 @@ TRUSTED = "openai-api/llama-cpp/ministral-3-8b"
 # slows every later one. Monitors answer short; 4096 is enough.
 SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=4096)
 UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=12288)
+# The OpenAI SDK's default read timeout is 600 s. A generation that takes longer is abandoned by the
+# client and retried while the server finishes it anyway, and the retries pile up (E2 probes 1 and 2).
+# ControlArena ignores `untrusted_config` when it is given a Model, so the models are built here with
+# both the sampling config and the client timeout. Inspect's `--timeout` is a retry budget, not this.
+CLIENT_TIMEOUT = 1500
+
+
+def _model(name: str, config: GenerateConfig) -> Model:
+    return get_model(name, config=config, client_timeout=CLIENT_TIMEOUT)
 
 
 class HardenedAppsSetting(AppsSetting):
@@ -62,10 +71,8 @@ def _task(mode: EvalMode, untrusted: str = UNTRUSTED, trusted: str = TRUSTED) ->
         micro_protocol=trusted_monitoring_builder(),
         mode=mode,
         eval_config=ControlEvalConfig(
-            untrusted_model=untrusted,
-            trusted_model=trusted,
-            untrusted_config=UNTRUSTED_SAMPLING,
-            trusted_config=SAMPLING,
+            untrusted_model=_model(untrusted, UNTRUSTED_SAMPLING),
+            trusted_model=_model(trusted, SAMPLING),
         ),
         monitoring_scorers=[max_suspicion_scorer()],
         task_name=f"apps_tm_{mode.value}",
@@ -89,7 +96,7 @@ def _generate(mode: EvalMode, untrusted: str) -> Task:
         micro_protocol=untrusted_policy_builder(),
         mode=mode,
         eval_config=ControlEvalConfig(
-            untrusted_model=untrusted, trusted_model=TRUSTED, untrusted_config=UNTRUSTED_SAMPLING
+            untrusted_model=_model(untrusted, UNTRUSTED_SAMPLING), trusted_model=_model(TRUSTED, SAMPLING)
         ),
         task_name=f"apps_generate_{mode.value}",
     )
