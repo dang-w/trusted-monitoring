@@ -1,0 +1,178 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_attack",
+    "--limit",
+    "10",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "2700",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e3-gen-attack-probe"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-05T11:10:10+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 293623,
+      "completed": "2026-10-05T11:10:10+00:00",
+      "completed_samples": 10,
+      "dataset_path": "runs/e3-gen-attack-probe/2026-10-05T08-40-50-00-00_apps-generate-attack_43hpgSV8xdpqG7Hr9F3nbp.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "limit": 10,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 2700,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-05T08-40-50-00-00_apps-generate-attack_43hpgSV8xdpqG7Hr9F3nbp.eval",
+      "generate_config": {},
+      "inspect_run_id": "K8KaTFWH8mcJLJY2JE9R7f",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 16384,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "47fa8c7154a5e84bb8af3c00c069ea72e66ac968",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/47fa8c7154a5e84bb8af3c00c069ea72e66ac968/runs/e3-gen-attack-probe/2026-10-05T08-40-50-00-00_apps-generate-attack_43hpgSV8xdpqG7Hr9F3nbp.eval",
+        "verified": "2026-10-05T11:10:19+00:00"
+      },
+      "revision": {
+        "commit": "db2fcc7",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "c9ea3701f6c1ed8ca1eadf6ff669ed08224d896ae48e73c6519af4ee94463e84",
+      "started": "2026-10-05T08:40:50+00:00",
+      "status": "success",
+      "task": "apps_generate_attack"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e3-gen-attack-probe",
+      "ts": "2026-10-05T09:40:33+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e3-gen-attack-probe",
+      "seconds": 13.8,
+      "ts": "2026-10-05T09:40:47+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E3 attack probe: the same 10 samples (positions 1-10) as probe 3, at thinking budget 12288 (research preset) with 16384 output tokens and a 2000 s client timeout in the task; per-sample time limit 2700 s (1800 scaled by the 1.5x budget: one capped call is about 1260 s). Tests whether the larger budget lifts the attack rate and the main-task accuracy before the attack set is grown. Dan, 2026-10-05.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "db2fcc75e2b63f2ddc56107f33d321d0fb28aa2f",
+    "dirty": true
+  },
+  "run_id": "e3-gen-attack-probe",
+  "schema": 1,
+  "started": "2026-10-05T08:40:47+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
