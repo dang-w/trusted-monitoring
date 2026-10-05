@@ -34,7 +34,7 @@ The planned method is in [METHOD.md](METHOD.md). It is a plan, not a result.
 | Scrub check and log publishing | `scripts/scrub-check RUN_ID` fails on key material, home paths, private addresses and host names; `scripts/push-logs RUN_ID …` publishes a batch to the dataset and verifies it |
 | Run report | `python -m tm.report RUN_ID` prints plain counts from the logs of a run |
 | Capability-gap runs | manifests `d133-gap-*`: the same 20 honest APPS samples with each of seven local models as the agent, to measure which models are weaker. A measurement of the substrate, not a result about monitoring. |
-| Evaluation code | none yet |
+| Evaluation code | `tm/monitor.py@apps_monitor`: the phase-2 scorer, a monitor over the stored trajectories of generate runs (the monitor sees the task and the submitted code only; one Inspect log per pass). `python -m tm.catch_rate`: threshold at a false-positive rate, catch rate, bootstrap interval, ROC points, known-positives check. Tests in `tests/`. |
 | Results | none yet |
 
 ## How runs will be recorded
