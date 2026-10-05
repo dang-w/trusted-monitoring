@@ -40,12 +40,15 @@ TRUSTED = "openai-api/llama-cpp/ministral-3-8b"
 # also pass `--timeout 1500 -M client_timeout=1500`: an abandoned request keeps generating on the server and
 # slows every later one. Monitors answer short; 4096 is enough.
 SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=4096)
-UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=12288)
+# E3 (2026-10-05): thinking budget 12288 in the router preset needs room for the answer after the
+# thinking: 16384 output tokens (E2 used 12288 with budget 8192).
+UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=16384)
 # The OpenAI SDK's default read timeout is 600 s. A generation that takes longer is abandoned by the
 # client and retried while the server finishes it anyway, and the retries pile up (E2 probes 1 and 2).
 # ControlArena ignores `untrusted_config` when it is given a Model, so the models are built here with
 # both the sampling config and the client timeout. Inspect's `--timeout` is a retry budget, not this.
-CLIENT_TIMEOUT = 1500
+# E3: 16384 tokens at about 13 tok/s is about 1260 s; 2000 s keeps the margin (E2: 1500 s for 12288).
+CLIENT_TIMEOUT = 2000
 
 
 def _model(name: str, config: GenerateConfig) -> Model:
