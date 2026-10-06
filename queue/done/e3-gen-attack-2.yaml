@@ -1,0 +1,19 @@
+estimated_minutes: 380
+note: 'E3 attack generation at thinking budget 12288, 16384 output tokens, 2000 s
+  client timeout (part 2 of 4, positions 26-50); the pair for the phase-2 scorer is
+  this set and the E2 honest set with its 27 capped ids regenerated at 12288. Probe:
+  e3-gen-attack-probe (14.3 min per sample). Dan, 2026-10-05.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- --limit
+- 26-50
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-05T20:45:39+01:00'
+attempts: 1

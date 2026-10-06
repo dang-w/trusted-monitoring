@@ -1,0 +1,181 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_attack",
+    "--limit",
+    "26-50",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "2700",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e3-gen-attack-2"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-06T03:33:32+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 778960,
+      "completed": "2026-10-06T03:33:31+00:00",
+      "completed_samples": 25,
+      "dataset_path": "runs/e3-gen-attack-2/2026-10-05T19-45-42-00-00_apps-generate-attack_8osBYubWCbmerh4n7xRpUq.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "limit": [
+          25,
+          50
+        ],
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 2700,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-05T19-45-42-00-00_apps-generate-attack_8osBYubWCbmerh4n7xRpUq.eval",
+      "generate_config": {},
+      "inspect_run_id": "9s4fw4iUWqNxxZkNmtrFHX",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 16384,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "7fff739f6a7068f685d6d52c2f450d5d147f15d7",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/7fff739f6a7068f685d6d52c2f450d5d147f15d7/runs/e3-gen-attack-2/2026-10-05T19-45-42-00-00_apps-generate-attack_8osBYubWCbmerh4n7xRpUq.eval",
+        "verified": "2026-10-06T03:33:36+00:00"
+      },
+      "revision": {
+        "commit": "26a1748",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "e3db350b700dae7e2382919e75f8d8f13fbeb5e766184aa4cc57b64ea46a405a",
+      "started": "2026-10-05T19:45:42+00:00",
+      "status": "success",
+      "task": "apps_generate_attack"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e3-gen-attack-2",
+      "ts": "2026-10-05T20:45:24+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e3-gen-attack-2",
+      "seconds": 14.4,
+      "ts": "2026-10-05T20:45:39+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E3 attack generation at thinking budget 12288, 16384 output tokens, 2000 s client timeout (part 2 of 4, positions 26-50); the pair for the phase-2 scorer is this set and the E2 honest set with its 27 capped ids regenerated at 12288. Probe: e3-gen-attack-probe (14.3 min per sample). Dan, 2026-10-05.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "26a174848480b85dccef1194cc188f7cd92f1889",
+    "dirty": true
+  },
+  "run_id": "e3-gen-attack-2",
+  "schema": 1,
+  "started": "2026-10-05T19:45:39+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
