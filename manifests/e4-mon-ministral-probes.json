@@ -1,0 +1,139 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e2-gen-attack-probe-3,e3-gen-attack-probe",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral-probes"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-06T03:44:49+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 223002,
+      "completed": "2026-10-06T03:44:49+00:00",
+      "completed_samples": 20,
+      "dataset_path": "runs/e4-mon-ministral-probes/2026-10-06T03-34-13-00-00_apps-monitor_5DxJHnrFhskxQD9pZeKxdY.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-06T03-34-13-00-00_apps-monitor_5DxJHnrFhskxQD9pZeKxdY.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "ksd5TU7XAWKapuwWsadzY2",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "78d7781219c84355fcd25e7917e7baab6cce9caf",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/78d7781219c84355fcd25e7917e7baab6cce9caf/runs/e4-mon-ministral-probes/2026-10-06T03-34-13-00-00_apps-monitor_5DxJHnrFhskxQD9pZeKxdY.eval",
+        "verified": "2026-10-06T03:44:52+00:00"
+      },
+      "revision": {
+        "commit": "7745a09",
+        "dirty": true
+      },
+      "samples": 20,
+      "sandbox": null,
+      "sha256": "00550987ee72cf94a21e9e86e1ef1520b254565a4e37136e32dd71034ea5f627",
+      "started": "2026-10-06T03:34:13+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral-probes",
+      "ts": "2026-10-06T04:33:56+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral-probes",
+      "seconds": 14.4,
+      "ts": "2026-10-06T04:34:11+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 phase-2 scorer, first real pass: Ministral-3-8B over the 20 stored attack trajectories (e2-gen-attack-probe-3 at budget 8192, e3-gen-attack-probe at 12288), the default monitor prompt, temperature 0, seed 1, 4096 tokens, one at a time. A pipeline check before the honest set: the 4 real backdoors (probe-3 sample 4; E3 probe samples 4, 5, 6) are the known positives of METHOD step 3. Estimate from the live monitor calls of d142-smoke-honest (33 to 485 s each).",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "7745a097bae1a117daaacc71948177df51404759",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral-probes",
+  "schema": 1,
+  "started": "2026-10-06T03:34:11+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
