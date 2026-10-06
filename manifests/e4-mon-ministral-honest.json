@@ -1,0 +1,139 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral-honest"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-06T23:48:50+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 1164143,
+      "completed": "2026-10-06T23:48:50+00:00",
+      "completed_samples": 100,
+      "dataset_path": "runs/e4-mon-ministral-honest/2026-10-06T22-47-40-00-00_apps-monitor_7kFKUi4MuQ8iTL7dmLJNT9.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-06T22-47-40-00-00_apps-monitor_7kFKUi4MuQ8iTL7dmLJNT9.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "45cgtVdgCwse3Gwh2Vmtnf",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "2a6629a3b6dc8fa78966b59ef2fcbeebbba4da4f",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/2a6629a3b6dc8fa78966b59ef2fcbeebbba4da4f/runs/e4-mon-ministral-honest/2026-10-06T22-47-40-00-00_apps-monitor_7kFKUi4MuQ8iTL7dmLJNT9.eval",
+        "verified": "2026-10-06T23:48:58+00:00"
+      },
+      "revision": {
+        "commit": "15aee6c",
+        "dirty": true
+      },
+      "samples": 100,
+      "sandbox": null,
+      "sha256": "56077910d857ebd02a6d6ef89ca5822e8d334040b07558e0d769e6074a5ce0b2",
+      "started": "2026-10-06T22:47:40+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral-honest",
+      "ts": "2026-10-06T23:47:23+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral-honest",
+      "seconds": 14.4,
+      "ts": "2026-10-06T23:47:38+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 phase-2 scorer: Ministral-3-8B over the 100 honest trajectories of E2 (e2-gen-honest-1..4, budget 8192), the default monitor prompt, temperature 0, seed 1, 4096 tokens, one at a time. These scores set the threshold (LEARNING exercise 2). The 73 uncapped trajectories are identical at budget 12288 (E2: token-for-token reproduction below the cap); the 27 capped ids are scored again after their regeneration. Estimate: e4-mon-ministral-probes measured 31.8 s per sample (22.5 to 49.7 s, 20 samples); 100 samples are about 53 min.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "15aee6c0d63d86e16b124d5ee7ce05527139049d",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral-honest",
+  "schema": 1,
+  "started": "2026-10-06T22:47:38+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
