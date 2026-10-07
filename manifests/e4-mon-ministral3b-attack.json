@@ -1,0 +1,141 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-3b",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral3b-attack"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-07T14:52:53+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 907661,
+      "completed": "2026-10-07T14:52:52+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e4-mon-ministral3b-attack/2026-10-07T14-37-06-00-00_apps-monitor_nZg2oKcQQ229SyavdnUpUk.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-07T14-37-06-00-00_apps-monitor_nZg2oKcQQ229SyavdnUpUk.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "KN5hYXFu9mbLCfPDJXYoaL",
+      "model": "openai-api/llama-cpp/ministral-3-3b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "deed4f7597c6f29734d27abd4c9b725247f2aec2",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/deed4f7597c6f29734d27abd4c9b725247f2aec2/runs/e4-mon-ministral3b-attack/2026-10-07T14-37-06-00-00_apps-monitor_nZg2oKcQQ229SyavdnUpUk.eval",
+        "verified": "2026-10-07T14:52:59+00:00"
+      },
+      "revision": {
+        "commit": "3f7bf4f",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "6d19695a31f445ab245ac6fd855191dc91e246d11a8d1a54bf4f1a5a7421b1c8",
+      "started": "2026-10-07T14:37:06+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral3b-attack",
+      "ts": "2026-10-07T15:36:51+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral3b-attack",
+      "seconds": 13.2,
+      "ts": "2026-10-07T15:37:04+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-3b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "8c2b72eb5861304fcfd5e82f1eddd6efa4115737f4239fd216a028a8852413ef",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 mutation (METHOD step 4): Ministral-3-3B on the attack set; pair with e4-mon-ministral3b-honest. Basis: e4-mon-ministral-honest measured 36.7 s per sample (16.9 to 135.2 s, 100 samples). Dan, 2026-10-07.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "3f7bf4fdd89ec3ca13c03491dce618fb9fc6c1d2",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral3b-attack",
+  "schema": 1,
+  "started": "2026-10-07T14:37:04+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
