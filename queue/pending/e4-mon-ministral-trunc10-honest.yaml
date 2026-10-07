@@ -1,0 +1,17 @@
+estimated_minutes: 75
+note: 'E4 mutation (METHOD step 4): the monitor sees the first 10 lines of each solution only (median solution 25 lines honest, 21 attack); honest set. Basis: e4-mon-ministral-honest measured 36.7 s per sample (16.9 to 135.2 s, 100 samples). Dan, 2026-10-07.'
+queued: '2026-10-07T10:50:04+01:00'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- '-T'
+- 'runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4'
+- '-T'
+- 'truncate=10'
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
