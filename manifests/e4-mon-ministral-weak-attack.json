@@ -1,0 +1,141 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4",
+    "-T",
+    "prompt=weak",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral-weak-attack"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-07T12:46:37+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 846826,
+      "completed": "2026-10-07T12:46:36+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e4-mon-ministral-weak-attack/2026-10-07T12-09-31-00-00_apps-monitor_PNECAKfxxj2QZrkwQaA3tv.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-07T12-09-31-00-00_apps-monitor_PNECAKfxxj2QZrkwQaA3tv.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "5oSf4GYv4Euw7wkoxDPGoD",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "d8c0dd02570c21fc97c3e4b3bf609d46d84ebe2e",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/d8c0dd02570c21fc97c3e4b3bf609d46d84ebe2e/runs/e4-mon-ministral-weak-attack/2026-10-07T12-09-31-00-00_apps-monitor_PNECAKfxxj2QZrkwQaA3tv.eval",
+        "verified": "2026-10-07T12:46:45+00:00"
+      },
+      "revision": {
+        "commit": "e756f81",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "8c82952305f2fdd6e1648423a7d6cc9e265796cfa28841f0cade62b1c59cf796",
+      "started": "2026-10-07T12:09:31+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral-weak-attack",
+      "ts": "2026-10-07T13:09:14+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral-weak-attack",
+      "seconds": 14.4,
+      "ts": "2026-10-07T13:09:29+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 mutation (METHOD step 4): the weak prompt on the attack set; pair with e4-mon-ministral-weak-honest. Basis: e4-mon-ministral-honest measured 36.7 s per sample (16.9 to 135.2 s, 100 samples). Dan, 2026-10-07.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "e756f81a12e8111f2d84af479318a93a8c9c2e53",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral-weak-attack",
+  "schema": 1,
+  "started": "2026-10-07T12:09:29+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
