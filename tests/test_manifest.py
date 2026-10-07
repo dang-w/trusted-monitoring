@@ -136,3 +136,21 @@ def test_scrub_finds_planted_content_and_passes_clean_bytes():
     assert "contents of a local key file" in rules
     details = [detail for _, detail in check_bytes(planted, known_secrets=secrets, denied_hosts=hosts)]
     assert all("sekret" not in detail for detail in details)
+
+
+def test_scrub_exempts_cgroup_file_names_but_not_hosts():
+    from tm.scrub import check_bytes
+
+    listing = (  # a sandbox listing in a scorer's output (e3-gen-attack-3, sample 79)
+        b"/sys/fs/cgroup/memory.events.local\\n/sys/fs/cgroup/cpu.stat.local\\n"
+        b"/sys/fs/cgroup/hugetlb.1GB.events.local\\n/sys/fs/cgroup/user.slice/pids.events.local"
+    )
+    assert check_bytes(listing, known_secrets=[], denied_hosts=[]) == []
+    still_hosts = {
+        b"ssh laptop.local": "laptop.local",
+        b"http://events.local/x": "events.local",
+        b"/sys/fs/cgroup/laptop.local": "laptop.local",
+        b"/etc/events.local": "events.local",
+    }
+    for text, host in still_hosts.items():
+        assert ("host name", host) in check_bytes(text, known_secrets=[], denied_hosts=[]), text

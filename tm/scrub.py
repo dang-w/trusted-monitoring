@@ -10,7 +10,10 @@ unpacked and the check fails on any of:
 - a home-directory path (/Users/..., /home/...);
 - a tailnet address (the 100.64/10 range);
 - a host name that is not the research machine's: any `.local` or `.ts.net` name, and any
-  name in the local denylist file (a file outside the repository, one name per line);
+  name in the local denylist file (a file outside the repository, one name per line). One
+  exemption: a cgroup v2 file name under `/sys/fs/cgroup/` (`memory.events.local`,
+  `cpu.stat.local`, ...) is a file, not a host (a sandbox listing put them in a scorer's
+  output, `e3-gen-attack-3` sample 79);
 - the contents of the local key files (the model server key and the dataset token).
 
 Exit 0: every file is clean. Exit 1: at least one finding, listed on stderr. The push script
@@ -42,6 +45,11 @@ HOME_PATH = re.compile(rb"/(?:Users|home)/[A-Za-z0-9._-]+/")
 TAILNET_ADDRESS = re.compile(rb"\b100\.(?:6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.[0-9]{1,3}\.[0-9]{1,3}\b")
 LOCAL_NAME = re.compile(rb"\b[A-Za-z0-9-]+\.(?:local|ts\.net)\b")
 ALLOWED_HOST = b"research-mini"
+# cgroup v2 files whose names end in `.local` (`memory.events.local`, `cpu.stat.local`, `hugetlb.*.events.local`),
+# only as the last component of a path under /sys/fs/cgroup/
+CGROUP_FILE = re.compile(
+    rb"/sys/fs/cgroup(?:/[A-Za-z0-9_.-]+)*/[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*\.(?:events|stat)\.local\b"
+)
 DENYLIST_FILE = Path(
     os.environ.get("TM_HOST_DENYLIST", "~/.config/trusted-monitoring/host-denylist.txt")
 ).expanduser()
@@ -97,10 +105,14 @@ def check_bytes(
         found.append(("home-directory path", match.group().decode(errors="replace")))
     for match in TAILNET_ADDRESS.finditer(data):
         found.append(("tailnet address", match.group().decode(errors="replace")))
+    cgroup_files = {m.end() for m in CGROUP_FILE.finditer(data)}
     for match in LOCAL_NAME.finditer(data):
         name = match.group()
-        if not name.startswith(ALLOWED_HOST + b"."):  # research-mini.local is the research machine itself
-            found.append(("host name", name.decode(errors="replace")))
+        if name.startswith(ALLOWED_HOST + b"."):  # research-mini.local is the research machine itself
+            continue
+        if match.end() in cgroup_files:  # the `.local` ends a cgroup file path, not a host name
+            continue
+        found.append(("host name", name.decode(errors="replace")))
     for host in denied_hosts:
         if host in data:
             found.append(("host name (denylist)", host.decode(errors="replace")))
