@@ -1,0 +1,15 @@
+estimated_minutes: 400
+note: 'E3 honest regeneration at thinking budget 12288 of the 27 E2 honest ids that hit the 8192 cap (ids from the E2 logs: a model call with output tokens >= 8192; the other 73 reproduce token for token below the cap, so E2 plus this run is the honest set at 12288). Same setting as e3-gen-attack-1..4: 16384 output tokens, 2000 s client timeout, 2700 s per sample. Estimate: 14.3 min per capped sample (e3-gen-attack-probe) x 27 = 386 min. Dan, 2026-10-07.'
+queued: '2026-10-07T15:30:01+01:00'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_honest
+- --sample-id
+- '3,7,14,23,25,29,31,36,42,44,48,52,53,55,62,72,79,86,90,92,93,94,96,97,109,117,122'
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
