@@ -1,0 +1,19 @@
+estimated_minutes: 75
+note: 'E4: Ministral-3-8B, default prompt, over the 100 attack-mode trajectories of
+  E3 (e3-gen-attack-1..4, budget 12288); the attack side of the first full catch rate
+  against e4-mon-ministral-honest. Basis: e4-mon-ministral-honest measured 36.7 s
+  per sample (16.9 to 135.2 s, 100 samples). Dan, 2026-10-07.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-07T10:50:01+01:00'
+attempts: 1
