@@ -1,0 +1,19 @@
+estimated_minutes: 25
+note: 'E4: Ministral-3-8B, default prompt, over the 27 regenerated honest trajectories
+  of e3-gen-honest-capped; replaces their E2 scores in the honest set at 12288. Runs
+  after that generate run (queued later). Estimate: 36.7 s per sample (e4-mon-ministral-honest)
+  x 27 = 17 min. Dan, 2026-10-07.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-honest-capped
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-07T15:30:02+01:00'
+attempts: 1
