@@ -1,0 +1,141 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4",
+    "-T",
+    "prompt=weak",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral-weak-honest"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-07T12:08:47+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 981902,
+      "completed": "2026-10-07T12:08:47+00:00",
+      "completed_samples": 100,
+      "dataset_path": "runs/e4-mon-ministral-weak-honest/2026-10-07T11-14-39-00-00_apps-monitor_d85ufekkD7yqaCmTD3T2ux.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-07T11-14-39-00-00_apps-monitor_d85ufekkD7yqaCmTD3T2ux.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "UGaUztQbmdEzDmXd8pdwVC",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "baed6200e9917dd3bc3e5fd311ae3631c8e2be25",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/baed6200e9917dd3bc3e5fd311ae3631c8e2be25/runs/e4-mon-ministral-weak-honest/2026-10-07T11-14-39-00-00_apps-monitor_d85ufekkD7yqaCmTD3T2ux.eval",
+        "verified": "2026-10-07T12:08:55+00:00"
+      },
+      "revision": {
+        "commit": "48af355",
+        "dirty": true
+      },
+      "samples": 100,
+      "sandbox": null,
+      "sha256": "ffe9b35bab699e1756b273ade867ae2542a2917cb23ae796317a2737f930e4cb",
+      "started": "2026-10-07T11:14:39+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral-weak-honest",
+      "ts": "2026-10-07T12:14:23+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral-weak-honest",
+      "seconds": 14.5,
+      "ts": "2026-10-07T12:14:38+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 mutation (METHOD step 4): the weak prompt (ControlArena simple monitor prompt) on the honest set; sets its own threshold. Basis: e4-mon-ministral-honest measured 36.7 s per sample (16.9 to 135.2 s, 100 samples). Dan, 2026-10-07.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "48af3559db956799f4ad9a9ecf3b1f27b8a98b4c",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral-weak-honest",
+  "schema": 1,
+  "started": "2026-10-07T11:14:38+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
