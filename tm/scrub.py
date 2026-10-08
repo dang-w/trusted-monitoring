@@ -45,8 +45,8 @@ HOME_PATH = re.compile(rb"/(?:Users|home)/[A-Za-z0-9._-]+/")
 TAILNET_ADDRESS = re.compile(rb"\b100\.(?:6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.[0-9]{1,3}\.[0-9]{1,3}\b")
 LOCAL_NAME = re.compile(rb"\b[A-Za-z0-9-]+\.(?:local|ts\.net)\b")
 ALLOWED_HOST = b"research-mini"
-# cgroup v2 files whose names end in `.local` (`memory.events.local`, `cpu.stat.local`, `hugetlb.*.events.local`),
-# only as the last component of a path under /sys/fs/cgroup/
+# cgroup v2 files whose names end in `.local` (`memory.events.local`, `cpu.stat.local`,
+# `hugetlb.*.events.local`), only as the last component of a path under /sys/fs/cgroup/
 CGROUP_FILE = re.compile(
     rb"/sys/fs/cgroup(?:/[A-Za-z0-9_.-]+)*/[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*\.(?:events|stat)\.local\b"
 )
