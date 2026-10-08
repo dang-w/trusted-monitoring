@@ -73,6 +73,7 @@ STATES = ("pending", "running", "done", "failed")
 STATE_DIR = Path("~/.local/state/pail").expanduser()
 LOCK_FILE = STATE_DIR / "run-queue.lock"
 GIVE_FILE = STATE_DIR / "give-now"  # written by `mini-mode give`: the next research switch may use --force
+GIVE_TTL = dt.timedelta(minutes=30)  # a give older than this is stale and ignored
 GRADUATION_LOG = STATE_DIR / "graduation.jsonl"
 
 WINDOW_END = dt.time(6, 30)  # local time (Europe/London on the box), decided 2026-10-02
@@ -283,14 +284,24 @@ def is_daytime(at: dt.datetime, span: tuple[dt.time, dt.time] = DAYTIME) -> bool
     return span[0] <= at.time() < span[1]
 
 
-def research_argv(run_id: str, pid: int, deadline: dt.datetime | None, give_file: Path | None) -> list[str]:
-    """The mini-mode arguments of the switch; `--force` once when the give-now marker exists (consumed)."""
+def research_argv(
+    run_id: str, pid: int, deadline: dt.datetime | None, give_file: Path | None, at: dt.datetime | None = None
+) -> list[str]:
+    """The mini-mode arguments of the switch; `--force` once when a fresh give-now marker exists (consumed).
+
+    A marker older than GIVE_TTL is removed without effect: a `give` made while the queue was empty must not
+    override the 15-minute rule hours later, in the middle of a session (seen 2026-10-08 17:00).
+    """
     argv = ["research", "--run-id", run_id, "--pid", str(pid)]
     if deadline is not None:
         argv += ["--until", deadline.isoformat(timespec="seconds")]
     if give_file is not None and give_file.exists():
+        written = dt.datetime.fromtimestamp(give_file.stat().st_mtime).astimezone()
         give_file.unlink()
-        argv.append("--force")
+        if (at or now()) - written <= GIVE_TTL:
+            argv.append("--force")
+        else:
+            log(f"give-now marker from {written:%H:%M} is older than {GIVE_TTL.seconds // 60} min; ignored")
     return argv
 
 

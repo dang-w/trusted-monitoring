@@ -135,3 +135,11 @@ def test_research_argv_consumes_the_give_marker_once(tmp_path: Path) -> None:
     argv = queue.research_argv("r1", 42, None, marker)
     assert argv[-1] == "--force" and not marker.exists()
     assert "--force" not in queue.research_argv("r1", 42, None, marker)  # consumed
+
+
+def test_research_argv_ignores_a_stale_give_marker(tmp_path: Path) -> None:
+    marker = tmp_path / "give-now"
+    marker.touch()
+    later = dt.datetime.now().astimezone() + queue.GIVE_TTL + dt.timedelta(minutes=1)
+    assert "--force" not in queue.research_argv("r1", 42, None, marker, at=later)
+    assert not marker.exists()  # removed either way
