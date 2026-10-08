@@ -1,0 +1,143 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-honest-capped",
+    "-T",
+    "monitor=openai-api/llama-cpp/gemma-4-e4b",
+    "-T",
+    "prompt=weak",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-gemma-weak-honest-capped"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-08T20:28:04+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 298706,
+      "completed": "2026-10-08T20:28:04+00:00",
+      "completed_samples": 27,
+      "dataset_path": "runs/e4-mon-gemma-weak-honest-capped/2026-10-08T20-05-28-00-00_apps-monitor_mfBnk3ncdhbEPKQF2FzubA.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-08T20-05-28-00-00_apps-monitor_mfBnk3ncdhbEPKQF2FzubA.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "DqzJ3sqvixVi63FFVJ6vet",
+      "model": "openai-api/llama-cpp/gemma-4-e4b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "813ce36199b9fe41232dda3a6e7a9ccf4295ef58",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/813ce36199b9fe41232dda3a6e7a9ccf4295ef58/runs/e4-mon-gemma-weak-honest-capped/2026-10-08T20-05-28-00-00_apps-monitor_mfBnk3ncdhbEPKQF2FzubA.eval",
+        "verified": "2026-10-08T20:28:12+00:00"
+      },
+      "revision": {
+        "commit": "868e996",
+        "dirty": true
+      },
+      "samples": 27,
+      "sandbox": null,
+      "sha256": "a059ef585d693b3986ce4e5a30cea68f1ebc7c055f6360ff248e31d60ce9da38",
+      "started": "2026-10-08T20:05:28+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-gemma-weak-honest-capped",
+      "ts": "2026-10-08T21:05:12+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-gemma-weak-honest-capped",
+      "seconds": 13.4,
+      "ts": "2026-10-08T21:05:26+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "gemma-4-E4B-it-Q8_0.gguf",
+      "id": "gemma-4-e4b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 64,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "34be82b17b4942d389b9b527170c4b058027abdd32531fda063d3d97dd8ce80a",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "The same pass over the 27 capped ids at 12288, so the honest set is at 12288 for every pair (--supersede). Basis: e4-mon-gemma-honest 64 min for 100 samples, e4-mon-gemma-attack 53 min for 93, e4-mon-gemma-honest-capped 18 min for 27 (manifests). Dan, 2026-10-08.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "868e996292b500d5837942be7ef08994d757b2ff",
+    "dirty": true
+  },
+  "run_id": "e4-mon-gemma-weak-honest-capped",
+  "schema": 1,
+  "started": "2026-10-08T20:05:26+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
