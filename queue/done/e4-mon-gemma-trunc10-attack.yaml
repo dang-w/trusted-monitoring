@@ -19,3 +19,4 @@ inspect:
 - '8'
 - --no-fail-on-error
 queued: '2026-10-08T19:56:21+01:00'
+attempts: 1
