@@ -1,0 +1,21 @@
+estimated_minutes: 20
+note: 'E4 completion of the honest set at 12288: Gemma 4 E4B over the 27 regenerated
+  honest trajectories of e3-gen-honest-capped (supersedes their E2 scores in the pair,
+  tm.catch_rate --supersede). Also the A5 test day''s work (research by default).
+  Estimate from the E4 pass rates. Dan, 2026-10-08.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-honest-capped
+- -T
+- monitor=openai-api/llama-cpp/gemma-4-e4b
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-08T15:43:48+01:00'
+attempts: 1
