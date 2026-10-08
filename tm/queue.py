@@ -611,6 +611,15 @@ class Runner:
             }
         )
 
+    def wait(self, seconds: float) -> None:
+        """Idle mode: wait; wake early on a stop request or on the give-now marker (a look every minute)."""
+        end = time.monotonic() + seconds
+        while time.monotonic() < end and self.stop.reason is None:
+            if self.idle and GIVE_FILE.exists():
+                log("give-now marker: the wait ends early")
+                return
+            self.stop.event.wait(min(IDLE_POLL_SECONDS, max(0.0, end - time.monotonic())))
+
     def give_back(self, why: str) -> None:
         """Idle mode: one notification when the runner stops holding the box."""
         if self.holding_box:
@@ -649,7 +658,7 @@ class Runner:
                         reason = hold.get("reason") or "-"
                         log(f"a hold is active until {hold.get('expires')} (reason: {reason}); waiting")
                         self.give_back("a hold is active")
-                    self.stop.event.wait(BUSY_RETRY_SECONDS)
+                    self.wait(BUSY_RETRY_SECONDS)
                     continue
             spec, skipped = next_spec(self.deadline, at)
             for s in skipped:
@@ -688,7 +697,7 @@ class Runner:
                     waiting = "busy"
                     log(f"the interactive router is in use; next try in {BUSY_RETRY_SECONDS // 60} min")
                     self.give_back("the interactive router is in use")
-                self.stop.event.wait(BUSY_RETRY_SECONDS)
+                self.wait(BUSY_RETRY_SECONDS)
                 continue
             waiting = None
             if result in ("lease", "switch-failed"):
@@ -699,7 +708,7 @@ class Runner:
                 log("preempted; the idle runner waits for the box")
                 self.holding_box = False
                 self.stop = Stop()
-                self.stop.event.wait(BUSY_RETRY_SECONDS)
+                self.wait(BUSY_RETRY_SECONDS)
                 continue
             if result == "stopped" or once:
                 break
