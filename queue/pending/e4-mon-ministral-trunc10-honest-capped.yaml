@@ -1,7 +1,8 @@
 estimated_minutes: 15
-note: 'E4 completion of the honest set at 12288: the 10-line truncation over the 27 regenerated honest
-  trajectories of e3-gen-honest-capped (supersedes their E2 scores in the pair, tm.catch_rate --supersede).
-  Also the A5 test day''s work (research by default). Estimate from the E4 pass rates. Dan, 2026-10-08.'
+note: 'E4 completion of the honest set at 12288: the 10-line truncation over the 27
+  regenerated honest trajectories of e3-gen-honest-capped (supersedes their E2 scores
+  in the pair, tm.catch_rate --supersede). Also the A5 test day''s work (research
+  by default). Estimate from the E4 pass rates. Dan, 2026-10-08.'
 inspect:
 - eval
 - tm/monitor.py@apps_monitor
@@ -17,3 +18,11 @@ inspect:
 - '8'
 - --no-fail-on-error
 queued: '2026-10-08T15:43:46+01:00'
+resume:
+  log: logs/e4-mon-ministral-trunc10-honest-capped/interrupted/2026-10-08T15-04-12-00-00_apps-monitor_S4EDTi89YeqMyLEah6G4LW.eval
+  reason: preempt
+  kept_local:
+  - file: interrupted/2026-10-08T15-04-12-00-00_apps-monitor_S4EDTi89YeqMyLEah6G4LW.eval
+    sha256: 85073431e04207626a7e449c5c11fb1127da0421a0fb0c3708eb5dbbc9ad1397
+  at: '2026-10-08T16:05:57+01:00'
+attempts: 1

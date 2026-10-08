@@ -1,0 +1,153 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-honest-capped",
+    "-T",
+    "truncate=10",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral-trunc10-honest-capped"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-08T15:05:56+00:00",
+  "exit_code": 0,
+  "interruption": {
+    "at": "2026-10-08T16:05:57+01:00",
+    "logs_kept_local": [
+      {
+        "file": "interrupted/2026-10-08T15-04-12-00-00_apps-monitor_S4EDTi89YeqMyLEah6G4LW.eval",
+        "sha256": "85073431e04207626a7e449c5c11fb1127da0421a0fb0c3708eb5dbbc9ad1397"
+      }
+    ],
+    "reason": "preempt",
+    "requeued": true
+  },
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 48358,
+      "completed": "2026-10-08T15:05:56+00:00",
+      "completed_samples": 3,
+      "dataset_path": "runs/e4-mon-ministral-trunc10-honest-capped/2026-10-08T15-04-12-00-00_apps-monitor_S4EDTi89YeqMyLEah6G4LW.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-08T15-04-12-00-00_apps-monitor_S4EDTi89YeqMyLEah6G4LW.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "RfYFV39CBQxvJwczgPdL3H",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "revision": {
+        "commit": "77c1498",
+        "dirty": true
+      },
+      "samples": 27,
+      "sandbox": null,
+      "sha256": "85073431e04207626a7e449c5c11fb1127da0421a0fb0c3708eb5dbbc9ad1397",
+      "started": "2026-10-08T15:04:12+00:00",
+      "status": "cancelled",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral-trunc10-honest-capped",
+      "ts": "2026-10-08T16:03:55+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral-trunc10-honest-capped",
+      "seconds": 14.3,
+      "ts": "2026-10-08T16:04:10+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "preempt-signal",
+      "pid": 89854,
+      "run_id": "e4-mon-ministral-trunc10-honest-capped",
+      "ts": "2026-10-08T16:05:54+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 completion of the honest set at 12288: the 10-line truncation over the 27 regenerated honest trajectories of e3-gen-honest-capped (supersedes their E2 scores in the pair, tm.catch_rate --supersede). Also the A5 test day's work (research by default). Estimate from the E4 pass rates. Dan, 2026-10-08.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "77c14985dc93f841c576ae8e3be9983750b7dd77",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral-trunc10-honest-capped",
+  "schema": 1,
+  "started": "2026-10-08T15:04:10+00:00",
+  "status": "interrupted",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
