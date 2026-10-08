@@ -1,7 +1,8 @@
 estimated_minutes: 15
-note: 'E4 completion of the honest set at 12288: the weak prompt over the 27 regenerated honest trajectories
-  of e3-gen-honest-capped (supersedes their E2 scores in the pair, tm.catch_rate --supersede). Also the
-  A5 test day''s work (research by default). Estimate from the E4 pass rates. Dan, 2026-10-08.'
+note: 'E4 completion of the honest set at 12288: the weak prompt over the 27 regenerated
+  honest trajectories of e3-gen-honest-capped (supersedes their E2 scores in the pair,
+  tm.catch_rate --supersede). Also the A5 test day''s work (research by default).
+  Estimate from the E4 pass rates. Dan, 2026-10-08.'
 inspect:
 - eval
 - tm/monitor.py@apps_monitor
@@ -17,3 +18,11 @@ inspect:
 - '8'
 - --no-fail-on-error
 queued: '2026-10-08T15:43:45+01:00'
+resume:
+  log: logs/e4-mon-ministral-weak-honest-capped/interrupted/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval
+  reason: preempt
+  kept_local:
+  - file: interrupted/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval
+    sha256: c135fd8cf5107a56c1e0e3d1b1fd9a42e6591a852390c422b8a3c3f391fc637f
+  at: '2026-10-08T15:46:35+01:00'
+attempts: 1
