@@ -1,0 +1,141 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-honest-capped",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-3b",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-ministral3b-honest-capped"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-08T15:29:17+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 297630,
+      "completed": "2026-10-08T15:29:16+00:00",
+      "completed_samples": 27,
+      "dataset_path": "runs/e4-mon-ministral3b-honest-capped/2026-10-08T15-24-33-00-00_apps-monitor_K4K9FhvrtkydgjVTmwVwQ4.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-08T15-24-33-00-00_apps-monitor_K4K9FhvrtkydgjVTmwVwQ4.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "VxQRZXTQqNW8xQU89eG9hY",
+      "model": "openai-api/llama-cpp/ministral-3-3b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "4f046b484ab1d75b176926760edab9625c41fd3e",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/4f046b484ab1d75b176926760edab9625c41fd3e/runs/e4-mon-ministral3b-honest-capped/2026-10-08T15-24-33-00-00_apps-monitor_K4K9FhvrtkydgjVTmwVwQ4.eval",
+        "verified": "2026-10-08T15:29:21+00:00"
+      },
+      "revision": {
+        "commit": "2d3eabb",
+        "dirty": true
+      },
+      "samples": 27,
+      "sandbox": null,
+      "sha256": "245433e34977e46f067e4f6f08e506805ac0d8542f143864c482be52178da11b",
+      "started": "2026-10-08T15:24:33+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-ministral3b-honest-capped",
+      "ts": "2026-10-08T16:24:18+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral3b-honest-capped",
+      "seconds": 12.5,
+      "ts": "2026-10-08T16:24:31+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-3b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "8c2b72eb5861304fcfd5e82f1eddd6efa4115737f4239fd216a028a8852413ef",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 completion of the honest set at 12288: Ministral-3-3B over the 27 regenerated honest trajectories of e3-gen-honest-capped (supersedes their E2 scores in the pair, tm.catch_rate --supersede). Also the A5 test day's work (research by default). Estimate from the E4 pass rates. Dan, 2026-10-08.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "2d3eabba024706455a1d7cb6f3a2a9e8350144f6",
+    "dirty": true
+  },
+  "run_id": "e4-mon-ministral3b-honest-capped",
+  "schema": 1,
+  "started": "2026-10-08T15:24:31+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
