@@ -1,0 +1,19 @@
+estimated_minutes: 220
+note: 'A3 (BRIEF-mini-always-on): the 10-sample attack probe again, same setting as e3-gen-attack-probe
+  (budget 12288, 16384 output tokens, 2700 s), while the always-on small router (Ministral-3-3B on 8082)
+  answers a synthetic chat load without pause. Compared token for token with e3-gen-attack-probe; the
+  slowdown and the time-limit margin are the measurement. Estimate: 150 min for the probe alone (E3) plus
+  the 32 % slowdown measured in A1, plus margin. Dan, 2026-10-08.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- --limit
+- '10'
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-08T12:00:00+01:00'
