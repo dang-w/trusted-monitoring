@@ -1,0 +1,143 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/gemma-4-e4b",
+    "-T",
+    "truncate=10",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e4-mon-gemma-trunc10-honest"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-08T22:06:12+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 1054751,
+      "completed": "2026-10-08T22:06:12+00:00",
+      "completed_samples": 100,
+      "dataset_path": "runs/e4-mon-gemma-trunc10-honest/2026-10-08T21-14-25-00-00_apps-monitor_jYoJ5oSzfqqrpYEXJByVQV.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-08T21-14-25-00-00_apps-monitor_jYoJ5oSzfqqrpYEXJByVQV.eval",
+      "generate_config": {
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0
+      },
+      "inspect_run_id": "RZdi5bJBvCMTi99BYsDCvo",
+      "model": "openai-api/llama-cpp/gemma-4-e4b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "e889a0b01577617f10b2b2988d3be1d4b67a40d1",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/e889a0b01577617f10b2b2988d3be1d4b67a40d1/runs/e4-mon-gemma-trunc10-honest/2026-10-08T21-14-25-00-00_apps-monitor_jYoJ5oSzfqqrpYEXJByVQV.eval",
+        "verified": "2026-10-08T22:06:20+00:00"
+      },
+      "revision": {
+        "commit": "af6313e",
+        "dirty": true
+      },
+      "samples": 100,
+      "sandbox": null,
+      "sha256": "536f56b820bf6ae69d221e7667904909c72c4a3f8a2a29ca04798ac78978c6ae",
+      "started": "2026-10-08T21:14:25+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e4-mon-gemma-trunc10-honest",
+      "ts": "2026-10-08T22:14:08+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-gemma-trunc10-honest",
+      "seconds": 14.7,
+      "ts": "2026-10-08T22:14:23+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "gemma-4-E4B-it-Q8_0.gguf",
+      "id": "gemma-4-e4b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 64,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "34be82b17b4942d389b9b527170c4b058027abdd32531fda063d3d97dd8ce80a",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4
+      }
+    }
+  ],
+  "note": "E4 mutation (METHOD step 4) on the second monitor: Gemma 4 E4B sees the first 10 lines of each solution only; honest set. Basis: e4-mon-gemma-honest 64 min for 100 samples, e4-mon-gemma-attack 53 min for 93, e4-mon-gemma-honest-capped 18 min for 27 (manifests). Dan, 2026-10-08.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+  },
+  "repo": {
+    "commit": "af6313e54931093655baf59c9e3e30ed7ab6878e",
+    "dirty": true
+  },
+  "run_id": "e4-mon-gemma-trunc10-honest",
+  "schema": 1,
+  "started": "2026-10-08T21:14:23+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
