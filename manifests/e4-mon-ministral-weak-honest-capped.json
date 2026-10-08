@@ -1,37 +1,170 @@
 {
+  "attempts": [
+    {
+      "command": [
+        "inspect",
+        "eval",
+        "tm/monitor.py@apps_monitor",
+        "-T",
+        "runs=e3-gen-honest-capped",
+        "-T",
+        "prompt=weak",
+        "--max-samples",
+        "1",
+        "--time-limit",
+        "1800",
+        "--message-limit",
+        "8",
+        "--no-fail-on-error",
+        "--log-dir",
+        "logs/e4-mon-ministral-weak-honest-capped"
+      ],
+      "container_images": [],
+      "dataset": "dang-w/trusted-monitoring-logs",
+      "ended": "2026-10-08T14:46:34+00:00",
+      "exit_code": 0,
+      "interruption": {
+        "at": "2026-10-08T15:46:35+01:00",
+        "logs_kept_local": [
+          {
+            "file": "interrupted/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
+            "sha256": "c135fd8cf5107a56c1e0e3d1b1fd9a42e6591a852390c422b8a3c3f391fc637f"
+          }
+        ],
+        "reason": "preempt",
+        "requeued": true
+      },
+      "llama_cpp": {
+        "build": 11189,
+        "commit": "a25c9865f",
+        "version": "0.5.0-dev"
+      },
+      "logs": [
+        {
+          "bytes": 25351,
+          "completed": "2026-10-08T14:46:33+00:00",
+          "completed_samples": 1,
+          "dataset_path": "runs/e4-mon-ministral-weak-honest-capped/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
+          "eval_config": {
+            "continue_on_fail": false,
+            "epochs": 1,
+            "fail_on_error": false,
+            "log_images": true,
+            "log_realtime": true,
+            "log_samples": true,
+            "log_shared": 0,
+            "max_samples": 1,
+            "message_limit": 8,
+            "sandbox_cleanup": true,
+            "sandbox_prebuilt": false,
+            "score_display": true,
+            "score_on_error": false,
+            "time_limit": 1800
+          },
+          "file": "2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
+          "generate_config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "inspect_run_id": "QtiGHvojoBwgXbduQQjLYV",
+          "model": "openai-api/llama-cpp/ministral-3-8b",
+          "model_roles": {},
+          "revision": {
+            "commit": "d1953e3",
+            "dirty": true
+          },
+          "samples": 27,
+          "sandbox": null,
+          "sha256": "c135fd8cf5107a56c1e0e3d1b1fd9a42e6591a852390c422b8a3c3f391fc637f",
+          "started": "2026-10-08T14:45:19+00:00",
+          "status": "cancelled",
+          "task": "apps_monitor"
+        }
+      ],
+      "mode_switch_log": [
+        {
+          "command": "research",
+          "event": "start",
+          "force": false,
+          "run_id": "e4-mon-ministral-weak-honest-capped",
+          "ts": "2026-10-08T15:45:03+01:00"
+        },
+        {
+          "command": "research",
+          "container_vm": "running",
+          "event": "done",
+          "run_id": "e4-mon-ministral-weak-honest-capped",
+          "seconds": 14.9,
+          "ts": "2026-10-08T15:45:18+01:00"
+        },
+        {
+          "command": "interactive",
+          "event": "preempt-signal",
+          "pid": 89854,
+          "run_id": "e4-mon-ministral-weak-honest-capped",
+          "ts": "2026-10-08T15:46:33+01:00"
+        }
+      ],
+      "models": [
+        {
+          "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+          "id": "ministral-3-8b",
+          "server": {
+            "build_info": "b11189-a25c9865f",
+            "n_ctx": 32768,
+            "sampling_defaults": {
+              "min_p": 0.05000000074505806,
+              "n_predict": -1,
+              "repeat_penalty": 1.0,
+              "seed": 4294967295,
+              "temperature": 0.800000011920929,
+              "top_k": 40,
+              "top_p": 0.949999988079071
+            },
+            "total_slots": 4
+          },
+          "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+          "slots": {
+            "ctx_size": null,
+            "kv_unified_per_slot": 32768,
+            "n_predict": 4096,
+            "parallel": 4
+          }
+        }
+      ],
+      "note": "E4 completion of the honest set at 12288: the weak prompt over the 27 regenerated honest trajectories of e3-gen-honest-capped (supersedes their E2 scores in the pair, tm.catch_rate --supersede). Also the A5 test day's work (research by default). Estimate from the E4 pass rates. Dan, 2026-10-08.",
+      "presets": {
+        "file": "models.research.ini",
+        "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
+      },
+      "repo": {
+        "commit": "d1953e35f9d2b4db055543cd032b40b63fcd2f84",
+        "dirty": true
+      },
+      "run_id": "e4-mon-ministral-weak-honest-capped",
+      "schema": 1,
+      "started": "2026-10-08T14:45:18+00:00",
+      "status": "interrupted",
+      "versions": {
+        "control_arena": "19.0.0",
+        "inspect_ai": "0.3.275",
+        "python": "3.12.14",
+        "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+      }
+    }
+  ],
   "command": [
     "inspect",
-    "eval",
-    "tm/monitor.py@apps_monitor",
-    "-T",
-    "runs=e3-gen-honest-capped",
-    "-T",
-    "prompt=weak",
-    "--max-samples",
-    "1",
-    "--time-limit",
-    "1800",
-    "--message-limit",
-    "8",
-    "--no-fail-on-error",
+    "eval-retry",
+    "logs/e4-mon-ministral-weak-honest-capped/interrupted/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
     "--log-dir",
     "logs/e4-mon-ministral-weak-honest-capped"
   ],
   "container_images": [],
   "dataset": "dang-w/trusted-monitoring-logs",
-  "ended": "2026-10-08T14:46:34+00:00",
+  "ended": "2026-10-08T15:03:32+00:00",
   "exit_code": 0,
-  "interruption": {
-    "at": "2026-10-08T15:46:35+01:00",
-    "logs_kept_local": [
-      {
-        "file": "interrupted/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
-        "sha256": "c135fd8cf5107a56c1e0e3d1b1fd9a42e6591a852390c422b8a3c3f391fc637f"
-      }
-    ],
-    "reason": "preempt",
-    "requeued": true
-  },
   "llama_cpp": {
     "build": 11189,
     "commit": "a25c9865f",
@@ -39,10 +172,10 @@
   },
   "logs": [
     {
-      "bytes": 25351,
-      "completed": "2026-10-08T14:46:33+00:00",
-      "completed_samples": 1,
-      "dataset_path": "runs/e4-mon-ministral-weak-honest-capped/2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
+      "bytes": 305545,
+      "completed": "2026-10-08T15:03:31+00:00",
+      "completed_samples": 27,
+      "dataset_path": "runs/e4-mon-ministral-weak-honest-capped/2026-10-08T14-48-16-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
       "eval_config": {
         "continue_on_fail": false,
         "epochs": 1,
@@ -59,24 +192,30 @@
         "score_on_error": false,
         "time_limit": 1800
       },
-      "file": "2026-10-08T14-45-19-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
+      "file": "2026-10-08T14-48-16-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
       "generate_config": {
         "max_tokens": 4096,
         "seed": 1,
         "temperature": 0.0
       },
-      "inspect_run_id": "QtiGHvojoBwgXbduQQjLYV",
+      "inspect_run_id": "RSinPUCBTeGJQVicrFEG4S",
       "model": "openai-api/llama-cpp/ministral-3-8b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "ec861d67add33b277164066f1c9287ab1bb86f7e",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/ec861d67add33b277164066f1c9287ab1bb86f7e/runs/e4-mon-ministral-weak-honest-capped/2026-10-08T14-48-16-00-00_apps-monitor_S3qgsE5TTiSc2RZLbU6fJV.eval",
+        "verified": "2026-10-08T15:03:36+00:00"
+      },
       "revision": {
-        "commit": "d1953e3",
+        "commit": "9f17585",
         "dirty": true
       },
       "samples": 27,
       "sandbox": null,
-      "sha256": "c135fd8cf5107a56c1e0e3d1b1fd9a42e6591a852390c422b8a3c3f391fc637f",
-      "started": "2026-10-08T14:45:19+00:00",
-      "status": "cancelled",
+      "sha256": "0346836b2eaf481363a591c1623c8eadd2c817c6281f03dd18108b817d521c61",
+      "started": "2026-10-08T14:48:16+00:00",
+      "status": "success",
       "task": "apps_monitor"
     }
   ],
@@ -102,6 +241,41 @@
       "pid": 89854,
       "run_id": "e4-mon-ministral-weak-honest-capped",
       "ts": "2026-10-08T15:46:33+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "start",
+      "mode_before": "research",
+      "run_id": "e4-mon-ministral-weak-honest-capped",
+      "ts": "2026-10-08T15:46:37+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "done",
+      "run_id": "e4-mon-ministral-weak-honest-capped",
+      "seconds": 21.2,
+      "ts": "2026-10-08T15:46:58+01:00"
+    },
+    {
+      "command": "interactive",
+      "event": "preempt-done",
+      "run_id": "e4-mon-ministral-weak-honest-capped",
+      "ts": "2026-10-08T15:46:59+01:00"
+    },
+    {
+      "command": "research",
+      "event": "start",
+      "force": true,
+      "run_id": "e4-mon-ministral-weak-honest-capped",
+      "ts": "2026-10-08T15:48:00+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e4-mon-ministral-weak-honest-capped",
+      "seconds": 13.7,
+      "ts": "2026-10-08T15:48:14+01:00"
     }
   ],
   "models": [
@@ -137,13 +311,13 @@
     "sha256": "0f7fdd9e13316097f9b3278aeaad33974e014160210b2b9a87faab571d98daa8"
   },
   "repo": {
-    "commit": "d1953e35f9d2b4db055543cd032b40b63fcd2f84",
+    "commit": "9f175857fae3d485343569b0738de982cf7045dd",
     "dirty": true
   },
   "run_id": "e4-mon-ministral-weak-honest-capped",
   "schema": 1,
-  "started": "2026-10-08T14:45:18+00:00",
-  "status": "interrupted",
+  "started": "2026-10-08T14:48:14+00:00",
+  "status": "completed",
   "versions": {
     "control_arena": "19.0.0",
     "inspect_ai": "0.3.275",
