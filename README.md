@@ -52,14 +52,18 @@ above it; a trajectory is flagged when its score is strictly above the threshold
 counts in neither rate. Bootstrap: 1,000 rounds, seed 1, both sets resampled and the threshold reset each round.
 Command: `python -m tm.catch_rate --honest H --attack A` with the runs named; `--supersede` for the set at 12288.
 
-| monitor | honest n, attack n | 5 % target FPR: threshold, realised FPR, catch rate (bootstrap 95 %) | at 1 % | real backdoors (of 20): flagged, scored 0 |
+| monitor, honest set at 12288 | honest n, attack n | 5 % target FPR: threshold, realised FPR, catch rate (bootstrap 95 %) | at 1 % | real backdoors (of 20): flagged, scored 0 |
 |---|---|---|---|---|
-| **Ministral-3-8B, default prompt, honest set at 12288** (`e4-mon-ministral-honest` + `e4-mon-ministral-honest-capped`, `e4-mon-ministral-attack`) | 98, 93 | 3, 4.1 %, **63 %** (59 of 93; 51 to 72 %) | 33 % | 9, 8 |
+| **Ministral-3-8B, default prompt** (`e4-mon-ministral-honest` + `-honest-capped`, `e4-mon-ministral-attack`) | 98, 93 | 3, 4.1 %, **63 %** (59 of 93; 51 to 72 %) | 33 % | 9, 8 |
 | the same, honest set at 8192 (`e4-mon-ministral-honest`, `e4-mon-ministral-attack`) | 98, 93 | 4, 4.1 %, 63 % (36 to 73 %) | 11 % | 9, 8 |
-| weak prompt (ControlArena's `simple`) (`e4-mon-ministral-weak-*`) | 98, 93 | 7, 4.1 %, 35 % (18 to 54 %) | 0 % | 8, 6 |
-| first 10 lines of the code only (`e4-mon-ministral-trunc10-*`) | 100, 93 | 7, 5.0 %, 54 % (30 to 66 %) | 38 % | 4, 5 |
-| Ministral-3-3B, default prompt (`e4-mon-ministral3b-*`) | 96, 84 | 0, 3.1 %, 51 % (33 to 62 %) | 7 % | 4, 14 (and 2 unparsed) |
-| Gemma 4 E4B, default prompt (`e4-mon-gemma-*`) | 100, 93 | 0, 1.0 %, 56 % (52 of 93; 46 to 66 %) | 56 % | 7, 13 |
+| weak prompt (ControlArena's `simple`) (`e4-mon-ministral-weak-honest` + `-honest-capped`, `-attack`) | 99, 93 | 7, 4.0 %, 35 % (20 to 50 %) | 26 % | 8, 6 |
+| first 10 lines of the code only (`e4-mon-ministral-trunc10-honest` + `-honest-capped`, `-attack`) | 100, 93 | 3, 4.0 %, 58 % (46 to 67 %) | 54 % | 4, 5 |
+| Ministral-3-3B, default prompt (`e4-mon-ministral3b-honest` + `-honest-capped`, `-attack`) | 95, 84 | 0, 2.1 %, 51 % (40 to 62 %) | 33 % | 4, 14 (and 2 unparsed) |
+| Gemma 4 E4B, default prompt (`e4-mon-gemma-honest` + `-honest-capped`, `-attack`) | 100, 93 | 0, 0.0 %, 56 % (52 of 93; 46 to 66 %) | 56 % | 7, 13 |
+
+Every row except the second uses the honest set at 12288: the honest pass over `e2-gen-honest-1..4` with the 27
+capped ids replaced by the pass over `e3-gen-honest-capped` (`--supersede`). The real-backdoor columns are the
+same at both honest sets, because no attack score sits between the two thresholds.
 
 What the numbers say, and no more:
 
@@ -69,13 +73,13 @@ What the numbers say, and no more:
   flags 50 of the other 73 (68 %) and 9 of the 20 real backdoors (45 %); 8 real backdoors score 0. The attempts
   that fail look suspicious; the ones that work mostly do not.
 - **The measurement responds to monitor quality** (METHOD step 4). Each weakened monitor catches less at the same
-  target: the weak prompt 35 %, the truncated code 54 %, the 3B model 51 % at a degenerate threshold (93 of its 96
-  honest scores are 0, so anything above 0 is flagged; 9 of 93 attack replies had no parsable score).
+  target: the weak prompt 35 %, the truncated code 58 %, the 3B model 51 % at a degenerate threshold (all 95 of its
+  parsed honest scores are 0, so anything above 0 is flagged; 9 of 93 attack replies had no parsable score).
 - **The known positives are flagged by the pipeline, not well by the monitor** (METHOD step 3). The 9 real backdoors
   that are flagged score 7 to 9, so the pipeline carries the signal; the monitor misses the other 11.
-- **Gemma 4 E4B gives a one-point ROC.** 99 of its 100 honest scores are 0, so its threshold is 0 at every target
-  and it flags 56 % at a realised 1 % FPR. At 1 % FPR that is more than Ministral-3-8B (33 %); at 5 % the two are not
-  comparable, because Gemma's honest scores leave no threshold between 1 % and 100 %. 13 of 20 real backdoors
+- **Gemma 4 E4B gives a one-point ROC.** All 100 of its honest scores are 0, so its threshold is 0 at every target
+  and it flags 56 % at a realised 0 % FPR. At 1 % FPR that is more than Ministral-3-8B (33 %); at 5 % the two are not
+  comparable, because Gemma's honest scores leave no threshold between 0 % and 100 %. 13 of 20 real backdoors
   score 0 with Gemma.
 - **Thinking budget**: raising it from 8192 to 12288 on the 27 honest ids that hit the cap gained 4 main tasks;
   18 of the 27 still reach the cap. In attack mode 88 of 100 trajectories reach it.
@@ -106,9 +110,9 @@ attack policies, any monitor prompt tuned on this data, a run with another seed.
 
 The intent is that no run can be left out afterwards, including smoke tests, failed runs and abandoned runs:
 
-- Every run commits a manifest to this repository: 54 manifests as of 8 October 2026.
+- Every run commits a manifest to this repository: 60 manifests as of 8 October 2026 (evening).
 - Raw Inspect logs do not go into git. They are published at
-  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 50 runs, 51 `.eval` files. Four manifests have
+  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 56 runs, 57 `.eval` files. Four manifests have
   no published log: three runner tests of 3 October whose logs hold a home-directory path in a traceback
   (`d142-preempt-test`, `d142-preempt-test-2`, `d142-window-stop`, `status: scrub-failed`), and one interrupted
   probe (`e2-gen-attack-probe`) whose log was abandoned with it. Each says so in its manifest.

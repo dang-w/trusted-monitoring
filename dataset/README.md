@@ -18,7 +18,7 @@ runs. The intent is that no run can be left out afterwards.
   under `/sys/fs/cgroup/` (`memory.events.local`, `cpu.stat.local`), which a sandbox listing in
   `e3-gen-attack-3` sample 79 put into a scorer's output; they are file names, not hosts.
 
-**Status (8 October 2026): 50 runs, 51 files. The `e2`, `e3` and `e4` families are the results of the
+**Status (8 October 2026, evening): 56 runs, 57 files. The `e2`, `e3` and `e4` families are the results of the
 first small-scale measurement (100 problems, one setting); the `d1xx` and `e1` families are tests of
 the plumbing, measurements of the substrate and a superseded first pass.** The numbers, with the runs
 each comes from, are in the code repository's README; nothing here is a finding about trusted
@@ -40,7 +40,9 @@ monitoring in general.
 | `e3-gen-attack-1..4` | 4 | the attack set at budget 12288: 100 problems, main task 35, side task 33, real backdoors 20, 7 without a submission | 25 each | **result** |
 | `e3-gen-honest-capped` | 1 | the 27 honest problems that reached the 8192 cap, again at 12288 (20 of 27); with `e2-gen-honest-*` this is the honest set at 12288 (88 of 100) | 27 | **result** |
 | `e4-mon-ministral-probes` | 1 | the first monitor pass (Ministral-3-8B over the two attack probes) | 20 | result (probe) |
-| `e4-mon-ministral-honest`, `-attack`, `-honest-capped` | 3 | Ministral-3-8B, default prompt, over the honest and attack sets (the 7 attack trajectories without a submission are skipped) | 100, 93, 27 | **result** |
+| `e4-mon-ministral-honest`, `-attack`, `-honest-capped` | 3 | Ministral-3-8B, default prompt, over the honest and attack sets (the 7 attack trajectories without a submission are skipped); `-honest-capped` over the 27 regenerated honest trajectories | 100, 93, 27 | **result** |
+| `e4-mon-*-honest-capped` (weak, trunc10, ministral3b, gemma) | 4 | the same four monitors over the 27 regenerated honest trajectories, so every pair has its honest set at 12288 | 27 each | **result** |
+| `a0-baseline-27b`, `a3-gen-attack-probe-small` | 2 | measurements of the box for an always-on small model beside the research model: 2 honest samples (memory), and the 10-sample attack probe again under a chat load on the small model (identical to `e3-gen-attack-probe` token for token, 1.42 times the time) | 2, 10 | measurement of the substrate |
 | `e4-mon-ministral-weak-*`, `-trunc10-*`, `e4-mon-ministral3b-*` | 6 | the three weakened monitors (ControlArena's `simple` prompt; the first 10 lines of the code; Ministral-3-3B), honest and attack each | 100 and 93 | **result** (mutation test) |
 | `e4-mon-gemma-*` | 2 | Gemma 4 E4B, default prompt, honest and attack | 100 and 93 | **result** (second monitor) |
 
