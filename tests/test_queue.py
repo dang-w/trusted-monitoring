@@ -117,3 +117,21 @@ def test_save_spec_in_place_with_a_relative_path_keeps_the_file(
     spec = queue.load_spec(Path(tmp_path.name) / "pending" / "r.yaml")  # relative, as a person types it
     queue.save_spec(spec, "pending")
     assert (tmp_path / "pending/r.yaml").exists()
+
+
+def test_is_daytime_span() -> None:
+    assert queue.is_daytime(dt.datetime(2026, 10, 8, 7, 0, tzinfo=LONDON))
+    assert queue.is_daytime(dt.datetime(2026, 10, 8, 19, 59, tzinfo=LONDON))
+    assert not queue.is_daytime(dt.datetime(2026, 10, 8, 20, 0, tzinfo=LONDON))
+    assert not queue.is_daytime(dt.datetime(2026, 10, 8, 3, 30, tzinfo=LONDON))
+
+
+def test_research_argv_consumes_the_give_marker_once(tmp_path: Path) -> None:
+    marker = tmp_path / "give-now"
+    deadline = dt.datetime(2026, 10, 9, 6, 30, tzinfo=LONDON)
+    assert queue.research_argv("r1", 42, None, None) == ["research", "--run-id", "r1", "--pid", "42"]
+    assert queue.research_argv("r1", 42, deadline, marker)[-2:] == ["--until", "2026-10-09T06:30:00+01:00"]
+    marker.touch()
+    argv = queue.research_argv("r1", 42, None, marker)
+    assert argv[-1] == "--force" and not marker.exists()
+    assert "--force" not in queue.research_argv("r1", 42, None, marker)  # consumed

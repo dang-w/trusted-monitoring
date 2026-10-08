@@ -30,6 +30,12 @@ needs a second call takes 2,150 to 2,280 s alone (E3), about 3,100 s under this 
 budget 12288 beside a busy notepad needs `--time-limit 3600`, not 2700 (the longest A3 sample took 2,475 s
 of its 2,700). An idle small router costs nothing measurable.
 
+Research by default (A5, 2026-10-08): `scripts/run-queue run --idle` keeps the queue going whenever the box is
+free and not held, waits otherwise (an empty queue: a look every minute; a hold or the interactive router in
+use: 15 minutes), carries on after a preemption, and never ends on its own; the box's `com.pail.research-idle`
+agent runs it. `mini-mode give` on the box lets it skip the 15-minute rule once. Ledger records carry
+`recovered_from_preempt` and `daytime` for the idle bar shown by `mini-mode status`.
+
 `scripts/run-queue check queue/pending/<id>.yaml` validates a spec. The runner is described in
 `tm/queue.py`; the machine side (`mini-mode`, the nightly window, the dead-man check) lives in the
 dotfiles repository of the box.

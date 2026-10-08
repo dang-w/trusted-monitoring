@@ -72,11 +72,14 @@ QUEUE = REPO / "queue"
 STATES = ("pending", "running", "done", "failed")
 STATE_DIR = Path("~/.local/state/pail").expanduser()
 LOCK_FILE = STATE_DIR / "run-queue.lock"
+GIVE_FILE = STATE_DIR / "give-now"  # written by `mini-mode give`: the next research switch may use --force
 GRADUATION_LOG = STATE_DIR / "graduation.jsonl"
 
 WINDOW_END = dt.time(6, 30)  # local time (Europe/London on the box), decided 2026-10-02
 MARGIN_MINUTES = 10  # the switch back, the publish and the commit after the last sample
 BUSY_RETRY_SECONDS = 15 * 60  # the interactive router is in use: try again later in the window
+IDLE_POLL_SECONDS = 60  # `run --idle`: how often an empty queue is looked at again (A5, 2026-10-08)
+DAYTIME = (dt.time(7, 0), dt.time(20, 0))  # a preemption in this span is a daytime one (the idle bar)
 STOP_GRACE_SECONDS = 300  # Inspect gets this long to close its log after SIGINT
 MODEL_LIMIT_TEXT = "model limit reached"
 MODEL_LIMIT_BACKOFF = (30, 60, 120, 90)  # seconds; sums to 5 minutes
@@ -276,6 +279,21 @@ def next_spec(deadline: dt.datetime | None, at: dt.datetime) -> tuple[Spec | Non
     return None, skipped
 
 
+def is_daytime(at: dt.datetime, span: tuple[dt.time, dt.time] = DAYTIME) -> bool:
+    return span[0] <= at.time() < span[1]
+
+
+def research_argv(run_id: str, pid: int, deadline: dt.datetime | None, give_file: Path | None) -> list[str]:
+    """The mini-mode arguments of the switch; `--force` once when the give-now marker exists (consumed)."""
+    argv = ["research", "--run-id", run_id, "--pid", str(pid)]
+    if deadline is not None:
+        argv += ["--until", deadline.isoformat(timespec="seconds")]
+    if give_file is not None and give_file.exists():
+        give_file.unlink()
+        argv.append("--force")
+    return argv
+
+
 def window_deadline(at: dt.datetime, end: dt.time = WINDOW_END) -> dt.datetime:
     """The next time the local clock shows the window end."""
     deadline = at.replace(hour=end.hour, minute=end.minute, second=0, microsecond=0)
@@ -334,8 +352,12 @@ class Stop:
 
 
 class Runner:
-    def __init__(self, *, deadline: dt.datetime | None, trigger: str, window: bool) -> None:
+    def __init__(
+        self, *, deadline: dt.datetime | None, trigger: str, window: bool, idle: bool = False
+    ) -> None:
         self.deadline = deadline
+        self.idle = idle  # keep going whenever the box is free (A5); never ends on its own
+        self.holding_box = False  # idle mode: a "takes the box" notification was sent and not yet answered
         self.trigger = trigger
         self.window = window
         self.stop = Stop()
@@ -365,9 +387,9 @@ class Runner:
     # -- the steps
 
     def switch_to_research(self, spec: Spec) -> tuple[str, str]:
-        argv = ["research", "--run-id", spec.run_id, "--pid", str(os.getpid())]
-        if self.deadline is not None:
-            argv += ["--until", self.deadline.isoformat(timespec="seconds")]
+        argv = research_argv(spec.run_id, os.getpid(), self.deadline, GIVE_FILE if self.idle else None)
+        if "--force" in argv:
+            log(f"{spec.run_id}: give-now marker found; the idle rule is overridden once")
         return mini_mode(*argv)
 
     def run_inspect(self, spec: Spec) -> tuple[int | None, str]:
@@ -478,6 +500,7 @@ class Runner:
     def process(self, spec: Spec, *, recovered: bool) -> str:
         """Returns: done, failed, stopped, hold, busy, lease, switch-failed."""
         t0 = time.monotonic()
+        after_preempt = bool(spec.resume and spec.resume.get("reason") == "preempt")
         outcome, tail = self.switch_to_research(spec)
         if outcome in ("hold", "busy", "lease"):
             log(f"{spec.run_id}: research mode refused ({outcome}): {tail}")
@@ -485,7 +508,7 @@ class Runner:
         if outcome != "ok":
             log(f"{spec.run_id}: switch to research mode {outcome}: {tail}")
             notify(f"{spec.run_id}: switch to research mode {outcome}: {tail}", priority=4)
-            self.ledger(spec, "unclean", f"switch-{outcome}", {}, recovered)
+            self.ledger(spec, "unclean", f"switch-{outcome}", {}, recovered, after_preempt)
             return "switch-failed"
         if not spec.queued:
             spec.queued = now().isoformat(timespec="seconds")
@@ -558,23 +581,41 @@ class Runner:
             result if result != "stopped" else (self.stop.reason or "signal"),
             checks,
             recovered,
+            after_preempt,
         )
         notify(text, priority=4 if verdict == "unclean" else None)
         return result
 
-    def ledger(self, spec: Spec, verdict: str, reason: str, checks: dict[str, bool], recovered: bool) -> None:
+    def ledger(
+        self,
+        spec: Spec,
+        verdict: str,
+        reason: str,
+        checks: dict[str, bool],
+        recovered: bool,
+        after_preempt: bool = False,
+    ) -> None:
+        at = now()
         ledger_append(
             {
-                "ts": now().isoformat(timespec="seconds"),
+                "ts": at.isoformat(timespec="seconds"),
                 "run_id": spec.run_id,
                 "trigger": self.trigger,
                 "outcome": verdict,
                 "reason": reason,
                 "checks": checks,
                 "recovered_from_kill": recovered,
+                "recovered_from_preempt": after_preempt,  # this attempt resumed a preempted run (A5 bar)
+                "daytime": is_daytime(at),
                 "attempts": spec.attempts,
             }
         )
+
+    def give_back(self, why: str) -> None:
+        """Idle mode: one notification when the runner stops holding the box."""
+        if self.holding_box:
+            self.holding_box = False
+            notify(f"idle runner: box given back ({why})")
 
     # -- the loop
 
@@ -594,11 +635,22 @@ class Runner:
                 log(text)
                 notify(text)
                 return 3
+        waiting: str | None = None  # idle mode: what the runner last waited for, logged once
         while self.stop.reason is None:
             at = now()
             if self.deadline is not None and at >= self.deadline:
                 log("the window has ended")
                 break
+            if self.idle:
+                hold = current_hold()
+                if hold is not None:
+                    if waiting != "hold":
+                        waiting = "hold"
+                        reason = hold.get("reason") or "-"
+                        log(f"a hold is active until {hold.get('expires')} (reason: {reason}); waiting")
+                        self.give_back("a hold is active")
+                    self.stop.event.wait(BUSY_RETRY_SECONDS)
+                    continue
             spec, skipped = next_spec(self.deadline, at)
             for s in skipped:
                 if s.run_id not in skipped_reported:
@@ -608,22 +660,47 @@ class Runner:
                         f"does not fit before {self.deadline:%H:%M}"
                     )
             if spec is None:
+                if self.idle:
+                    if waiting != "empty":
+                        waiting = "empty"
+                        log("the queue is empty; waiting")
+                        self.give_back("the queue is empty")
+                    self.stop.event.wait(IDLE_POLL_SECONDS)
+                    continue
                 log("no pending spec fits" if skipped else "the queue is empty")
                 break
+            if self.idle and not self.holding_box:
+                self.holding_box = True
+                notify(
+                    f"idle runner: takes the box ({len(specs_in('pending'))} pending, first {spec.run_id})"
+                )
             result = self.process(spec, recovered=spec.run_id in recovered)
             if result == "hold":
+                if self.idle:
+                    continue  # the loop's own hold check reports and waits
                 notify(f"queue stopped: a hold is active ({spec.run_id} stays pending)")
                 return 3
             if result == "busy":
-                if self.deadline is None:
+                if self.deadline is None and not self.idle:
                     log("the interactive router is in use; try again later, or `mini-mode research --force`")
                     return 5
-                log(f"the interactive router is in use; next try in {BUSY_RETRY_SECONDS // 60} min")
+                if waiting != "busy":
+                    waiting = "busy"
+                    log(f"the interactive router is in use; next try in {BUSY_RETRY_SECONDS // 60} min")
+                    self.give_back("the interactive router is in use")
                 self.stop.event.wait(BUSY_RETRY_SECONDS)
                 continue
+            waiting = None
             if result in ("lease", "switch-failed"):
                 notify(f"queue stopped: {result} ({spec.run_id} stays pending)", priority=4)
                 return 1
+            if result == "stopped" and self.idle and self.stop.reason == "preempt":
+                # Dan took the box; the spec is requeued with its marker. Wait for the box as for "busy".
+                log("preempted; the idle runner waits for the box")
+                self.holding_box = False
+                self.stop = Stop()
+                self.stop.event.wait(BUSY_RETRY_SECONDS)
+                continue
             if result == "stopped" or once:
                 break
         if self.stop.reason is not None:
@@ -634,10 +711,20 @@ class Runner:
 # ---------------------------------------------------------------- commands
 
 
+def current_hold() -> dict[str, Any] | None:
+    status = run(mini_mode_binary() or "mini-mode", "status", "--json")
+    try:
+        return json.loads(status.stdout).get("hold")
+    except ValueError:
+        return None
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     deadline = None
     trigger = "manual"
     window = False
+    if args.idle:
+        trigger = "idle"
     if args.window:
         deadline, trigger, window = window_deadline(now()), "window", True
     if args.test_window is not None:
@@ -657,7 +744,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             f"start ({trigger}); deadline {deadline.isoformat(timespec='minutes') if deadline else 'none'}; "
             f"pid {os.getpid()}"
         )
-        runner = Runner(deadline=deadline, trigger=trigger, window=window)
+        runner = Runner(deadline=deadline, trigger=trigger, window=window, idle=args.idle)
         return runner.loop(once=args.once)
 
 
@@ -686,6 +773,11 @@ def main() -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     p_run = sub.add_parser("run", help="run pending specs")
     p_run.add_argument("--once", action="store_true", help="one spec, then stop")
+    p_run.add_argument(
+        "--idle",
+        action="store_true",
+        help="research by default (A5): run whenever the box is free and not held; wait otherwise; never end",
+    )
     p_run.add_argument("--until", help="ISO 8601 deadline for manual runs")
     p_run.add_argument(
         "--window", action="store_true", help=f"the nightly window: deadline {WINDOW_END:%H:%M}"
