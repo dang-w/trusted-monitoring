@@ -1,0 +1,20 @@
+estimated_minutes: 15
+note: 'A0 baseline (BRIEF-mini-always-on): the research-mode memory peak with the
+  27B, 4 slots of 32768, the VM up, one honest sample at a time (ids 1 and 2 at budget
+  12288, the E3 setting), sampled by macmon every 2 s from the session. A measurement
+  of the substrate, not a result. Estimate: 2 x 3 min median honest sample plus the
+  switches. Dan, 2026-10-08.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_honest
+- --limit
+- '2'
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-08T10:40:00+01:00'
+attempts: 1
