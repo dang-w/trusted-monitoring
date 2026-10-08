@@ -1,0 +1,21 @@
+estimated_minutes: 60
+note: 'Gemma 4 E4B with the weak prompt; attack set. Basis: e4-mon-gemma-honest 64
+  min for 100 samples, e4-mon-gemma-attack 53 min for 93, e4-mon-gemma-honest-capped
+  18 min for 27 (manifests). Dan, 2026-10-08.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4
+- -T
+- monitor=openai-api/llama-cpp/gemma-4-e4b
+- -T
+- prompt=weak
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-08T19:56:18+01:00'

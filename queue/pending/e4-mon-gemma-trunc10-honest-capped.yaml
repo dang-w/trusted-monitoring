@@ -1,0 +1,21 @@
+estimated_minutes: 25
+note: 'The same pass over the 27 capped ids at 12288 (--supersede). Basis: e4-mon-gemma-honest
+  64 min for 100 samples, e4-mon-gemma-attack 53 min for 93, e4-mon-gemma-honest-capped
+  18 min for 27 (manifests). Dan, 2026-10-08.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-honest-capped
+- -T
+- monitor=openai-api/llama-cpp/gemma-4-e4b
+- -T
+- truncate=10
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-08T19:56:20+01:00'
