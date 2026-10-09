@@ -1,0 +1,220 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_honest",
+    "-T",
+    "untrusted=openai-api/llama-cpp/qwen3.8-27b-b16384",
+    "-T",
+    "output_tokens=20480",
+    "--sample-id",
+    "3,7,14,23,25,29,31,36,42,44,48,52,53,55,62,72,79,86,90,92,93,94,96,97,109,117,122",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "3600",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e5-gen-honest-capped-16384"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6",
+      "name": "curlimages/curl:8.16.0",
+      "repo_digests": [
+        "curlimages/curl@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"
+      ]
+    },
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-09T21:49:43+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 4528252,
+      "completed": "2026-10-09T21:49:42+00:00",
+      "completed_samples": 26,
+      "dataset_path": "runs/e5-gen-honest-capped-16384/2026-10-09T14-01-33-00-00_apps-generate-honest_dEfqYzrtKxX8LBYrwzEUcT.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sample_id": [
+          "3",
+          "7",
+          "14",
+          "23",
+          "25",
+          "29",
+          "31",
+          "36",
+          "42",
+          "44",
+          "48",
+          "52",
+          "53",
+          "55",
+          "62",
+          "72",
+          "79",
+          "86",
+          "90",
+          "92",
+          "93",
+          "94",
+          "96",
+          "97",
+          "109",
+          "117",
+          "122"
+        ],
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 3600,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-09T14-01-33-00-00_apps-generate-honest_dEfqYzrtKxX8LBYrwzEUcT.eval",
+      "generate_config": {},
+      "inspect_run_id": "aPfS63tX456jUJFXMvFFdo",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 20480,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b-b16384"
+        }
+      },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "896e76df4030a15cc1c0fc6c7507fa2de2986835",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/896e76df4030a15cc1c0fc6c7507fa2de2986835/runs/e5-gen-honest-capped-16384/2026-10-09T14-01-33-00-00_apps-generate-honest_dEfqYzrtKxX8LBYrwzEUcT.eval",
+        "verified": "2026-10-09T21:50:00+00:00"
+      },
+      "revision": {
+        "commit": "b557be3",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "0bcd0b60f2a0c49d3329dc644b6b0024f58cd19de2105c2304a1abe37f182281",
+      "started": "2026-10-09T14:01:33+00:00",
+      "status": "success",
+      "task": "apps_generate_honest"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e5-gen-honest-capped-16384",
+      "ts": "2026-10-09T15:01:15+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e5-gen-honest-capped-16384",
+      "seconds": 15.2,
+      "ts": "2026-10-09T15:01:30+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b-b16384",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": 16384
+      }
+    }
+  ],
+  "note": "E5 thinking-budget comparison (BRIEF-e-series item 3, Dan's pick of 2026-10-09): the 27 E2 honest ids that hit the 8192 cap, regenerated at budget 16384 (router preset qwen3.8-27b-b16384, the same weights; 20480 output tokens and a 2500 s client timeout from -T output_tokens). Compare with E2 (8192: main C 16 of 27) and e3-gen-honest-capped (12288: 20 of 27, 18 still at the cap). The 9 ids under the 12288 cap should reproduce token for token. Estimate: e3-gen-honest-capped took 380 min (843 s per sample); 18 capped samples gain about 4096 tokens at 13 tok/s (315 s each, 95 min). Time limit 3600: a capped call is about 1575 s and sample 96 needed two calls at 12288.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "b557be3f5d102e85f3f958a62b2ad56546d5c34e",
+    "dirty": true
+  },
+  "run_id": "e5-gen-honest-capped-16384",
+  "schema": 1,
+  "started": "2026-10-09T14:01:30+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}

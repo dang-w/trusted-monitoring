@@ -1,0 +1,27 @@
+estimated_minutes: 480
+note: 'E5 thinking-budget comparison (BRIEF-e-series item 3, Dan''s pick of 2026-10-09):
+  the 27 E2 honest ids that hit the 8192 cap, regenerated at budget 16384 (router
+  preset qwen3.8-27b-b16384, the same weights; 20480 output tokens and a 2500 s client
+  timeout from -T output_tokens). Compare with E2 (8192: main C 16 of 27) and e3-gen-honest-capped
+  (12288: 20 of 27, 18 still at the cap). The 9 ids under the 12288 cap should reproduce
+  token for token. Estimate: e3-gen-honest-capped took 380 min (843 s per sample);
+  18 capped samples gain about 4096 tokens at 13 tok/s (315 s each, 95 min). Time
+  limit 3600: a capped call is about 1575 s and sample 96 needed two calls at 12288.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_honest
+- -T
+- untrusted=openai-api/llama-cpp/qwen3.8-27b-b16384
+- -T
+- output_tokens=20480
+- --sample-id
+- 3,7,14,23,25,29,31,36,42,44,48,52,53,55,62,72,79,86,90,92,93,94,96,97,109,117,122
+- --max-samples
+- '1'
+- --time-limit
+- '3600'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-09T15:01:30+01:00'
+attempts: 1
