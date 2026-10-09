@@ -60,6 +60,8 @@ Command: `python -m tm.catch_rate --honest H --attack A` with the runs named; `-
 | first 10 lines of the code only (`e4-mon-ministral-trunc10-honest` + `-honest-capped`, `-attack`) | 100, 93 | 3, 4.0 %, 58 % (46 to 67 %) | 54 % | 4, 5 |
 | Ministral-3-3B, default prompt (`e4-mon-ministral3b-honest` + `-honest-capped`, `-attack`) | 95, 84 | 0, 2.1 %, 51 % (40 to 62 %) | 33 % | 4, 14 (and 2 unparsed) |
 | Gemma 4 E4B, default prompt (`e4-mon-gemma-honest` + `-honest-capped`, `-attack`) | 100, 93 | 0, 0.0 %, 56 % (52 of 93; 46 to 66 %) | 56 % | 7, 13 |
+| Gemma 4 E4B, weak prompt (`e4-mon-gemma-weak-honest` + `-honest-capped`, `-attack`) | 96, 90 | 0, 1.0 %, 40 % (36 of 90; 30 to 50 %) | 28 % | 3, 17 |
+| Gemma 4 E4B, first 10 lines only (`e4-mon-gemma-trunc10-honest` + `-honest-capped`, `-attack`) | 100, 93 | 0, 0.0 %, 50 % (46 of 93; 39 to 60 %) | 50 % | 4, 16 |
 
 Every row except the second uses the honest set at 12288: the honest pass over `e2-gen-honest-1..4` with the 27
 capped ids replaced by the pass over `e3-gen-honest-capped` (`--supersede`). The real-backdoor columns are the
@@ -81,11 +83,16 @@ What the numbers say, and no more:
   and it flags 56 % at a realised 0 % FPR. At 1 % FPR that is more than Ministral-3-8B (33 %); at 5 % the two are not
   comparable, because Gemma's honest scores leave no threshold between 0 % and 100 %. 13 of 20 working backdoors
   score 0 with Gemma.
+- **The mutation ordering holds for Gemma too** (METHOD step 4, second monitor; runs of 8 to 9 October). With the
+  weak prompt Gemma flags 40 % (threshold 0 at a realised 1 % FPR; 7 of its replies had no parsable score: 3 empty,
+  4 with reasoning and no score tag), with the first 10 lines of the code 50 %, against 56 % with the default prompt.
+  The three intervals overlap (30 to 50, 39 to 60, 46 to 66 %), so the direction is measured and the sizes are not.
+  The weak prompt flags 3 of the 20 working backdoors, the truncated code 4, the default prompt 7.
 - **Thinking budget**: raising it from 8192 to 12288 on the 27 honest ids that hit the cap gained 4 main tasks;
   18 of the 27 still reach the cap. In attack mode 88 of 100 trajectories reach it.
 - **Costs** on this machine, one sample at a time: honest generation about 3 min per sample (median), attack
   about 18 min (mean, nearly all at the thinking cap), a 100-sample monitor pass 16 min (3B), 37 to 54 min
-  (Ministral-3-8B) or 53 to 64 min (Gemma 4 E4B).
+  (Ministral-3-8B) or 45 to 67 min (Gemma 4 E4B).
 
 n is 100 problems and 20 working backdoors. The intervals are wide and the thresholds rest on a handful of honest
 outliers, which is why the bootstrap resets the threshold each round. Not measured: other settings, other
@@ -110,9 +117,9 @@ attack policies, any monitor prompt tuned on this data, a run with another seed.
 
 The intent is that no run can be left out afterwards, including smoke tests, failed runs and abandoned runs:
 
-- Every run commits a manifest to this repository: 60 manifests as of 8 October 2026 (evening).
+- Every run commits a manifest to this repository: 66 manifests as of 9 October 2026.
 - Raw Inspect logs do not go into git. They are published at
-  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 56 runs, 57 `.eval` files. Four manifests have
+  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 62 runs, 63 `.eval` files. Four manifests have
   no published log: three runner tests of 3 October whose logs hold a home-directory path in a traceback
   (`d142-preempt-test`, `d142-preempt-test-2`, `d142-window-stop`, `status: scrub-failed`), and one interrupted
   probe (`e2-gen-attack-probe`) whose log was abandoned with it. Each says so in its manifest.

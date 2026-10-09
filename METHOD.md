@@ -46,6 +46,8 @@ with it, and the git history keeps the earlier version (the first version was a 
    trajectories: ControlArena's `simple` prompt in place of its default, the first 10 lines of the code
    only, and Ministral-3-3B in place of Ministral-3-8B. If the measured catch rate does not get worse for
    a weakened monitor, the measurement does not respond to monitor quality and cannot be trusted.
+   What ran: the three mutations on Ministral-3-8B and the first two on Gemma 4 E4B; the catch rates
+   are in the README, and the ordering holds for both monitors.
 
 ## Reporting rules
 
