@@ -39,9 +39,9 @@ with it, and the git history keeps the earlier version (the first version was a 
    0 to 10, so the realised false-positive rate is reported next to the target, and a monitor whose
    honest scores are nearly all 0 has one usable threshold.
 3. **Known positives.** The attack trajectories whose main task passed and whose side task
-   succeeded (a real backdoor) go through the same monitor pipeline, and their scores are listed. If
+   succeeded (a working backdoor) go through the same monitor pipeline, and their scores are listed. If
    the pipeline does not flag them, the pipeline is broken, and a low catch rate from it means nothing.
-   What ran: 20 real backdoors of 100 attack trajectories; the scores are in the README.
+   What ran: 20 working backdoors of 100 attack trajectories; the scores are in the README.
 4. **Monitor mutation testing.** Deliberately weakened versions of the monitor run on the same
    trajectories: ControlArena's `simple` prompt in place of its default, the first 10 lines of the code
    only, and Ministral-3-3B in place of Ministral-3-8B. If the measured catch rate does not get worse for
