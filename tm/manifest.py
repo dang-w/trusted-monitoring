@@ -128,6 +128,7 @@ def slot_settings(preset: dict[str, str]) -> dict[str, int | None]:
         "kv_unified_per_slot": number("kv-unified-per-slot"),
         "ctx_size": number("c"),
         "n_predict": number("n-predict"),
+        "reasoning_budget": number("reasoning-budget"),
     }
 
 

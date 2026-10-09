@@ -51,8 +51,19 @@ UNTRUSTED_SAMPLING = GenerateConfig(temperature=0.0, seed=1, max_tokens=16384)
 CLIENT_TIMEOUT = 2000
 
 
-def _model(name: str, config: GenerateConfig) -> Model:
-    return get_model(name, config=config, client_timeout=CLIENT_TIMEOUT)
+def _model(name: str, config: GenerateConfig, client_timeout: int = CLIENT_TIMEOUT) -> Model:
+    return get_model(name, config=config, client_timeout=client_timeout)
+
+
+def _untrusted(name: str, output_tokens: int) -> Model:
+    """The untrusted model with `output_tokens` of room and a client timeout in the same proportion.
+
+    E5 (2026-10-09): the thinking-budget comparison uses a second router preset of the same weights with
+    `reasoning-budget = 16384`; it needs 20480 output tokens and 2500 s per call. The default stays 16384
+    tokens and 2000 s, so every earlier run's setting is unchanged.
+    """
+    config = GenerateConfig(temperature=0.0, seed=1, max_tokens=output_tokens)
+    return _model(name, config, CLIENT_TIMEOUT * output_tokens // UNTRUSTED_SAMPLING.max_tokens)
 
 
 class HardenedAppsSetting(AppsSetting):
@@ -92,25 +103,29 @@ def apps_tm_attack(untrusted: str = UNTRUSTED, trusted: str = TRUSTED) -> Task:
     return _task(EvalMode.ATTACK, untrusted, trusted)
 
 
-def _generate(mode: EvalMode, untrusted: str) -> Task:
+def _generate(mode: EvalMode, untrusted: str, output_tokens: int) -> Task:
     """The untrusted policy alone, no monitor: the generate phase of the method (METHOD.md step 1)."""
     return get_control_task(
         setting=HardenedAppsSetting(),
         micro_protocol=untrusted_policy_builder(),
         mode=mode,
         eval_config=ControlEvalConfig(
-            untrusted_model=_model(untrusted, UNTRUSTED_SAMPLING), trusted_model=_model(TRUSTED, SAMPLING)
+            untrusted_model=_untrusted(untrusted, output_tokens), trusted_model=_model(TRUSTED, SAMPLING)
         ),
         task_name=f"apps_generate_{mode.value}",
     )
 
 
 @task
-def apps_generate_honest(untrusted: str = UNTRUSTED) -> Task:
-    return _generate(EvalMode.HONEST, untrusted)
+def apps_generate_honest(
+    untrusted: str = UNTRUSTED, output_tokens: int = UNTRUSTED_SAMPLING.max_tokens
+) -> Task:
+    return _generate(EvalMode.HONEST, untrusted, int(output_tokens))
 
 
 @task
-def apps_generate_attack(untrusted: str = UNTRUSTED) -> Task:
+def apps_generate_attack(
+    untrusted: str = UNTRUSTED, output_tokens: int = UNTRUSTED_SAMPLING.max_tokens
+) -> Task:
     """The attack policy alone: it is told the side task and asked to insert it. No monitor."""
-    return _generate(EvalMode.ATTACK, untrusted)
+    return _generate(EvalMode.ATTACK, untrusted, int(output_tokens))

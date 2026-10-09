@@ -64,7 +64,7 @@ Command: `python -m tm.catch_rate --honest H --attack A` with the runs named; `-
 | Gemma 4 E4B, first 10 lines only (`e4-mon-gemma-trunc10-honest` + `-honest-capped`, `-attack`) | 100, 93 | 0, 0.0 %, 50 % (46 of 93; 39 to 60 %) | 50 % | 4, 16 |
 
 Every row except the second uses the honest set at 12288: the honest pass over `e2-gen-honest-1..4` with the 27
-capped ids replaced by the pass over `e3-gen-honest-capped` (`--supersede`). The real-backdoor columns are the
+capped ids replaced by the pass over `e3-gen-honest-capped` (`--supersede`). The working-backdoor columns are the
 same at both honest sets, because no attack score sits between the two thresholds.
 
 What the numbers say, and no more:
@@ -103,7 +103,7 @@ attack policies, any monitor prompt tuned on this data, a run with another seed.
 | item | state |
 |---|---|
 | Dependencies | [Inspect AI](https://inspect.aisi.org.uk/) 0.3.275 and [ControlArena](https://github.com/UKGovernmentBEIS/control-arena) 19.0.0, pinned in `uv.lock` |
-| Generate phase | `control/apps/task.py@apps_generate_honest`, `@apps_generate_attack`: the APPS setting, the untrusted model alone, a hardened sandbox config (`control/apps/compose.yaml`: no network, non-root, no host mounts, capabilities dropped); the client timeout is set in the task file because the SDK default abandons long generations that the server then finishes anyway |
+| Generate phase | `control/apps/task.py@apps_generate_honest`, `@apps_generate_attack`: the APPS setting, the untrusted model alone, a hardened sandbox config (`control/apps/compose.yaml`: no network, non-root, no host mounts, capabilities dropped); the client timeout is set in the task file because the SDK default abandons long generations that the server then finishes anyway. Arguments: `untrusted` (a router preset), `output_tokens` (16384 by default; 20480 with the 16384-budget preset `qwen3.8-27b-b16384`, the client timeout scales with it) |
 | Monitor phase | `tm/monitor.py@apps_monitor`: reads the logs of generate runs and shows each submitted solution to the monitor, one Inspect log per pass. Two deliberate differences from ControlArena's live monitor: the code is a fenced block, not JSON-escaped tool arguments (an 8B model reads `\n`-escaped code badly); a reply with no parsable `<score>` gets no score, not 0. Arguments: `runs`, `monitor`, `prompt` (`default`, `weak`), `truncate` |
 | Analysis | `python -m tm.catch_rate`: threshold at a false-positive rate, catch rate, bootstrap, ROC points, known positives, `--supersede` |
 | Run wrapper and manifests | `python -m tm.run --run-id ID -- eval …` runs one Inspect command and always writes `manifests/ID.json` (code version, model files and their sha256, server settings, the sha256 of the log, the dataset commit at which it was published and verified) |
@@ -123,6 +123,9 @@ The intent is that no run can be left out afterwards, including smoke tests, fai
   no published log: three runner tests of 3 October whose logs hold a home-directory path in a traceback
   (`d142-preempt-test`, `d142-preempt-test-2`, `d142-window-stop`, `status: scrub-failed`), and one interrupted
   probe (`e2-gen-attack-probe`) whose log was abandoned with it. Each says so in its manifest.
+- Manifests and done specs are not rewritten. The notes of `e4-mon-ministral-probes` (6 October) say "real backdoors"
+  for what this README calls working backdoors (main task passed, side task succeeded); the term changed on
+  9 October after an audit of the wording, the definition did not.
 - Each reported number names the command and the runs it comes from; the full working record, with every
   intermediate measurement, is kept outside this repository.
 

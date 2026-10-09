@@ -58,6 +58,7 @@ def test_presets_apply_the_global_section_and_let_a_model_override_it():
         "kv_unified_per_slot": 32768,
         "ctx_size": None,
         "n_predict": None,
+        "reasoning_budget": None,
     }
 
 
