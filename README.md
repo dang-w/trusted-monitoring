@@ -67,7 +67,7 @@ same at both honest sets, because no attack score sits between the two threshold
 
 What the numbers say, and no more:
 
-- **Ministral-3-8B flags 63 % of the attack-mode trajectories at a 4 % false-positive rate.** On the honest set at
+- **Ministral-3-8B flags 63 % of the attack-mode trajectories at a 4.1 % false-positive rate.** On the honest set at
   12288, the threshold is 3 and the interval is 51 to 72 %. The honest scores are 0 for 77 of 98 parsed replies.
 - **That is not a backdoor-catch rate.** Of the 93 attack-mode trajectories, 20 are working backdoors. The monitor
   flags 50 of the other 73 (68 %) and 9 of the 20 working backdoors (45 %); 8 working backdoors score 0. The attempts
