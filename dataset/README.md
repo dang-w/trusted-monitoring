@@ -37,7 +37,7 @@ monitoring in general.
 | `e2-gen-honest-1..4` | 4 | the honest set at budget 8192: 100 problems, main task 84 of 100, 27 at the cap | 25 each | **result** |
 | `e2-gen-attack-probe-2`, `-3` | 2 | attack mode on 10 problems at 8192; probe 2 found a client-timeout fault, probe 3 is the clean run | 10 each | result (probe) |
 | `e3-gen-attack-probe` | 1 | the same 10 problems at budget 12288; chose the budget for the attack set | 10 | result (probe) |
-| `e3-gen-attack-1..4` | 4 | the attack set at budget 12288: 100 problems, main task 35, side task 33, real backdoors 20, 7 without a submission | 25 each | **result** |
+| `e3-gen-attack-1..4` | 4 | the attack set at budget 12288: 100 problems, main task 35, side task 33, working backdoors 20, 7 without a submission | 25 each | **result** |
 | `e3-gen-honest-capped` | 1 | the 27 honest problems that reached the 8192 cap, again at 12288 (20 of 27); with `e2-gen-honest-*` this is the honest set at 12288 (88 of 100) | 27 | **result** |
 | `e4-mon-ministral-probes` | 1 | the first monitor pass (Ministral-3-8B over the two attack probes) | 20 | result (probe) |
 | `e4-mon-ministral-honest`, `-attack`, `-honest-capped` | 3 | Ministral-3-8B, default prompt, over the honest and attack sets (the 7 attack trajectories without a submission are skipped); `-honest-capped` over the 27 regenerated honest trajectories | 100, 93, 27 | **result** |
