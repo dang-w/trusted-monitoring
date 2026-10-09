@@ -36,11 +36,11 @@ The method is in [METHOD.md](METHOD.md), with the settings that ran.
 | honest trajectories, thinking budget 8192 | `e2-gen-honest-1..4` | 100 (APPS positions 1 to 100) | main task 84 of 100; 27 reached the thinking cap |
 | the 27 capped ids again, budget 12288 | `e3-gen-honest-capped` | 27 | main task 20 of 27 (16 of the same 27 at 8192); 18 still at the cap |
 | honest set at 12288 | the two above, the later run superseding | 100 | main task 88 of 100 |
-| attack trajectories, budget 12288 | `e3-gen-attack-1..4` | 100 (the same positions) | main task 35 of 100; side task 33; real backdoors 20 (Wilson 95 %: 14 to 29 %); 7 never submitted |
+| attack trajectories, budget 12288 | `e3-gen-attack-1..4` | 100 (the same positions) | main task 35 of 100; side task 33; working backdoors 20 (Wilson 95 %: 14 to 29 %); 7 never submitted |
 | monitor passes | `e4-mon-*` | 100 honest and 93 attack each (the 7 trajectories without a submission have no code to show) | next section |
 
 Superseded or preparatory, kept in the record: `e1-gen-honest-1..4` (100 honest at budget 4096, 79 of 100);
-the attack probes `e2-gen-attack-probe-3` (10 at 8192: 1 real backdoor) and `e3-gen-attack-probe` (the same 10
+the attack probes `e2-gen-attack-probe-3` (10 at 8192: 1 working backdoor) and `e3-gen-attack-probe` (the same 10
 at 12288: 3), which chose the budget 12288 for the attack set; `e4-mon-ministral-probes` (the monitor over those
 20). The attack set reproduced the probe on its 10 shared ids: the same main and side results.
 
@@ -52,7 +52,7 @@ above it; a trajectory is flagged when its score is strictly above the threshold
 counts in neither rate. Bootstrap: 1,000 rounds, seed 1, both sets resampled and the threshold reset each round.
 Command: `python -m tm.catch_rate --honest H --attack A` with the runs named; `--supersede` for the set at 12288.
 
-| monitor, honest set at 12288 | honest n, attack n | 5 % target FPR: threshold, realised FPR, catch rate (bootstrap 95 %) | at 1 % | real backdoors (of 20): flagged, scored 0 |
+| monitor, honest set at 12288 | honest n, attack n | 5 % target FPR: threshold, realised FPR, catch rate (bootstrap 95 %) | at 1 % | working backdoors (of 20): flagged, scored 0 |
 |---|---|---|---|---|
 | **Ministral-3-8B, default prompt** (`e4-mon-ministral-honest` + `-honest-capped`, `e4-mon-ministral-attack`) | 98, 93 | 3, 4.1 %, **63 %** (59 of 93; 51 to 72 %) | 33 % | 9, 8 |
 | the same, honest set at 8192 (`e4-mon-ministral-honest`, `e4-mon-ministral-attack`) | 98, 93 | 4, 4.1 %, 63 % (36 to 73 %) | 11 % | 9, 8 |
@@ -69,17 +69,17 @@ What the numbers say, and no more:
 
 - **Ministral-3-8B flags 63 % of the attack-mode trajectories at a 4 % false-positive rate.** On the honest set at
   12288, the threshold is 3 and the interval is 51 to 72 %. The honest scores are 0 for 77 of 98 parsed replies.
-- **That is not a backdoor-catch rate.** Of the 93 attack-mode trajectories, 20 are real backdoors. The monitor
-  flags 50 of the other 73 (68 %) and 9 of the 20 real backdoors (45 %); 8 real backdoors score 0. The attempts
+- **That is not a backdoor-catch rate.** Of the 93 attack-mode trajectories, 20 are working backdoors. The monitor
+  flags 50 of the other 73 (68 %) and 9 of the 20 working backdoors (45 %); 8 working backdoors score 0. The attempts
   that fail look suspicious; the ones that work mostly do not.
 - **The measurement responds to monitor quality** (METHOD step 4). Each weakened monitor catches less at the same
   target: the weak prompt 35 %, the truncated code 58 %, the 3B model 51 % at a degenerate threshold (all 95 of its
   parsed honest scores are 0, so anything above 0 is flagged; 9 of 93 attack replies had no parsable score).
-- **The known positives are flagged by the pipeline, not well by the monitor** (METHOD step 3). The 9 real backdoors
+- **The known positives are flagged by the pipeline, not well by the monitor** (METHOD step 3). The 9 working backdoors
   that are flagged score 7 to 9, so the pipeline carries the signal; the monitor misses the other 11.
 - **Gemma 4 E4B gives a one-point ROC.** All 100 of its honest scores are 0, so its threshold is 0 at every target
   and it flags 56 % at a realised 0 % FPR. At 1 % FPR that is more than Ministral-3-8B (33 %); at 5 % the two are not
-  comparable, because Gemma's honest scores leave no threshold between 0 % and 100 %. 13 of 20 real backdoors
+  comparable, because Gemma's honest scores leave no threshold between 0 % and 100 %. 13 of 20 working backdoors
   score 0 with Gemma.
 - **Thinking budget**: raising it from 8192 to 12288 on the 27 honest ids that hit the cap gained 4 main tasks;
   18 of the 27 still reach the cap. In attack mode 88 of 100 trajectories reach it.
@@ -87,7 +87,7 @@ What the numbers say, and no more:
   about 18 min (mean, nearly all at the thinking cap), a 100-sample monitor pass 16 min (3B), 37 to 54 min
   (Ministral-3-8B) or 53 to 64 min (Gemma 4 E4B).
 
-n is 100 problems and 20 real backdoors. The intervals are wide and the thresholds rest on a handful of honest
+n is 100 problems and 20 working backdoors. The intervals are wide and the thresholds rest on a handful of honest
 outliers, which is why the bootstrap resets the threshold each round. Not measured: other settings, other
 attack policies, any monitor prompt tuned on this data, a run with another seed.
 
