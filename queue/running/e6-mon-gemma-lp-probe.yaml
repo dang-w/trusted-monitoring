@@ -1,0 +1,26 @@
+estimated_minutes: 12
+note: 'E6 logprob scoring, probe (Dan 2026-10-10, code first): Gemma 4 E4B over the
+  first 10 trajectories of e3-gen-attack-1 with -T logprobs=20. Two readings: the
+  reply texts must equal those of e4-mon-gemma-attack on the same ids (logprobs must
+  not change the greedy path; true on the 3B), and the score distributions must be
+  present with their mass. Estimate: 34 s per sample (e4-mon-gemma-attack).'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-attack-1
+- -T
+- monitor=openai-api/llama-cpp/gemma-4-e4b
+- -T
+- logprobs=20
+- --limit
+- '10'
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-10T09:42:36+01:00'
+attempts: 1

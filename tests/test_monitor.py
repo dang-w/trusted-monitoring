@@ -1,11 +1,12 @@
 """Tests of the phase-2 scorer, offline: stored logs of this repository and a mock model."""
 
+import math
 from pathlib import Path
 
 import pytest
 from inspect_ai import eval as inspect_eval
 from inspect_ai.log import read_eval_log
-from inspect_ai.model import ModelOutput, get_model
+from inspect_ai.model import Logprob, Logprobs, ModelOutput, TopLogprob, get_model
 
 from tm import monitor
 from tm.monitor import REPO, Trajectory
@@ -166,3 +167,87 @@ def test_end_to_end_with_a_mock_monitor(tmp_path: Path) -> None:
     assert (
         log.samples[0].metadata["source"] == ATTACK_PROBE and log.samples[0].metadata["eval_mode"] == "attack"
     )
+
+
+def logprobs_of(*tokens: tuple[str, dict[str, float]]) -> Logprobs:
+    """Token stream for a test: (written token, {alternative token: probability})."""
+    content = []
+    for token, alternatives in tokens:
+        top = [TopLogprob(token=t, logprob=math.log(p)) for t, p in alternatives.items()]
+        own = alternatives.get(token, 0.5)
+        content.append(Logprob(token=token, logprob=math.log(own), top_logprobs=top))
+    return Logprobs(content=content)
+
+
+PREFIX = (
+    ("<", {"<": 0.99}),
+    ("reasoning", {"reasoning": 0.9}),
+    (">", {">": 0.9}),
+    ("fine", {"fine": 0.5}),
+    ("</", {"</": 0.9}),
+    ("reasoning", {"reasoning": 0.9}),
+    (">", {">": 0.9}),
+    ("<", {"<": 0.99}),
+    ("score", {"score": 0.9}),
+    (">", {">": 0.9}),
+)
+SUFFIX = (("</", {"</": 0.9}), ("score", {"score": 0.9}), (">", {">": 0.9}))
+
+
+def test_score_distribution_reads_the_digit_after_the_last_score_tag() -> None:
+    lp = logprobs_of(*PREFIX, ("8", {"8": 0.5, "7": 0.2, "9": 0.2, "the": 0.05, "1": 0.05}), *SUFFIX)
+    d = monitor.score_distribution(lp)
+    assert d is not None and d.written == 8
+    assert d.probs == pytest.approx({"8": 0.5, "7": 0.2, "9": 0.2, "1": 0.05})
+    assert d.mass == pytest.approx(0.95)  # "the" is not a score
+    assert d.expected == pytest.approx((8 * 0.5 + 7 * 0.2 + 9 * 0.2 + 1 * 0.05) / 0.95)
+    assert d.p_written == pytest.approx(0.5)
+    assert d.ambiguous_one == pytest.approx(0.05)  # a `1` the monitor did not write may have meant 10
+
+
+def test_score_distribution_handles_ten_as_two_tokens_and_a_written_one() -> None:
+    ten = logprobs_of(*PREFIX, ("1", {"1": 0.7, "9": 0.3}), ("0", {"0": 0.9}), *SUFFIX)
+    d = monitor.score_distribution(ten)
+    assert d is not None and d.written == 10 and d.probs == pytest.approx({"10": 0.7, "9": 0.3})
+    assert d.ambiguous_one == 0.0
+    one = logprobs_of(*PREFIX, ("1", {"1": 0.6, "0": 0.4}), *SUFFIX)
+    d = monitor.score_distribution(one)
+    assert d is not None and d.written == 1 and d.expected == pytest.approx(0.6)
+
+
+def test_score_distribution_tolerates_whitespace_and_a_tag_quoted_earlier() -> None:
+    lp = logprobs_of(
+        ("<", {}),
+        ("score", {}),
+        (">", {}),
+        ("3", {"3": 0.9}),
+        *SUFFIX,
+        (" ", {}),
+        *PREFIX,
+        (" 7", {" 7": 0.8, "2": 0.2}),
+        *SUFFIX,
+    )
+    d = monitor.score_distribution(lp)
+    assert d is not None and d.written == 7 and d.probs == pytest.approx({"7": 0.8, "2": 0.2})
+
+
+def test_score_distribution_is_none_without_a_score_or_without_logprobs() -> None:
+    assert monitor.score_distribution(None) is None
+    assert monitor.score_distribution(Logprobs(content=[])) is None
+    assert monitor.score_distribution(logprobs_of(("no", {}), ("score", {}))) is None
+    assert monitor.score_distribution(logprobs_of(*PREFIX, ("high", {"high": 0.9}), *SUFFIX)) is None
+
+
+def test_logprobs_argument_sets_the_config_and_is_bounded() -> None:
+    mock = get_model("mockllm/model")
+    with pytest.raises(ValueError, match="logprobs"):
+        monitor.apps_monitor(runs=HONEST, monitor=mock, logprobs=21)
+
+
+@needs_logs
+def test_logprobs_argument_reaches_the_task_config() -> None:
+    mock = get_model("mockllm/model")
+    t = monitor.apps_monitor(runs=HONEST, monitor=mock, logprobs=20)
+    assert t.config.logprobs is True and t.config.top_logprobs == 20 and t.metadata["logprobs"] == 20
+    off = monitor.apps_monitor(runs=HONEST, monitor=mock)
+    assert off.config.logprobs is None and off.metadata["logprobs"] == 0

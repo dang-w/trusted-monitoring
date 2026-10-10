@@ -76,3 +76,17 @@ def test_supersede_keeps_the_score_of_the_run_listed_last() -> None:
     assert by_id["4"].run_id == "mon-2" and by_id["4"].score is None
     assert all(by_id[i].run_id == "mon-1" for i in ("0", "1", "2"))
     assert catch_rate.supersede(first) == (first, 0)
+
+
+def test_score_value_reads_the_written_or_the_expected_score() -> None:
+    from inspect_ai.scorer import NOANSWER, Score
+
+    with_logprobs = Score(value=7, metadata={"parsed": True, "logprobs": {"expected": 6.4, "mass": 0.9}})
+    assert catch_rate.score_value(with_logprobs) == 7.0
+    assert catch_rate.score_value(with_logprobs, "expected") == 6.4
+    without = Score(value=7, metadata={"parsed": True})
+    assert catch_rate.score_value(without, "expected") is None  # a run made without logprobs
+    assert catch_rate.score_value(Score(value=NOANSWER, metadata={"parsed": False}), "written") is None
+    assert catch_rate.score_value(None) is None
+    with pytest.raises(ValueError, match="kind"):
+        catch_rate.score_value(without, "mean")
