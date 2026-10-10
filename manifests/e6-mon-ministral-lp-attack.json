@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-8b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e6-mon-ministral-lp-attack"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-10T12:38:13+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 93383256,
+      "completed": "2026-10-10T12:38:11+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e6-mon-ministral-lp-attack/2026-10-10T11-49-35-00-00_apps-monitor_39Md6PD8fZWG4vEurUQJv6.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-10T11-49-35-00-00_apps-monitor_39Md6PD8fZWG4vEurUQJv6.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "FijrwC9gnY6C2yf5yvhf4o",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "eec01ef3db6cbed3d990068d2864d32ef7c837bf",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/eec01ef3db6cbed3d990068d2864d32ef7c837bf/runs/e6-mon-ministral-lp-attack/2026-10-10T11-49-35-00-00_apps-monitor_39Md6PD8fZWG4vEurUQJv6.eval",
+        "verified": "2026-10-10T12:52:47+00:00"
+      },
+      "revision": {
+        "commit": "6a59567",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "7c6a914bb25cf6e3d8e61d6f1500adf873078acb6bbdc2ff59258e961bf47ba6",
+      "started": "2026-10-10T11:49:35+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e6-mon-ministral-lp-attack",
+      "ts": "2026-10-10T12:49:18+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e6-mon-ministral-lp-attack",
+      "seconds": 14.6,
+      "ts": "2026-10-10T12:49:33+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E6 logprob scoring, full pass (Dan 2026-10-10): the attack set with -T logprobs=20; the reply texts are expected to equal the first pass (e4-mon-ministral-attack; the probe e6-mon-gemma-lp-probe gave 10 of 10 identical), and the score distributions feed tm.catch_rate --score expected. Estimate from the first pass.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "6a5956709c9e8b6ca8e5bc049f4b63f3be528e4a",
+    "dirty": true
+  },
+  "run_id": "e6-mon-ministral-lp-attack",
+  "schema": 1,
+  "started": "2026-10-10T11:49:33+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
