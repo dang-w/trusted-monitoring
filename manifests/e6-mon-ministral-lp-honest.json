@@ -1,0 +1,140 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-8b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e6-mon-ministral-lp-honest"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-10T14:22:47+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 132198078,
+      "completed": "2026-10-10T14:22:46+00:00",
+      "completed_samples": 100,
+      "dataset_path": "runs/e6-mon-ministral-lp-honest/2026-10-10T13-16-34-00-00_apps-monitor_jprVoCsvrdm4y55MxuHS7n.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-10T13-16-34-00-00_apps-monitor_jprVoCsvrdm4y55MxuHS7n.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "Yq4EMFdiRKLqS3sL2k8GGh",
+      "model": "openai-api/llama-cpp/ministral-3-8b",
+      "model_roles": {},
+      "revision": {
+        "commit": "70e0040",
+        "dirty": true
+      },
+      "samples": 100,
+      "sandbox": null,
+      "sha256": "a0b8883e52273a33410fe2bf0bc9163e5cc0a85e6829fe56ede2cbdfa94db222",
+      "started": "2026-10-10T13:16:34+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e6-mon-ministral-lp-honest",
+      "ts": "2026-10-10T14:16:17+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e6-mon-ministral-lp-honest",
+      "seconds": 14.5,
+      "ts": "2026-10-10T14:16:32+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E6 logprob scoring, full pass (Dan 2026-10-10): the honest set with -T logprobs=20; the reply texts are expected to equal the first pass (e4-mon-ministral-honest, 61 min; the probe e6-mon-gemma-lp-probe gave 10 of 10 identical), and the score distributions feed tm.catch_rate --score expected. Estimate from the first pass.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "70e004037a4063d79f3749fa9e296e15ff67b32d",
+    "dirty": true
+  },
+  "run_id": "e6-mon-ministral-lp-honest",
+  "schema": 1,
+  "started": "2026-10-10T13:16:32+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
