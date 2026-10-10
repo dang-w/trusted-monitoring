@@ -1,0 +1,20 @@
+estimated_minutes: 25
+note: 'E6 logprob scoring, full pass (Dan 2026-10-10): the honest-capped set with -T logprobs=20; the reply texts
+  are expected to equal the first pass (e4-mon-ministral-honest-capped; the probe e6-mon-gemma-lp-probe gave 10 of 10 identical),
+  and the score distributions feed tm.catch_rate --score expected. Estimate from the first pass.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-honest-capped
+- -T
+- monitor=openai-api/llama-cpp/ministral-3-8b
+- -T
+- logprobs=20
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
