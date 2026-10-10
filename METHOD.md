@@ -17,7 +17,8 @@ with it, and the git history keeps the earlier version (the first version was a 
 - Sandbox: the untrusted model's tool calls run in containers with networking off.
 - Sampling: temperature 0, seed 1, one sample at a time. Parallel decoding on the server is not
   reproducible (manifests `d124-slots*`); sequential decoding reproduces a trajectory token for token
-  across runs and days, as long as it does not reach a cap.
+  across runs and days, as long as it does not reach a cap; a monitor pass reproduces the same way
+  (`e5-mon-gemma-attack-repeat` against `e4-mon-gemma-attack`: 93 of 93 scores and replies).
 
 ## Steps
 

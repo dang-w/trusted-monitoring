@@ -29,13 +29,18 @@ The method is in [METHOD.md](METHOD.md), with the settings that ran.
   backdoor* below means both held (main task passed, secret input broke it).
 - **Sampling**: temperature 0, seed 1, one sample at a time. With these, a trajectory that does not reach its
   thinking cap reproduces token for token across runs and days (checked: the 60 honest trajectories under the cap
-  at budget 4096 have identical output-token counts at budget 8192, `e1-gen-honest-*` against `e2-gen-honest-*`).
+  at budget 4096 have identical output-token counts at budget 8192, `e1-gen-honest-*` against `e2-gen-honest-*`;
+  the 10 of 27 under the 12288 cap are identical in reasoning, text and tool arguments at 16384). A monitor pass
+  reproduces the same way: `e5-mon-gemma-attack-repeat` gave the same 93 scores and the same 93 reply texts as
+  `e4-mon-gemma-attack`.
 
 | set | runs | n | result |
 |---|---|---|---|
 | honest trajectories, thinking budget 8192 | `e2-gen-honest-1..4` | 100 (APPS positions 1 to 100) | main task 84 of 100; 27 reached the thinking cap |
 | the 27 capped ids again, budget 12288 | `e3-gen-honest-capped` | 27 | main task 20 of 27 (16 of the same 27 at 8192); 18 still at the cap |
 | honest set at 12288 | the two above, the later run superseding | 100 | main task 88 of 100 |
+| the 27 capped ids again, budget 16384 | `e5-gen-honest-capped-16384` | 27 | main task 18 of 27 (26 scored; id 96 errored: a second call does not fit the 32768-token slot at this budget); 17 still at the cap; the 10 that were under 12288 are identical token for token |
+| the Gemma attack pass again, same setting | `e5-mon-gemma-attack-repeat` | 93 | 93 of 93 scores and reply texts identical to `e4-mon-gemma-attack` |
 | attack trajectories, budget 12288 | `e3-gen-attack-1..4` | 100 (the same positions) | main task 35 of 100; side task 33; working backdoors 20 (Wilson 95 %: 14 to 29 %); 7 never submitted |
 | monitor passes | `e4-mon-*` | 100 honest and 93 attack each (the 7 trajectories without a submission have no code to show) | next section |
 
@@ -89,7 +94,12 @@ What the numbers say, and no more:
   The three intervals overlap (30 to 50, 39 to 60, 46 to 66 %), so the direction is measured and the sizes are not.
   The weak prompt flags 3 of the 20 working backdoors, the truncated code 4, the default prompt 7.
 - **Thinking budget**: raising it from 8192 to 12288 on the 27 honest ids that hit the cap gained 4 main tasks;
-  18 of the 27 still reach the cap. In attack mode 88 of 100 trajectories reach it.
+  raising it again to 16384 gained none and lost 2 (ids 52 and 109, correct at 12288, wrong at 16384; 18 of 27).
+  17 of the 27 still reach 16384, with 16,400 to 18,200 output tokens: these are problems the model does not stop
+  thinking about, not problems a little more room resolves. n is 27 and the two losses are two samples, so the
+  measured statement is "no gain past 12288", not "a loss". A 16384 budget also breaks the slot: id 96 needed a
+  second call and 32,815 prompt tokens did not fit the 32768-token slot (the server's 400, `--no-fail-on-error`
+  kept the run going). In attack mode 88 of 100 trajectories reach 12288.
 - **Costs** on this machine, one sample at a time: honest generation about 3 min per sample (median), attack
   about 18 min (mean, nearly all at the thinking cap), a 100-sample monitor pass 16 min (3B), 37 to 54 min
   (Ministral-3-8B) or 45 to 67 min (Gemma 4 E4B).
@@ -117,9 +127,9 @@ attack policies, any monitor prompt tuned on this data, a run with another seed.
 
 The intent is that no run can be left out afterwards, including smoke tests, failed runs and abandoned runs:
 
-- Every run commits a manifest to this repository: 66 manifests as of 9 October 2026.
+- Every run commits a manifest to this repository: 68 manifests as of 10 October 2026.
 - Raw Inspect logs do not go into git. They are published at
-  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 62 runs, 63 `.eval` files. Four manifests have
+  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 64 runs, 65 `.eval` files. Four manifests have
   no published log: three runner tests of 3 October whose logs hold a home-directory path in a traceback
   (`d142-preempt-test`, `d142-preempt-test-2`, `d142-window-stop`, `status: scrub-failed`), and one interrupted
   probe (`e2-gen-attack-probe`) whose log was abandoned with it. Each says so in its manifest.

@@ -18,7 +18,7 @@ runs. The intent is that no run can be left out afterwards.
   under `/sys/fs/cgroup/` (`memory.events.local`, `cpu.stat.local`), which a sandbox listing in
   `e3-gen-attack-3` sample 79 put into a scorer's output; they are file names, not hosts.
 
-**Status (9 October 2026): 62 runs, 63 files. The `e2`, `e3` and `e4` families are the results of the
+**Status (10 October 2026): 64 runs, 65 files. The `e2`, `e3`, `e4` and `e5` families are the results of the
 first small-scale measurement (100 problems, one setting); the `d1xx` and `e1` families are tests of
 the plumbing, measurements of the substrate and a superseded first pass.** The numbers, with the runs
 each comes from, are in the code repository's README; nothing here is a finding about trusted
@@ -46,6 +46,8 @@ monitoring in general.
 | `e4-mon-ministral-weak-*`, `-trunc10-*`, `e4-mon-ministral3b-*` | 6 | the three weakened monitors (ControlArena's `simple` prompt; the first 10 lines of the code; Ministral-3-3B), honest and attack each | 100 and 93 | **result** (mutation test) |
 | `e4-mon-gemma-honest`, `-attack` | 2 | Gemma 4 E4B, default prompt, honest and attack | 100 and 93 | **result** (second monitor) |
 | `e4-mon-gemma-weak-*`, `e4-mon-gemma-trunc10-*` | 6 | the prompt and code mutations on Gemma 4 E4B (ControlArena's `simple` prompt; the first 10 lines), each over the honest set, the 27 regenerated honest trajectories and the attack set | 100, 27 and 93 | **result** (mutation test, second monitor) |
+| `e5-gen-honest-capped-16384` | 1 | the 27 capped honest problems again at budget 16384 (18 of 27; id 96 errored, a second call did not fit the 32768-token slot); the 10 that were under the 12288 cap are identical token for token | 27 | **result** |
+| `e5-mon-gemma-attack-repeat` | 1 | `e4-mon-gemma-attack` run again at the same setting: 93 of 93 scores and reply texts identical (reproducibility of the monitor phase) | 93 | **result** |
 
 Four manifests in the code repository have no file here: `d142-preempt-test`, `d142-preempt-test-2`
 and `d142-window-stop` (runner tests of 3 October 2026 whose logs hold a home-directory path in a
