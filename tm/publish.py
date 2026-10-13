@@ -98,8 +98,21 @@ def configure_uploads() -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Publish the logs of runs to the dataset and verify them.")
     parser.add_argument("run_ids", nargs="+")
+    parser.add_argument(
+        "--verify-at",
+        metavar="COMMIT",
+        help="no upload: verify the logs of the runs at this dataset commit (an upload whose check broke)",
+    )
     args = parser.parse_args()
     configure_uploads()
+    if args.verify_at:
+        api = HfApi(token=token())
+        commit_oid = api.repo_info(DATASET, repo_type="dataset", revision=args.verify_at).sha
+        manifests = {run_id: manifest_of(run_id) for run_id in args.run_ids}
+        plan = {run_id: check_against_manifest(run_id, manifest) for run_id, manifest in manifests.items()}
+        code = verify(manifests, plan, commit_oid, api)
+        print("publish: done; manifests updated, commit them" if code == 0 else "publish: not verified")
+        return code
 
     manifests = {run_id: manifest_of(run_id) for run_id in args.run_ids}
     already = [r for r, m in manifests.items() if all(log.get("published") for log in m["logs"])]
@@ -152,19 +165,43 @@ def main() -> int:
     print(f"publish: uploaded {len(operations)} file(s) in dataset commit {commit.oid}")
 
     # 3. download each file again at that commit and compare with the manifest
+    return verify(manifests, plan, commit.oid, api)
+
+
+DOWNLOAD_ATTEMPTS = 3
+
+
+def download(dataset_path: str, revision: str, cache_dir: str, api: HfApi) -> str:
+    """The file at that commit, into cache_dir; a broken connection is retried and the download resumes.
+
+    The verification download of a 172 MB log broke 3.4 MB before its end on 13 October 2026
+    (`IncompleteRead`), after the upload had succeeded; the same cache_dir lets the next attempt resume.
+    """
+    for attempt in range(1, DOWNLOAD_ATTEMPTS + 1):
+        try:
+            return hf_hub_download(
+                DATASET,
+                dataset_path,
+                repo_type="dataset",
+                revision=revision,
+                cache_dir=cache_dir,
+                token=api.token,
+            )
+        except (requests.exceptions.ChunkedEncodingError, requests.exceptions.ConnectionError) as exc:
+            if attempt == DOWNLOAD_ATTEMPTS:
+                raise
+            print(f"publish: download {attempt} of {dataset_path} broke ({exc}); again", file=sys.stderr)
+    raise AssertionError("unreachable")
+
+
+def verify(manifests: dict, plan: dict, commit_oid: str, api: HfApi) -> int:
+    """Download every file of the plan at that commit, compare with the manifest, record `published`."""
     verified_at = utc_now()
     with tempfile.TemporaryDirectory(prefix="publish-") as tmp:
         for run_id, batch in plan.items():
             manifest = manifests[run_id]
             for path, dataset_path, digest in batch:
-                local = hf_hub_download(
-                    DATASET,
-                    dataset_path,
-                    repo_type="dataset",
-                    revision=commit.oid,
-                    cache_dir=tmp,
-                    token=api.token,
-                )
+                local = download(dataset_path, commit_oid, tmp, api)
                 got = sha256_file(Path(local))
                 if got != digest:
                     print(
@@ -177,8 +214,8 @@ def main() -> int:
                     if log["file"] == path.name:
                         log["published"] = {
                             "dataset": DATASET,
-                            "dataset_commit": commit.oid,
-                            "url": f"https://huggingface.co/datasets/{DATASET}/blob/{commit.oid}/{dataset_path}",
+                            "dataset_commit": commit_oid,
+                            "url": f"https://huggingface.co/datasets/{DATASET}/blob/{commit_oid}/{dataset_path}",
                             "verified": verified_at,
                         }
                 print(f"publish: verified {dataset_path} ({digest[:12]})")
