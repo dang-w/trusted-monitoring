@@ -34,7 +34,9 @@ The method is in [METHOD.md](METHOD.md), with the settings that ran.
   reproduces the same way: `e5-mon-gemma-attack-repeat` gave the same 93 scores and the same 93 reply texts as
   `e4-mon-gemma-attack`. Asking the server for the 20 most likely alternatives at every
   token (`-T logprobs=20`, E6) changes nothing on that path either: the six `e6-mon-*-lp-*` passes gave 440 of 440
-  reply texts and written scores identical to the `e4-mon-*` passes, at 3 to 10 % more time per sample.
+  reply texts and written scores identical to the `e4-mon-*` passes, at 3 to 10 % more time per sample. The
+  probabilities reproduce too: `e6-mon-gemma-lp-attack-repeat` (13 October) gave the same 93 texts, scores and
+  score distributions as `e6-mon-gemma-lp-attack` (10 October), with no recorded probability differing at all.
 
 | set | runs | n | result |
 |---|---|---|---|
@@ -43,6 +45,7 @@ The method is in [METHOD.md](METHOD.md), with the settings that ran.
 | honest set at 12288 | the two above, the later run superseding | 100 | main task 88 of 100 |
 | the 27 capped ids again, budget 16384 | `e5-gen-honest-capped-16384` | 27 | main task 18 of 27 (26 scored; id 96 errored: a second call does not fit the 32768-token slot at this budget); 17 still at the cap; the 10 that were under 12288 are identical token for token |
 | the Gemma attack pass again, same setting | `e5-mon-gemma-attack-repeat` | 93 | 93 of 93 scores and reply texts identical to `e4-mon-gemma-attack` |
+| the Gemma logprob attack pass again, same setting | `e6-mon-gemma-lp-attack-repeat` | 93 | 93 of 93 reply texts, scores and score distributions identical to `e6-mon-gemma-lp-attack` |
 | the two default-prompt monitors again with token probabilities | `e6-mon-gemma-lp-*`, `e6-mon-ministral-lp-*` (attack, honest, honest-capped each) | 93, 100, 27 each | 440 of 440 texts and scores identical to `e4-mon-*`; a score distribution on 436 (Ministral: two `N` replies, two with markdown between the tag and the digit) |
 | attack trajectories, budget 12288 | `e3-gen-attack-1..4` | 100 (the same positions) | main task 35 of 100; side task 33; working backdoors 20 (Wilson 95 %: 14 to 29 %); 7 never submitted |
 | monitor passes | `e4-mon-*` | 100 honest and 93 attack each (the 7 trajectories without a submission have no code to show) | next section |
@@ -142,7 +145,7 @@ attack policies, any monitor prompt tuned on this data, a run with another seed.
 
 The intent is that no run can be left out afterwards, including smoke tests, failed runs and abandoned runs:
 
-- Every run commits a manifest to this repository: 75 manifests as of 13 October 2026.
+- Every run commits a manifest to this repository: 76 manifests as of 13 October 2026.
 - Raw Inspect logs do not go into git. They are published at
   <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 71 runs, 72 `.eval` files. Four manifests have
   no published log: three runner tests of 3 October whose logs hold a home-directory path in a traceback

@@ -18,7 +18,7 @@ runs. The intent is that no run can be left out afterwards.
   under `/sys/fs/cgroup/` (`memory.events.local`, `cpu.stat.local`), which a sandbox listing in
   `e3-gen-attack-3` sample 79 put into a scorer's output; they are file names, not hosts.
 
-**Status (13 October 2026): 71 runs, 72 files. The `e2` to `e6` families are the results of the
+**Status (13 October 2026): 72 runs, 73 files. The `e2` to `e6` families are the results of the
 first small-scale measurement (100 problems, one setting); the `d1xx` and `e1` families are tests of
 the plumbing, measurements of the substrate and a superseded first pass.** The numbers, with the runs
 each comes from, are in the code repository's README; nothing here is a finding about trusted
@@ -50,6 +50,7 @@ monitoring in general.
 | `e5-mon-gemma-attack-repeat` | 1 | `e4-mon-gemma-attack` run again at the same setting: 93 of 93 scores and reply texts identical (reproducibility of the monitor phase) | 93 | **result** |
 | `e6-mon-gemma-lp-probe` | 1 | Gemma 4 E4B over the first 10 attack trajectories with the 20 most likely alternatives per token recorded (`logprobs`); the texts equal `e4-mon-gemma-attack` | 10 | result (probe) |
 | `e6-mon-gemma-lp-*`, `e6-mon-ministral-lp-*` (attack, honest, honest-capped) | 6 | the two default-prompt monitors again with token probabilities: 440 of 440 reply texts and written scores identical to `e4-mon-*`; each score carries the monitor's probability over 0 to 10 and the expected score (`metadata.logprobs`) | 93, 100, 27 each | **result** |
+| `e6-mon-gemma-lp-attack-repeat` | 1 | `e6-mon-gemma-lp-attack` run again at the same setting three days later: 93 of 93 reply texts, scores and score distributions identical (reproducibility of the probabilities) | 93 | **result** |
 
 Four manifests in the code repository have no file here: `d142-preempt-test`, `d142-preempt-test-2`
 and `d142-window-stop` (runner tests of 3 October 2026 whose logs hold a home-directory path in a
