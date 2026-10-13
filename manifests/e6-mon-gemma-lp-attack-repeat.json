@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/gemma-4-e4b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e6-mon-gemma-lp-attack-repeat"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-13T18:20:10+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 172339381,
+      "completed": "2026-10-13T18:20:05+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e6-mon-gemma-lp-attack-repeat/2026-10-13T17-22-57-00-00_apps-monitor_5FDPb6TX5ba28qEx4wR6YC.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-13T17-22-57-00-00_apps-monitor_5FDPb6TX5ba28qEx4wR6YC.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "Cvmxfc4dwtuReCgRUfp4Vm",
+      "model": "openai-api/llama-cpp/gemma-4-e4b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "19f61f4e38e81a7b551943b610b8d06fda4f8b7d",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/19f61f4e38e81a7b551943b610b8d06fda4f8b7d/runs/e6-mon-gemma-lp-attack-repeat/2026-10-13T17-22-57-00-00_apps-monitor_5FDPb6TX5ba28qEx4wR6YC.eval",
+        "verified": "2026-10-13T18:50:14+00:00"
+      },
+      "revision": {
+        "commit": "57df9b8",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "09fb76ca8e8e78c40872c61082192179e4d822b3d60bee0a5a36347cf3080773",
+      "started": "2026-10-13T17:22:57+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e6-mon-gemma-lp-attack-repeat",
+      "ts": "2026-10-13T18:22:41+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e6-mon-gemma-lp-attack-repeat",
+      "seconds": 14.3,
+      "ts": "2026-10-13T18:22:55+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "gemma-4-E4B-it-Q8_0.gguf",
+      "id": "gemma-4-e4b",
+      "server": {
+        "build_info": "b11189-a25c9865f",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 64,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "34be82b17b4942d389b9b527170c4b058027abdd32531fda063d3d97dd8ce80a",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E6 reproducibility of the expected score (PLAN decision ii, Dan 2026-10-13): e6-mon-gemma-lp-attack run again, the same arguments, seed and setting; compare the reply texts, the written scores and the score distributions sample by sample against the first run (manifest e6-mon-gemma-lp-attack: 56.8 min for 93 samples; E5 showed the texts reproduce, this run shows whether the probabilities do, before the 73.1 % at 5 % FPR is quoted). Basis for the estimate: that run.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "57df9b87aa3cb2a1a441463e682de5e27c86ca53",
+    "dirty": true
+  },
+  "run_id": "e6-mon-gemma-lp-attack-repeat",
+  "schema": 1,
+  "started": "2026-10-13T17:22:55+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
