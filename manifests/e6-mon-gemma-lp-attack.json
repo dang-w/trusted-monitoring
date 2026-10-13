@@ -61,6 +61,12 @@
       "inspect_run_id": "4oXS8eu5A4rDSmFfEkx5vb",
       "model": "openai-api/llama-cpp/gemma-4-e4b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "ebc6cb79c089f2987d80f50e0a75c8a83ec47839",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/ebc6cb79c089f2987d80f50e0a75c8a83ec47839/runs/e6-mon-gemma-lp-attack/2026-10-10T08-52-04-00-00_apps-monitor_aQrErDdXjCHK8EVjo57nYE.eval",
+        "verified": "2026-10-13T14:12:40+00:00"
+      },
       "revision": {
         "commit": "941d022",
         "dirty": true

@@ -110,9 +110,7 @@ def main() -> int:
         commit_oid = api.repo_info(DATASET, repo_type="dataset", revision=args.verify_at).sha
         manifests = {run_id: manifest_of(run_id) for run_id in args.run_ids}
         plan = {run_id: check_against_manifest(run_id, manifest) for run_id, manifest in manifests.items()}
-        code = verify(manifests, plan, commit_oid, api)
-        print("publish: done; manifests updated, commit them" if code == 0 else "publish: not verified")
-        return code
+        return verify(manifests, plan, commit_oid, api)
 
     manifests = {run_id: manifest_of(run_id) for run_id in args.run_ids}
     already = [r for r, m in manifests.items() if all(log.get("published") for log in m["logs"])]
