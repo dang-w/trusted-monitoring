@@ -166,7 +166,7 @@ def main() -> int:
     return verify(manifests, plan, commit.oid, api)
 
 
-DOWNLOAD_ATTEMPTS = 3
+DOWNLOAD_ATTEMPTS = 6
 
 
 def download(dataset_path: str, revision: str, cache_dir: str, api: HfApi) -> str:
@@ -193,7 +193,12 @@ def download(dataset_path: str, revision: str, cache_dir: str, api: HfApi) -> st
 
 
 def verify(manifests: dict, plan: dict, commit_oid: str, api: HfApi) -> int:
-    """Download every file of the plan at that commit, compare with the manifest, record `published`."""
+    """Download every file of the plan at that commit, compare with the manifest, record `published`.
+
+    Downloads go over the default pooled session again: a GET on a stale connection is retried by urllib3, and
+    with `Connection: close` three downloads in a row broke a few MB before their end (13 October 2026).
+    """
+    configure_http_backend()
     verified_at = utc_now()
     with tempfile.TemporaryDirectory(prefix="publish-") as tmp:
         for run_id, batch in plan.items():

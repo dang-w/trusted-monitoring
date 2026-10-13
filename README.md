@@ -140,9 +140,9 @@ attack policies, any monitor prompt tuned on this data, a run with another seed.
 
 The intent is that no run can be left out afterwards, including smoke tests, failed runs and abandoned runs:
 
-- Every run commits a manifest to this repository: 68 manifests as of 10 October 2026.
+- Every run commits a manifest to this repository: 75 manifests as of 13 October 2026.
 - Raw Inspect logs do not go into git. They are published at
-  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 64 runs, 65 `.eval` files. Four manifests have
+  <https://huggingface.co/datasets/dang-w/trusted-monitoring-logs>: 71 runs, 72 `.eval` files. Four manifests have
   no published log: three runner tests of 3 October whose logs hold a home-directory path in a traceback
   (`d142-preempt-test`, `d142-preempt-test-2`, `d142-window-stop`, `status: scrub-failed`), and one interrupted
   probe (`e2-gen-attack-probe`) whose log was abandoned with it. Each says so in its manifest.

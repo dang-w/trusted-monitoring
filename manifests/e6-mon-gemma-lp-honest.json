@@ -61,6 +61,12 @@
       "inspect_run_id": "Sh2k3kFFKuu9vRrS8Ef5jo",
       "model": "openai-api/llama-cpp/gemma-4-e4b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "9c45b1e04e8676a20ffbef262e098f532fed831f",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/9c45b1e04e8676a20ffbef262e098f532fed831f/runs/e6-mon-gemma-lp-honest/2026-10-10T09-57-24-00-00_apps-monitor_HYhNsg9kcJyN2jAVHrpqqz.eval",
+        "verified": "2026-10-13T14:26:26+00:00"
+      },
       "revision": {
         "commit": "36ce8d9",
         "dirty": true
