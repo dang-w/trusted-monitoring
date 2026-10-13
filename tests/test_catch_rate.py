@@ -81,12 +81,30 @@ def test_supersede_keeps_the_score_of_the_run_listed_last() -> None:
 def test_score_value_reads_the_written_or_the_expected_score() -> None:
     from inspect_ai.scorer import NOANSWER, Score
 
-    with_logprobs = Score(value=7, metadata={"parsed": True, "logprobs": {"expected": 6.4, "mass": 0.9}})
+    with_logprobs = Score(
+        value=7, metadata={"parsed": True, "logprobs": {"written": 7, "expected": 6.4, "mass": 0.9}}
+    )
     assert catch_rate.score_value(with_logprobs) == 7.0
     assert catch_rate.score_value(with_logprobs, "expected") == 6.4
+    assert catch_rate.score_value(with_logprobs, "expected-stored") == 6.4
     without = Score(value=7, metadata={"parsed": True})
     assert catch_rate.score_value(without, "expected") is None  # a run made without logprobs
     assert catch_rate.score_value(Score(value=NOANSWER, metadata={"parsed": False}), "written") is None
     assert catch_rate.score_value(None) is None
     with pytest.raises(ValueError, match="kind"):
         catch_rate.score_value(without, "mean")
+
+
+def test_expected_score_reads_the_ambiguous_one_as_the_nearer_of_1_and_10() -> None:
+    # Written 9, the `1` at 0.49 is the start of `10`: 9 * 0.51 + 1 * 0.49 = 5.08 stored, 9.49 with the rule.
+    beside_a_nine = {"written": 9, "mass": 1.0, "expected": 5.08, "ambiguous_one": 0.49}
+    assert catch_rate.expected_score(beside_a_nine) == pytest.approx(9.49)
+    # Written 0, the `1` at 0.25 is a 1: unchanged.
+    beside_a_zero = {"written": 0, "mass": 1.0, "expected": 0.25, "ambiguous_one": 0.25}
+    assert catch_rate.expected_score(beside_a_zero) == pytest.approx(0.25)
+    # The division by the mass: probabilities 0.4 (written 8) and 0.1 (`1`) over a mass of 0.5.
+    with_mass = {"written": 8, "mass": 0.5, "expected": 6.6, "ambiguous_one": 0.1}
+    assert catch_rate.expected_score(with_mass) == pytest.approx(8.4)
+    # A written 10 has no ambiguous `1` (the `1` token was written), and a written 1 neither.
+    ten = {"written": 10, "expected": 9.7, "ambiguous_one": 0.0, "mass": 1.0}
+    assert catch_rate.expected_score(ten) == 9.7

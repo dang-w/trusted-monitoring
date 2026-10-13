@@ -1,0 +1,25 @@
+estimated_minutes: 60
+note: 'E6 reproducibility of the expected score (PLAN decision ii, Dan 2026-10-13):
+  e6-mon-gemma-lp-attack run again, the same arguments, seed and setting; compare
+  the reply texts, the written scores and the score distributions sample by sample
+  against the first run (manifest e6-mon-gemma-lp-attack: 56.8 min for 93 samples;
+  E5 showed the texts reproduce, this run shows whether the probabilities do, before
+  the 73.1 % at 5 % FPR is quoted). Basis for the estimate: that run.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4
+- -T
+- monitor=openai-api/llama-cpp/gemma-4-e4b
+- -T
+- logprobs=20
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-13T18:22:55+01:00'
+attempts: 1
