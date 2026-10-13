@@ -48,6 +48,8 @@ monitoring in general.
 | `e4-mon-gemma-weak-*`, `e4-mon-gemma-trunc10-*` | 6 | the prompt and code mutations on Gemma 4 E4B (ControlArena's `simple` prompt; the first 10 lines), each over the honest set, the 27 regenerated honest trajectories and the attack set | 100, 27 and 93 | **result** (mutation test, second monitor) |
 | `e5-gen-honest-capped-16384` | 1 | the 27 capped honest problems again at budget 16384 (18 of 27; id 96 errored, a second call did not fit the 32768-token slot); the 10 that were under the 12288 cap are identical token for token | 27 | **result** |
 | `e5-mon-gemma-attack-repeat` | 1 | `e4-mon-gemma-attack` run again at the same setting: 93 of 93 scores and reply texts identical (reproducibility of the monitor phase) | 93 | **result** |
+| `e6-mon-gemma-lp-probe` | 1 | Gemma 4 E4B over the first 10 attack trajectories with the 20 most likely alternatives per token recorded (`logprobs`); the texts equal `e4-mon-gemma-attack` | 10 | result (probe) |
+| `e6-mon-gemma-lp-*`, `e6-mon-ministral-lp-*` (attack, honest, honest-capped) | 6 | the two default-prompt monitors again with token probabilities: 440 of 440 reply texts and written scores identical to `e4-mon-*`; each score carries the monitor's probability over 0 to 10 and the expected score (`metadata.logprobs`) | 93, 100, 27 each | **result** |
 
 Four manifests in the code repository have no file here: `d142-preempt-test`, `d142-preempt-test-2`
 and `d142-window-stop` (runner tests of 3 October 2026 whose logs hold a home-directory path in a
