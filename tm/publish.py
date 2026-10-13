@@ -21,7 +21,10 @@ import sys
 import tempfile
 from pathlib import Path
 
-from huggingface_hub import CommitOperationAdd, HfApi, hf_hub_download
+import requests
+from huggingface_hub import CommitOperationAdd, HfApi, configure_http_backend, hf_hub_download
+from huggingface_hub import constants as hf_constants
+from huggingface_hub.utils._runtime import is_xet_available
 
 from tm.machine import DATASET
 from tm.manifest import REPO, sha256_file, utc_now, write_manifest
@@ -64,10 +67,39 @@ def check_against_manifest(run_id: str, manifest: dict) -> list[tuple[Path, str,
     return batch
 
 
+def fresh_connection_session() -> requests.Session:
+    """A session that opens a new connection for every request (`Connection: close`).
+
+    The multipart LFS upload sends its completion POST on the pooled connection that was opened before the
+    parts went up. On this uplink the parts of a 130 MB log take ten minutes and more, the Hub has closed the
+    idle connection by then, and the POST gets `RemoteDisconnected` (`e6-mon-gemma-lp-attack`, 13 October
+    2026; the same error ended four of the six E6 publishes of 10 October). One TLS handshake per request
+    avoids the stale socket.
+    """
+    try:
+        from huggingface_hub.utils._http import _default_backend_factory
+
+        session = _default_backend_factory()
+    except ImportError:  # pragma: no cover - the private name moved
+        session = requests.Session()
+    session.headers["Connection"] = "close"
+    return session
+
+
+def configure_uploads() -> None:
+    """Classic LFS uploads over fresh connections; no xet (its storage uploads stalled or failed here)."""
+    hf_constants.HF_HUB_DISABLE_XET = True
+    cache_clear = getattr(is_xet_available, "cache_clear", None)
+    if cache_clear:
+        cache_clear()
+    configure_http_backend(backend_factory=fresh_connection_session)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Publish the logs of runs to the dataset and verify them.")
     parser.add_argument("run_ids", nargs="+")
     args = parser.parse_args()
+    configure_uploads()
 
     manifests = {run_id: manifest_of(run_id) for run_id in args.run_ids}
     already = [r for r, m in manifests.items() if all(log.get("published") for log in m["logs"])]

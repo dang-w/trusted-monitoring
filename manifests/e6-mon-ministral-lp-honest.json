@@ -61,6 +61,12 @@
       "inspect_run_id": "Yq4EMFdiRKLqS3sL2k8GGh",
       "model": "openai-api/llama-cpp/ministral-3-8b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "741e0b2f34b8557f177a574babc824961283c84e",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/741e0b2f34b8557f177a574babc824961283c84e/runs/e6-mon-ministral-lp-honest/2026-10-10T13-16-34-00-00_apps-monitor_jprVoCsvrdm4y55MxuHS7n.eval",
+        "verified": "2026-10-13T13:44:22+00:00"
+      },
       "revision": {
         "commit": "70e0040",
         "dirty": true
