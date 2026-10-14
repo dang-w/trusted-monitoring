@@ -1,6 +1,7 @@
 estimated_minutes: 12
-note: 'llama.cpp b11612 reproducibility (Dan 2026-10-14): e6-mon-gemma-lp-probe again on the new build,
-  the same arguments; compare the 10 reply texts, scores and score distributions with the b11189 run.'
+note: 'llama.cpp b11612 reproducibility (Dan 2026-10-14): e6-mon-gemma-lp-probe again
+  on the new build, the same arguments; compare the 10 reply texts, scores and score
+  distributions with the b11189 run.'
 inspect:
 - eval
 - tm/monitor.py@apps_monitor
@@ -20,3 +21,4 @@ inspect:
 - '8'
 - --no-fail-on-error
 queued: '2026-10-14T08:56:24+01:00'
+attempts: 1
