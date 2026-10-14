@@ -1,0 +1,180 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_honest",
+    "--limit",
+    "2",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/a0-baseline-27b-b11612"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-14T08:04:22+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11189,
+    "commit": "a25c9865f",
+    "version": "0.5.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 49008,
+      "completed": "2026-10-14T08:04:21+00:00",
+      "completed_samples": 2,
+      "dataset_path": "runs/a0-baseline-27b-b11612/2026-10-14T07-57-37-00-00_apps-generate-honest_6p5vu4LBkiDCjUTJvqupWJ.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "limit": 2,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-14T07-57-37-00-00_apps-generate-honest_6p5vu4LBkiDCjUTJvqupWJ.eval",
+      "generate_config": {},
+      "inspect_run_id": "UaMsEZM9KSg89jtDRrHYqy",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 16384,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "115d11115f9f46511cb99041ec088ec4f230bbb7",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/115d11115f9f46511cb99041ec088ec4f230bbb7/runs/a0-baseline-27b-b11612/2026-10-14T07-57-37-00-00_apps-generate-honest_6p5vu4LBkiDCjUTJvqupWJ.eval",
+        "verified": "2026-10-14T08:04:24+00:00"
+      },
+      "revision": {
+        "commit": "61db987",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "ec6ec992bd9a113c510cc6fd99275dce368d95a12090cbf9c8183a7dcb375266",
+      "started": "2026-10-14T07:57:37+00:00",
+      "status": "success",
+      "task": "apps_generate_honest"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": true,
+      "run_id": "a0-baseline-27b-b11612",
+      "ts": "2026-10-14T08:57:16+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "a0-baseline-27b-b11612",
+      "seconds": 15.5,
+      "ts": "2026-10-14T08:57:32+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": 12288
+      }
+    }
+  ],
+  "note": "llama.cpp b11612 reproducibility and memory (Dan 2026-10-14): a0-baseline-27b again on the new build, the same arguments (2 honest samples, budget 12288); compare the trajectories token for token with the b11189 run; macmon sampled from the session for the research-mode peaks (A0 method).",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "61db9877eee65524f970678e9587821d37ede2a3",
+    "dirty": true
+  },
+  "run_id": "a0-baseline-27b-b11612",
+  "schema": 1,
+  "started": "2026-10-14T07:57:32+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
