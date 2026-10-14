@@ -26,9 +26,9 @@
   "ended": "2026-10-14T08:11:04+00:00",
   "exit_code": 0,
   "llama_cpp": {
-    "build": 11189,
-    "commit": "a25c9865f",
-    "version": "0.5.0-dev"
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
   },
   "logs": [
     {
@@ -127,7 +127,7 @@
       }
     }
   ],
-  "note": "llama.cpp b11612 reproducibility (Dan 2026-10-14): e6-mon-gemma-lp-probe again on the new build, the same arguments; compare the 10 reply texts, scores and score distributions with the b11189 run.",
+  "note": "llama.cpp b11612 reproducibility (Dan 2026-10-14): e6-mon-gemma-lp-probe again on the new build, the same arguments; compare the 10 reply texts, scores and score distributions with the b11189 run. Corrected 2026-10-14 on Dan's instruction: llama_cpp was written as build 11189 (tm.manifest read the binary at the old fixed path); the run used build 11612, as llama-research.log shows (research repo b11bcad fixed the source of the field).",
   "presets": {
     "file": "models.research.ini",
     "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"

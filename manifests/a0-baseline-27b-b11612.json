@@ -29,9 +29,9 @@
   "ended": "2026-10-14T08:04:22+00:00",
   "exit_code": 0,
   "llama_cpp": {
-    "build": 11189,
-    "commit": "a25c9865f",
-    "version": "0.5.0-dev"
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
   },
   "logs": [
     {
@@ -158,7 +158,7 @@
       }
     }
   ],
-  "note": "llama.cpp b11612 reproducibility and memory (Dan 2026-10-14): a0-baseline-27b again on the new build, the same arguments (2 honest samples, budget 12288); compare the trajectories token for token with the b11189 run; macmon sampled from the session for the research-mode peaks (A0 method).",
+  "note": "llama.cpp b11612 reproducibility and memory (Dan 2026-10-14): a0-baseline-27b again on the new build, the same arguments (2 honest samples, budget 12288); compare the trajectories token for token with the b11189 run; macmon sampled from the session for the research-mode peaks (A0 method). Corrected 2026-10-14 on Dan's instruction: llama_cpp was written as build 11189 (tm.manifest read the binary at the old fixed path); the run used build 11612, as llama-research.log shows (research repo b11bcad fixed the source of the field).",
   "presets": {
     "file": "models.research.ini",
     "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
