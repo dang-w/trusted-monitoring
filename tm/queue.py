@@ -78,6 +78,7 @@ GRADUATION_LOG = STATE_DIR / "graduation.jsonl"
 
 WINDOW_END = dt.time(6, 30)  # local time (Europe/London on the box), decided 2026-10-02
 MARGIN_MINUTES = 10  # the switch back, the publish and the commit after the last sample
+PUBLISH_TIMEOUT = 3600  # seconds for `tm.publish` (a 207 MB log took 50 min on the slow link of 13 Oct 2026)
 BUSY_RETRY_SECONDS = 15 * 60  # the interactive router is in use: try again later in the window
 IDLE_POLL_SECONDS = 60  # `run --idle`: how often an empty queue is looked at again (A5, 2026-10-08)
 DAYTIME = (dt.time(7, 0), dt.time(20, 0))  # a preemption in this span is a daytime one (the idle bar)
@@ -311,6 +312,16 @@ def window_deadline(at: dt.datetime, end: dt.time = WINDOW_END) -> dt.datetime:
     return deadline if deadline > at else deadline + dt.timedelta(days=1)
 
 
+def run_completed(run_id: str) -> bool:
+    """True when the manifest says `completed` and a log is in place: nothing to resume, only to publish."""
+    manifest_path = REPO / "manifests" / f"{run_id}.json"
+    try:
+        status = json.loads(manifest_path.read_text()).get("status")
+    except (OSError, ValueError):
+        return False
+    return status == "completed" and any((REPO / "logs" / run_id).glob("*.eval"))
+
+
 def set_aside_partial_logs(run_id: str, reason: str) -> dict[str, Any] | None:
     """Move the logs of an interrupted attempt into logs/<run id>/interrupted/ and describe them.
 
@@ -383,11 +394,17 @@ class Runner:
         """Specs left in running/ go back to pending/ with a resume marker; the box is restored."""
         recovered = []
         for spec in specs_in("running"):
-            aside = set_aside_partial_logs(spec.run_id, "killed") or {"log": None, "reason": "killed"}
+            if run_completed(spec.run_id):
+                # The eval had finished and the runner died after it (14 Oct 2026: in the publish). The log
+                # is whole, so it is not set aside; the retry only publishes it.
+                aside = {"log": None, "reason": "killed-after-completion"}
+                log(f"{spec.run_id}: found in running/ with a completed manifest; requeued to publish only")
+            else:
+                aside = set_aside_partial_logs(spec.run_id, "killed") or {"log": None, "reason": "killed"}
+                log(f"{spec.run_id}: found in running/ (the runner was killed); requeued to resume")
             spec.resume = aside | {"at": now().isoformat(timespec="seconds")}
             save_spec(spec, "pending")
             recovered.append(spec.run_id)
-            log(f"{spec.run_id}: found in running/ (the runner was killed); requeued with a resume marker")
         if recovered:
             outcome, tail = mini_mode("interactive")
             log(f"restore interactive mode after the kill: {outcome} ({tail})")
@@ -495,7 +512,16 @@ class Runner:
         return committed, pushed
 
     def publish(self, spec: Spec) -> tuple[bool, str]:
-        result = run(sys.executable, "-m", "tm.publish", spec.run_id, timeout=3600)
+        try:
+            result = run(sys.executable, "-m", "tm.publish", spec.run_id, timeout=PUBLISH_TIMEOUT)
+        except subprocess.TimeoutExpired as e:
+            # 14 Oct 2026: a 10 MB log was committed within a minute and the publish then hung for the rest
+            # of the hour; the exception killed the runner. The log and the manifest are intact on disk, so
+            # this is a failed publish, not a dead runner: `tm.publish --verify-at COMMIT RUN` finishes it.
+            tail = (e.stdout or b"") if isinstance(e.stdout, (bytes, str)) else b""
+            tail = tail.decode(errors="replace") if isinstance(tail, bytes) else tail
+            log(f"  publish: no answer after {PUBLISH_TIMEOUT} s; killed. Last output: {tail[-300:]!r}")
+            return False, "publish-timeout"
         for line in (result.stdout + result.stderr).splitlines():
             log(f"  {line}")
         manifest = json.loads((REPO / "manifests" / f"{spec.run_id}.json").read_text())
@@ -526,7 +552,12 @@ class Runner:
         spec.attempts += 1
         save_spec(spec, "running")
 
-        code, tail = self.run_inspect(spec)
+        publish_only = bool(spec.resume) and spec.resume.get("reason") == "killed-after-completion"
+        if publish_only and run_completed(spec.run_id):
+            code, tail = 0, "the eval had completed before the runner was killed; publish only"
+            log(f"{spec.run_id}: {tail}")
+        else:
+            code, tail = self.run_inspect(spec)
         if code is not None and code != 0 and MODEL_LIMIT_TEXT in tail:
             for wait in MODEL_LIMIT_BACKOFF:
                 if self.stop.reason is not None:

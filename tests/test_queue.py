@@ -143,3 +143,35 @@ def test_research_argv_ignores_a_stale_give_marker(tmp_path: Path) -> None:
     later = dt.datetime.now().astimezone() + queue.GIVE_TTL + dt.timedelta(minutes=1)
     assert "--force" not in queue.research_argv("r1", 42, None, marker, at=later)
     assert not marker.exists()  # removed either way
+
+
+def test_run_completed_needs_a_completed_manifest_and_a_log(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(queue, "REPO", tmp_path)
+    (tmp_path / "manifests").mkdir()
+    (tmp_path / "logs" / "r1").mkdir(parents=True)
+    assert queue.run_completed("r1") is False  # no manifest
+    (tmp_path / "manifests" / "r1.json").write_text('{"status": "completed"}')
+    assert queue.run_completed("r1") is False  # no log
+    (tmp_path / "logs" / "r1" / "a.eval").write_bytes(b"x")
+    assert queue.run_completed("r1") is True
+    (tmp_path / "manifests" / "r1.json").write_text('{"status": "interrupted"}')
+    assert queue.run_completed("r1") is False
+
+
+def test_a_publish_timeout_is_a_failed_publish_not_a_dead_runner(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import subprocess
+
+    def hang(*argv: str, cwd: Path | None = None, timeout: float | None = None) -> None:
+        raise subprocess.TimeoutExpired(argv, timeout, output=b"publish: uploaded 1 file(s)")
+
+    lines: list[str] = []
+    monkeypatch.setattr(queue, "run", hang)
+    monkeypatch.setattr(queue, "log", lines.append)
+    runner = queue.Runner.__new__(queue.Runner)
+    spec = queue.Spec(path=tmp_path / "r1.yaml", estimated_minutes=1, inspect=["eval", "t"])
+    assert runner.publish(spec) == (False, "publish-timeout")
+    assert lines and "no answer after" in lines[0] and "uploaded 1 file" in lines[0]
