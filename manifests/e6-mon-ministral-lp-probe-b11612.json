@@ -64,6 +64,12 @@
       "inspect_run_id": "m3wTBB4Wrb4vp9BSWGDowo",
       "model": "openai-api/llama-cpp/ministral-3-8b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "59f6a565a14cbc0bf754f56357167896d33d7108",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/59f6a565a14cbc0bf754f56357167896d33d7108/runs/e6-mon-ministral-lp-probe-b11612/2026-10-14T09-24-19-00-00_apps-monitor_9mtzM4T8cmJkmoYrHoeuVn.eval",
+        "verified": "2026-10-14T10:35:19+00:00"
+      },
       "revision": {
         "commit": "0b053e5",
         "dirty": true
