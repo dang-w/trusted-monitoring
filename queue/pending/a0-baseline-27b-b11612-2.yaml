@@ -1,0 +1,17 @@
+estimated_minutes: 15
+note: 'llama.cpp b11612, second pass (Dan 2026-10-14): a0-baseline-27b once more on the new build to see
+  whether the 199 and 201 s per sample of the first b11612 pass (181 and 189 s on b11189) hold; tokens
+  expected identical.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_honest
+- --limit
+- '2'
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-14T09:32:54+01:00'
