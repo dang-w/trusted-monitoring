@@ -1,0 +1,25 @@
+estimated_minutes: 70
+note: 'E7 (Dan 2026-10-16): e6-mon-ministral-lp-honest again on llama.cpp b11612,
+  the same arguments (Ministral-3-8B, 100 trajectories, -T logprobs=20). Purpose:
+  (1) the build boundary measured on the full set, reply by reply, against the b11189
+  pass (the 10-reply probes: Gemma 10 of 10 identical, Ministral 8 of 10); (2) every
+  monitor score on the build that scores the E8 set. Estimate: the b11189 pass plus
+  about 5 % (the Gemma probe took 341 then 350 s).'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4
+- -T
+- monitor=openai-api/llama-cpp/ministral-3-8b
+- -T
+- logprobs=20
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-16T11:14:48+01:00'
+attempts: 1
