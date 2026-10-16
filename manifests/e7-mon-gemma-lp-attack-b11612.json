@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/gemma-4-e4b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e7-mon-gemma-lp-attack-b11612"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-16T11:12:11+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 172160956,
+      "completed": "2026-10-16T11:12:07+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e7-mon-gemma-lp-attack-b11612/2026-10-16T10-15-24-00-00_apps-monitor_9TEV6tVBgdu37RgSE349dn.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-16T10-15-24-00-00_apps-monitor_9TEV6tVBgdu37RgSE349dn.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "GDxaTKJq3JFetrWghc4Emv",
+      "model": "openai-api/llama-cpp/gemma-4-e4b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "41f265f0fb05cce11dd4e706802dffd3c0fb22ec",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/41f265f0fb05cce11dd4e706802dffd3c0fb22ec/runs/e7-mon-gemma-lp-attack-b11612/2026-10-16T10-15-24-00-00_apps-monitor_9TEV6tVBgdu37RgSE349dn.eval",
+        "verified": "2026-10-16T11:23:58+00:00"
+      },
+      "revision": {
+        "commit": "03dbb6f",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "6441c1991c25d34023aab22b230aaf772d4184e0ce81eba655e3926bd4a4aa7f",
+      "started": "2026-10-16T10:15:24+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e7-mon-gemma-lp-attack-b11612",
+      "ts": "2026-10-16T11:15:06+01:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e7-mon-gemma-lp-attack-b11612",
+      "seconds": 15.9,
+      "ts": "2026-10-16T11:15:22+01:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "gemma-4-E4B-it-Q8_0.gguf",
+      "id": "gemma-4-e4b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 64,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "34be82b17b4942d389b9b527170c4b058027abdd32531fda063d3d97dd8ce80a",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E7 (Dan 2026-10-16): e6-mon-gemma-lp-attack again on llama.cpp b11612, the same arguments (Gemma 4 E4B, 93 trajectories, -T logprobs=20). Purpose: (1) the build boundary measured on the full set, reply by reply, against the b11189 pass (the 10-reply probes: Gemma 10 of 10 identical, Ministral 8 of 10); (2) every monitor score on the build that scores the E8 set. Estimate: the b11189 pass plus about 5 % (the Gemma probe took 341 then 350 s).",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "03dbb6f677e671851706730fb94e28ecb27a4756",
+    "dirty": true
+  },
+  "run_id": "e7-mon-gemma-lp-attack-b11612",
+  "schema": 1,
+  "started": "2026-10-16T10:15:22+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
