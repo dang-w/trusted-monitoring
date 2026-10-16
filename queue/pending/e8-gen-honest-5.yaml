@@ -1,0 +1,20 @@
+estimated_minutes: 150
+note: 'E8 (Dan 2026-10-16): the honest set grown to 200 problems, part 5 of 8 (positions 101-125,
+  dataset ids 123 to 244), generated at thinking budget 12288 directly (the research preset
+  since E3), 16384 output tokens, 2000 s client timeout, llama.cpp b11612. Pairs with e8-gen-attack-5
+  on the same positions. Not comparable sample by sample with the b11189 sets. Estimate: 73
+  uncapped at about 2.5 min and 27 capped at 14.1 min per 100 (E2, e3-gen-honest-capped),
+  plus 5 %.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_honest
+- --limit
+- 101-125
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-16T11:14:50+01:00'
