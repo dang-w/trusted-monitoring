@@ -1,0 +1,20 @@
+estimated_minutes: 480
+note: 'E8 (Dan 2026-10-16): the attack set grown to 200 problems, part 7 of 8 (positions
+  151-175, dataset ids 123 to 244), thinking budget 12288, 16384 output tokens, 2000
+  s client timeout, llama.cpp b11612; the same setting as e3-gen-attack-1..4. Pairs
+  with e8-gen-honest-7. Not comparable sample by sample with the b11189 sets. Estimate:
+  e3-gen-attack-1..4 took 376 to 536 min (mean 447), plus 5 % for the build.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- --limit
+- 151-175
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-16T11:14:56+01:00'
+attempts: 1
