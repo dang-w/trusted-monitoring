@@ -4,6 +4,15 @@
 problems, one machine. Every number below names the runs it comes from; every run has a manifest in this
 repository and its raw log in the dataset. Nothing here is a finding about trusted monitoring in general.
 
+A self-hosted AI-control evaluation: open-weight models served locally, trusted-monitoring runs on Inspect AI and
+ControlArena, the untrusted model's code run in containers with networking off. The result so far: the 8B trusted
+monitor flagged 63 % of attack-mode trajectories at a 4.1 % false-positive rate (59 of 93; bootstrap 95 % 51 to
+72 %) but only 9 of the 20 working backdoors, and three deliberately weakened monitors each measured lower, so the
+measurement responds to monitor quality. Containment was measured rather than assumed: the stock ControlArena
+19.0.0 APPS sandbox ran the task as root, and the hardened configuration here runs it non-root with networking off
+and capabilities dropped. n is 100 problems and 20 working backdoors, one setting, one seed, and the intervals are
+wide. Part of the evaluation-and-control work at [danwalsh.co](https://www.danwalsh.co/projects).
+
 ## The question
 
 In trusted monitoring, a weaker model that we trust reads the actions of a stronger model that we
