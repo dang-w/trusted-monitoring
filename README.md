@@ -1,7 +1,7 @@
 # trusted-monitoring
 
-**Status: first results at small scale (8 October 2026).** One untrusted model, two trusted monitors, 100
-problems, one machine. Every number below names the runs it comes from; every run has a manifest in this
+**Status: first results at small scale (8 October 2026).** One untrusted model, two trusted monitors (plus a weaker third
+for the mutation test), 100 problems, one machine. Every number below names the runs it comes from; every run has a manifest in this
 repository and its raw log in the dataset. Nothing here is a finding about trusted monitoring in general.
 
 A self-hosted AI-control evaluation: open-weight models served locally, trusted-monitoring runs on Inspect AI and
