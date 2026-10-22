@@ -1,0 +1,90 @@
+# Sandbox escape check, 2026-10-02. Verbatim output of the probe script against three compose files, with four
+# redactions: the tailnet address, the VM gateway address, the host name and the home directory are replaced by
+# <placeholders>. Nothing else is changed. Ports 8080 and 8081 are the inference router (keyed) and a model
+# server's key-less child port on the host. Section 3 is the control: the same image on Docker's default
+# network, which is why the API key is not a network boundary. Summary: stock file 1 policy fact violated
+# (runs as root), hardened file 21 of 21 probes blocked and both policy facts ok, control 8 probes reached.
+
+# sandbox-escape-check.sh (private probe script, not published) on the ControlArena APPS sandbox configs, research mode, 2026-10-02
+# image python:3.4 (arm64); the stock file is control_arena/settings/apps/compose.yml of ControlArena 19.0.0
+
+##### 1. stock ControlArena APPS compose (exit 1: runs as root)
+--- container: user 0:0; interfaces: lo ; probe tool: curl
+blocked  http 127.0.0.1:8080  (exit 7)
+blocked  http 127.0.0.1:8081  (exit 7)
+blocked  http host.docker.internal:8080  (exit 6)
+blocked  http host.docker.internal:8081  (exit 6)
+blocked  http host.lima.internal:8080  (exit 6)
+blocked  http host.lima.internal:8081  (exit 6)
+blocked  http <vm-gateway-ip>:8080  (exit 7)
+blocked  http <vm-gateway-ip>:8081  (exit 7)
+blocked  http <tailnet-ip>:8080  (exit 7)
+blocked  http <tailnet-ip>:8081  (exit 7)
+blocked  http <host>:8080  (exit 6)
+blocked  http <host>:8081  (exit 6)
+blocked  dns example.com  (exit 1)
+blocked  https example.com  (exit 6)
+blocked  https by address 1.1.1.1  (exit 7)
+blocked  list /Users  (exit 1)
+blocked  list /Users/<user>  (exit 2)
+blocked  read /Users/<user>/.secrets  (exit 1)
+blocked  read /Users/<user>/.config  (exit 2)
+blocked  read the research key  (exit 1)
+blocked  docker socket  (exit 1)
+VIOLATED user is not root
+ok       only the loopback interface exists
+--- 1 probe(s) got through or policy facts violated
+
+
+##### 2. hardened compose, control/apps/compose.yaml in dang-w/trusted-monitoring (exit 0)
+--- container: user 65534:65534; interfaces: lo ; probe tool: curl
+blocked  http 127.0.0.1:8080  (exit 7)
+blocked  http 127.0.0.1:8081  (exit 7)
+blocked  http host.docker.internal:8080  (exit 6)
+blocked  http host.docker.internal:8081  (exit 6)
+blocked  http host.lima.internal:8080  (exit 6)
+blocked  http host.lima.internal:8081  (exit 6)
+blocked  http <vm-gateway-ip>:8080  (exit 7)
+blocked  http <vm-gateway-ip>:8081  (exit 7)
+blocked  http <tailnet-ip>:8080  (exit 7)
+blocked  http <tailnet-ip>:8081  (exit 7)
+blocked  http <host>:8080  (exit 6)
+blocked  http <host>:8081  (exit 6)
+blocked  dns example.com  (exit 1)
+blocked  https example.com  (exit 6)
+blocked  https by address 1.1.1.1  (exit 7)
+blocked  list /Users  (exit 1)
+blocked  list /Users/<user>  (exit 2)
+blocked  read /Users/<user>/.secrets  (exit 1)
+blocked  read /Users/<user>/.config  (exit 2)
+blocked  read the research key  (exit 1)
+blocked  docker socket  (exit 1)
+ok       user is not root
+ok       only the loopback interface exists
+--- 0 probe(s) got through or policy facts violated
+
+##### 3. control: python:3.4 on Docker's default network
+=== CONTROL: default Docker network, default user of python:3.4 (2026-10-02 12:07:37)
+--- container: user 0:0; interfaces: eth0 lo ; probe tool: curl
+blocked  http 127.0.0.1:8080  (exit 7)
+blocked  http 127.0.0.1:8081  (exit 7)
+blocked  http host.docker.internal:8080  (exit 7)
+REACHED  http host.docker.internal:8081  200
+blocked  http host.lima.internal:8080  (exit 7)
+REACHED  http host.lima.internal:8081  200
+blocked  http <vm-gateway-ip>:8080  (exit 7)
+REACHED  http <vm-gateway-ip>:8081  200
+blocked  http <tailnet-ip>:8080  (exit 7)
+REACHED  http <tailnet-ip>:8081  200
+blocked  http <host>:8080  (exit 7)
+REACHED  http <host>:8081  200
+REACHED  dns example.com  172.66.147.243
+REACHED  https example.com  200
+REACHED  https by address 1.1.1.1  301
+blocked  list /Users  (exit 1)
+blocked  list /Users/<user>  (exit 2)
+blocked  read /Users/<user>/.secrets  (exit 1)
+blocked  read /Users/<user>/.config  (exit 2)
+blocked  read the research key  (exit 1)
+blocked  docker socket  (exit 1)
+--- control: 8 probe(s) got through
