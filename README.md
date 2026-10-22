@@ -10,7 +10,7 @@ monitor flagged 63 % of attack-mode trajectories at a 4.1 % false-positive rate 
 72 %) but only 9 of the 20 working backdoors, and three deliberately weakened monitors each measured lower, so the
 measurement responds to monitor quality. Containment was measured rather than assumed: the stock ControlArena
 19.0.0 APPS sandbox ran the task as root, and the hardened configuration here runs it non-root with networking off
-and capabilities dropped. n is 100 problems and 20 working backdoors, one setting, one seed, and the intervals are
+and capabilities dropped; it blocked 21 of 21 escape probes (record: `control/apps/sandbox-escape-check-2026-10-02.txt`). n is 100 problems and 20 working backdoors, one setting, one seed, and the intervals are
 wide. Part of the evaluation-and-control work at [danwalsh.co](https://www.danwalsh.co/projects).
 
 ## The question

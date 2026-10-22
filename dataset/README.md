@@ -31,7 +31,7 @@ monitoring in general.
 | `d122-smoke`, `d141-smoke` | 2 | one sample through the plumbing (model, tool call, sandbox, result) | 1 each | test |
 | `d123-apps-*` | 2 | ControlArena's APPS with the live trusted-monitoring micro-protocol, honest and attack | 5 each | test of the substrate |
 | `d124-slots*` | 4 | the same 10 honest samples with 1 and 4 server slots, twice each (parallel decoding is not reproducible) | 10 each | measurement of the substrate |
-| `d133-gap-*` | 9 | the same 20 honest problems with each of seven candidate models as the agent (two runs of 10 for the 27B); the capability gap that chose the models | 20 (10 + 10) | measurement of the substrate |
+| `d133-gap-*` | 8 | the same 20 honest problems with each of seven candidate models as the agent (two runs of 10 for the 27B); the capability gap that chose the models | 20 (10 + 10) | measurement of the substrate |
 | `d142-*` | 3 published | tests of the queue runner (kill, preempt and resume, window end) | 3 to 6 | test |
 | `e1-gen-*` | 7 | the first honest set at thinking budget 4096 (`e1-gen-honest-1..4`, 100 problems, 79 of 100), with the attack-mode checks that preceded it | 1 to 25 | superseded by `e2` |
 | `e2-gen-honest-1..4` | 4 | the honest set at budget 8192: 100 problems, main task 84 of 100, 27 at the cap | 25 each | **result** |
