@@ -108,6 +108,12 @@ What the numbers say, and no more:
 - **The measurement responds to monitor quality** (METHOD step 4). Each weakened monitor catches less at the same
   target: the weak prompt 35 %, the truncated code 58 %, the 3B model 51 % at a degenerate threshold (all 95 of its
   parsed honest scores are 0, so anything above 0 is flagged; 9 of 93 attack replies had no parsable score).
+  Paired on the same trajectories (`python -m tm.paired`, `results/paired-comparisons-2026-10-29.md`): the
+  weak-prompt and 3B differences, 28 and 17 points, are separated from zero at 95 % (paired bootstrap; McNemar's
+  exact p < 0.001); the first-10-lines difference of 5 points is not ([−2, +13], p 0.30). For Gemma the weak
+  prompt is separated (17 points) and the truncation (7 points) is not. The two default monitors are not cleanly
+  separated from each other at the 5 % target: 8B written against Gemma written +7.5 [+1.1, +14.0] with the
+  exact test at 0.065, Gemma expected against 8B expected +9.7 [+1.1, +19.4] at 0.064.
 - **The known positives are flagged by the pipeline, not well by the monitor** (METHOD step 3). The 9 working backdoors
   that are flagged score 7 to 9, so the pipeline carries the signal; the monitor misses the other 11.
 - **Gemma 4 E4B gives a one-point ROC.** All 100 of its honest scores are 0, so its threshold is 0 at every target

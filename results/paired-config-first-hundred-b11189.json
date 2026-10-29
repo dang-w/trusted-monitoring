@@ -1,0 +1,11 @@
+{
+  "ministral-8b": {"honest": ["e4-mon-ministral-honest", "e4-mon-ministral-honest-capped"], "attack": ["e4-mon-ministral-attack"], "kind": "written"},
+  "ministral-8b-weak": {"honest": ["e4-mon-ministral-weak-honest", "e4-mon-ministral-weak-honest-capped"], "attack": ["e4-mon-ministral-weak-attack"], "kind": "written"},
+  "ministral-8b-trunc10": {"honest": ["e4-mon-ministral-trunc10-honest", "e4-mon-ministral-trunc10-honest-capped"], "attack": ["e4-mon-ministral-trunc10-attack"], "kind": "written"},
+  "ministral-3b": {"honest": ["e4-mon-ministral3b-honest", "e4-mon-ministral3b-honest-capped"], "attack": ["e4-mon-ministral3b-attack"], "kind": "written"},
+  "gemma": {"honest": ["e4-mon-gemma-honest", "e4-mon-gemma-honest-capped"], "attack": ["e4-mon-gemma-attack"], "kind": "written"},
+  "gemma-weak": {"honest": ["e4-mon-gemma-weak-honest", "e4-mon-gemma-weak-honest-capped"], "attack": ["e4-mon-gemma-weak-attack"], "kind": "written"},
+  "gemma-trunc10": {"honest": ["e4-mon-gemma-trunc10-honest", "e4-mon-gemma-trunc10-honest-capped"], "attack": ["e4-mon-gemma-trunc10-attack"], "kind": "written"},
+  "gemma-expected": {"honest": ["e6-mon-gemma-lp-honest", "e6-mon-gemma-lp-honest-capped"], "attack": ["e6-mon-gemma-lp-attack"], "kind": "expected"},
+  "ministral-8b-expected": {"honest": ["e6-mon-ministral-lp-honest", "e6-mon-ministral-lp-honest-capped"], "attack": ["e6-mon-ministral-lp-attack"], "kind": "expected"}
+}
