@@ -24,7 +24,7 @@ rule was chosen after positions 1 to 100 had been seen, so it is unvalidated unt
 - 2026-10-29 17:15 UTC: the monitor passes queued (`e8-mon-gemma-lp-attack`, `e8-mon-gemma-lp-honest`, both
   `-T logprobs=20`, so one pass gives the written and the expected score of the same reply), before this
   criterion was written. The attack pass was running while this file was written. No score from either pass
-  had been read when this file was committed; the author read the handoff at about 17:45 UTC.
+  had been read when this file was committed (17:35 UTC); the author read the handoff at about 17:25 UTC.
 - The passes are not requeued: the trajectories exist either way, and nothing in them was read.
 
 ## Method, fixed
