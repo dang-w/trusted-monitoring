@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e8-gen-attack-5,e8-gen-attack-6,e8-gen-attack-7,e8-gen-attack-8",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-3b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e8-mon-ministral3b-lp-attack"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-29T22:09:44+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 61073382,
+      "completed": "2026-10-29T22:09:41+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e8-mon-ministral3b-lp-attack/2026-10-29T21-51-27-00-00_apps-monitor_ZVaGe27o39ULSSjXL86edE.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-29T21-51-27-00-00_apps-monitor_ZVaGe27o39ULSSjXL86edE.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "7soyaBVR6nEJJ75wMVx2jN",
+      "model": "openai-api/llama-cpp/ministral-3-3b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "bdd985842230e9f51eaeeb8c9a4bf665f2422886",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/bdd985842230e9f51eaeeb8c9a4bf665f2422886/runs/e8-mon-ministral3b-lp-attack/2026-10-29T21-51-27-00-00_apps-monitor_ZVaGe27o39ULSSjXL86edE.eval",
+        "verified": "2026-10-29T22:13:19+00:00"
+      },
+      "revision": {
+        "commit": "81cd067",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "01725585755eac91cc6498f8ea50aa6f8efe91601f73910582f22afa5f5b6b8e",
+      "started": "2026-10-29T21:51:27+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e8-mon-ministral3b-lp-attack",
+      "ts": "2026-10-29T21:51:11+00:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e8-mon-ministral3b-lp-attack",
+      "seconds": 13.4,
+      "ts": "2026-10-29T21:51:25+00:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-3b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "8c2b72eb5861304fcfd5e82f1eddd6efa4115737f4239fd216a028a8852413ef",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E8 monitor pass (Dan 2026-10-29): Ministral-3-3B, default prompt (the weaker model of the mutation test) on the E8 attack set (positions 101-200, generated on llama.cpp b11612 at budget 12288, 100 trajectories), -T logprobs=20, scored on b11612. With the E7 passes this gives every monitor score of the 200-problem sets on one build. Estimate: the b11189 pass of the first hundred scaled to 100 samples, plus about 5 %.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "81cd06705d5fc6a11a86bac0fb564dcc5f4a9bcf",
+    "dirty": true
+  },
+  "run_id": "e8-mon-ministral3b-lp-attack",
+  "schema": 1,
+  "started": "2026-10-29T21:51:25+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
