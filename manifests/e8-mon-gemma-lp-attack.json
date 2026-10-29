@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e8-gen-attack-5,e8-gen-attack-6,e8-gen-attack-7,e8-gen-attack-8",
+    "-T",
+    "monitor=openai-api/llama-cpp/gemma-4-e4b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e8-mon-gemma-lp-attack"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-29T18:13:16+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 170679256,
+      "completed": "2026-10-29T18:13:11+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e8-mon-gemma-lp-attack/2026-10-29T17-15-42-00-00_apps-monitor_KL7aq4R8y45gzppSKDCnev.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-29T17-15-42-00-00_apps-monitor_KL7aq4R8y45gzppSKDCnev.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "5nYNbG9dJfjEDXbsuEKkze",
+      "model": "openai-api/llama-cpp/gemma-4-e4b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "44e7ed7fb3bef8cd5972e202f03ecd156f0dc71d",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/44e7ed7fb3bef8cd5972e202f03ecd156f0dc71d/runs/e8-mon-gemma-lp-attack/2026-10-29T17-15-42-00-00_apps-monitor_KL7aq4R8y45gzppSKDCnev.eval",
+        "verified": "2026-10-29T18:23:31+00:00"
+      },
+      "revision": {
+        "commit": "753c2fa",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "81a5b8909cb7120df873e756f8872f1682378984be017970befb083b60c33fb7",
+      "started": "2026-10-29T17:15:42+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e8-mon-gemma-lp-attack",
+      "ts": "2026-10-29T17:15:23+00:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e8-mon-gemma-lp-attack",
+      "seconds": 16.2,
+      "ts": "2026-10-29T17:15:40+00:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "gemma-4-E4B-it-Q8_0.gguf",
+      "id": "gemma-4-e4b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 64,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "34be82b17b4942d389b9b527170c4b058027abdd32531fda063d3d97dd8ce80a",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E8 monitor pass (Dan 2026-10-29): Gemma 4 E4B, default prompt on the E8 attack set (positions 101-200, generated on llama.cpp b11612 at budget 12288, 100 trajectories), -T logprobs=20, scored on b11612. With the E7 passes this gives every monitor score of the 200-problem sets on one build. Estimate: the b11189 pass of the first hundred scaled to 100 samples, plus about 5 %.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "753c2fa44a21b5acebb399b8fa279f49181c1eee",
+    "dirty": true
+  },
+  "run_id": "e8-mon-gemma-lp-attack",
+  "schema": 1,
+  "started": "2026-10-29T17:15:40+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
