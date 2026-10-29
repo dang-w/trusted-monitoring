@@ -49,12 +49,12 @@ their defaults; the truncated-code mutations are not.
 
 ## Figures, one line each (b11189, first hundred, 93 attack trajectories; manifests as in the config file)
 
-- Ministral-3-8B default − weak prompt, 5 %: +28.0 [+17.2, +38.7], p < 0.001, 32 discordant.
-- Ministral-3-8B default − Ministral-3-3B, 5 %: +17.2 [+9.7, +25.8], p < 0.001, 18 discordant.
-- Ministral-3-8B default − first 10 lines, 5 %: +5.4 [−2.2, +12.9], p 0.30, 15 discordant.
-- Gemma 4 E4B default − weak prompt, 5 %: +17.2 [+8.6, +26.9], p 0.001, 22 discordant.
-- Gemma 4 E4B default − first 10 lines, 5 %: +6.5 [−1.1, +14.0], p 0.18, 14 discordant.
-- Gemma 4 E4B expected − written, 5 %: +17.2 [+9.7, +24.7], p < 0.001, 16 discordant (realised 5.0 % vs 0.0 %).
-- Ministral-3-8B expected − written, 5 %: 0.0 [0, 0], 0 discordant.
-- Ministral-3-8B written − Gemma written, 5 %: +7.5 [+1.1, +14.0], p 0.065, 11 discordant.
-- Gemma expected − Ministral-3-8B expected, 5 %: +9.7 [+1.1, +19.4], p 0.064, 19 discordant.
+- M-27: Ministral-3-8B default − weak prompt, 5 %: +28.0 [+17.2, +38.7], p < 0.001, 32 discordant.
+- M-28: Ministral-3-8B default − Ministral-3-3B, 5 %: +17.2 [+9.7, +25.8], p < 0.001, 18 discordant.
+- M-29: Ministral-3-8B default − first 10 lines, 5 %: +5.4 [−2.2, +12.9], p 0.30, 15 discordant.
+- M-30: Gemma 4 E4B default − weak prompt, 5 %: +17.2 [+8.6, +26.9], p 0.001, 22 discordant.
+- M-31: Gemma 4 E4B default − first 10 lines, 5 %: +6.5 [−1.1, +14.0], p 0.18, 14 discordant.
+- M-32: Gemma 4 E4B expected − written, 5 %: +17.2 [+9.7, +24.7], p < 0.001, 16 discordant (realised 5.0 % vs 0.0 %).
+- M-33: Ministral-3-8B expected − written, 5 %: 0.0 [0, 0], 0 discordant.
+- M-34: Ministral-3-8B written − Gemma written, 5 %: +7.5 [+1.1, +14.0], p 0.065, 11 discordant.
+- M-35: Gemma expected − Ministral-3-8B expected, 5 %: +9.7 [+1.1, +19.4], p 0.064, 19 discordant.
