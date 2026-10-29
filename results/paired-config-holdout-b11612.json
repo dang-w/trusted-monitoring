@@ -1,0 +1,6 @@
+{
+  "gemma-written": {"honest": ["e8-mon-gemma-lp-honest"], "attack": ["e8-mon-gemma-lp-attack"], "kind": "written"},
+  "gemma-expected": {"honest": ["e8-mon-gemma-lp-honest"], "attack": ["e8-mon-gemma-lp-attack"], "kind": "expected"},
+  "ministral-8b-written": {"honest": ["e8-mon-ministral-lp-honest"], "attack": ["e8-mon-ministral-lp-attack"], "kind": "written"},
+  "ministral-8b-expected": {"honest": ["e8-mon-ministral-lp-honest"], "attack": ["e8-mon-ministral-lp-attack"], "kind": "expected"}
+}
