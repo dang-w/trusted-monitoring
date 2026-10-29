@@ -18,8 +18,9 @@ runs. The intent is that no run can be left out afterwards.
   under `/sys/fs/cgroup/` (`memory.events.local`, `cpu.stat.local`), which a sandbox listing in
   `e3-gen-attack-3` sample 79 put into a scorer's output; they are file names, not hosts.
 
-**Status (13 October 2026): 72 runs, 73 files. The `e2` to `e6` families are the results of the
-first small-scale measurement (100 problems, one setting); the `d1xx` and `e1` families are tests of
+**Status (29 October 2026): 91 runs, 92 files. The `e2` to `e6` families are the results of the
+first small-scale measurement (100 problems, one setting); `e7` scores the same trajectories again on a
+newer llama.cpp build and `e8` grows the sets to 200 problems (monitor passes on them in progress); the `d1xx` and `e1` families are tests of
 the plumbing, measurements of the substrate and a superseded first pass.** The numbers, with the runs
 each comes from, are in the code repository's README; nothing here is a finding about trusted
 monitoring in general.

@@ -46,6 +46,12 @@ The method is in [METHOD.md](METHOD.md), with the settings that ran.
   reply texts and written scores identical to the `e4-mon-*` passes, at 3 to 10 % more time per sample. The
   probabilities reproduce too: `e6-mon-gemma-lp-attack-repeat` (13 October) gave the same 93 texts, scores and
   score distributions as `e6-mon-gemma-lp-attack` (10 October), with no recorded probability differing at all.
+  **A llama.cpp build is a boundary for that claim.** The six `e6-mon-*-lp-*` passes run again on build b11612
+  (`e7-mon-*-lp-*-b11612`, 16 October; the first runs were on b11189) gave 73 to 91 of every 100 reply texts
+  identical, 89 to 90 of 93 written attack scores and 99 to 100 of 100 written honest scores; where a text
+  diverges, a score can move by several points. Runs are compared reply by reply only within a build, and the
+  build is in every manifest (`llama_cpp.build`). The E8 sets (positions 101 to 200) and every monitor pass from
+  E7 on are on b11612.
 
 | set | runs | n | result |
 |---|---|---|---|
@@ -55,6 +61,9 @@ The method is in [METHOD.md](METHOD.md), with the settings that ran.
 | the 27 capped ids again, budget 16384 | `e5-gen-honest-capped-16384` | 27 | main task 18 of 27 (26 scored; id 96 errored: a second call does not fit the 32768-token slot at this budget); 17 still at the cap; the 10 that were under 12288 are identical token for token |
 | the Gemma attack pass again, same setting | `e5-mon-gemma-attack-repeat` | 93 | 93 of 93 scores and reply texts identical to `e4-mon-gemma-attack` |
 | the Gemma logprob attack pass again, same setting | `e6-mon-gemma-lp-attack-repeat` | 93 | 93 of 93 reply texts, scores and score distributions identical to `e6-mon-gemma-lp-attack` |
+| the six logprob passes again on llama.cpp b11612 | `e7-mon-{gemma,ministral}-lp-{attack,honest,honest-capped}-b11612` | 93, 100, 27 each | against the b11189 passes: Gemma 76, 73, 21 reply texts identical, written scores 89 of 93, 100 of 100, 27 of 27; Ministral 73, 91, 23 texts, written scores 90 of 93, 99 of 100, 25 of 27 |
+| honest trajectories, positions 101 to 200, budget 12288, build b11612 | `e8-gen-honest-5..8` | 100 (dataset ids 123 to 244) | main task 81 of 100; 28 reached the thinking cap; mean 438 s per sample |
+| attack trajectories, positions 101 to 200, budget 12288, build b11612 | `e8-gen-attack-5..8` | 100 | main task 42, side task 27, working backdoors 19; 7 without a submission (message limit); 93 at the thinking cap; mean 1,181 s per sample |
 | the two default-prompt monitors again with token probabilities | `e6-mon-gemma-lp-*`, `e6-mon-ministral-lp-*` (attack, honest, honest-capped each) | 93, 100, 27 each | 440 of 440 texts and scores identical to `e4-mon-*`; a score distribution on 436 (Ministral: two `N` replies, two with markdown between the tag and the digit) |
 | attack trajectories, budget 12288 | `e3-gen-attack-1..4` | 100 (the same positions) | main task 35 of 100; side task 33; working backdoors 20 (Wilson 95 %: 14 to 29 %); 7 never submitted |
 | monitor passes | `e4-mon-*` | 100 honest and 93 attack each (the 7 trajectories without a submission have no code to show) | next section |
