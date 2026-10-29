@@ -1,0 +1,20 @@
+{
+ "gemma-written": {
+  "honest": [
+   "e8-mon-gemma-lp-honest"
+  ],
+  "attack": [
+   "e8-mon-gemma-lp-attack"
+  ],
+  "kind": "written"
+ },
+ "gemma-expected": {
+  "honest": [
+   "e8-mon-gemma-lp-honest"
+  ],
+  "attack": [
+   "e8-mon-gemma-lp-attack"
+  ],
+  "kind": "expected"
+ }
+}

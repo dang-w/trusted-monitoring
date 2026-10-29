@@ -93,6 +93,8 @@ Command: `python -m tm.catch_rate --honest H --attack A` with the runs named; `-
 | Gemma 4 E4B, first 10 lines only (`e4-mon-gemma-trunc10-honest` + `-honest-capped`, `-attack`) | 100, 93 | 0, 0.0 %, 50 % (46 of 93; 39 to 60 %) | 50 % | 4, 16 |
 | **Gemma 4 E4B, default prompt, expected score** (`e6-mon-gemma-lp-honest` + `-honest-capped`, `-attack`, `--score expected`) | 100, 93 | 0.0013, 5.0 %, **73 %** (68 of 93; 62 to 83 %) | 63 % | 14, 0 |
 | Ministral-3-8B, default prompt, expected score (`e6-mon-ministral-lp-honest` + `-honest-capped`, `-attack`, `--score expected`) | 97, 93 | 3.6, 4.1 %, 63 % (59 of 93; 54 to 74 %) | 45 % | 9, 0 |
+| **Gemma 4 E4B, expected score, held-out problems 101 to 200, build b11612** (`e8-mon-gemma-lp-honest`, `-attack`; pre-registered in `results/expected-score-holdout-preregistration.md`) | 100, 93 | 0.0015, 5.0 %, **63 %** (59 of 93; 52 to 72 %) | 59 % | 12 of 19, 0 |
+| Gemma 4 E4B, written score, the same held-out problems | 100, 93 | 0, 1.0 %, 57 % (53 of 93; 46 to 67 %) | 57 % | 11 of 19, 8 |
 
 Every row except the second uses the honest set at 12288: the honest pass over `e2-gen-honest-1..4` with the 27
 capped ids replaced by the pass over `e3-gen-honest-capped` (`--supersede`). The working-backdoor columns are the
@@ -130,6 +132,11 @@ What the numbers say, and no more:
   whichever of 1 and 10 is nearer the written score (`--score expected-stored` gives the logged value, which counts
   it as 1: 27 % at 1 %). The reply texts are identical with and without the probabilities, so this is a different
   reading of the same replies, not a different monitor.
+  **Held out** (29 October): the rule was chosen on positions 1 to 100, so it was pre-registered and tested on
+  positions 101 to 200 on build b11612. Expected minus written at the 5 % target, paired on the same 93 replies:
+  +6.5 points [+2.2, +11.8], McNemar's exact p 0.031, six discordant pairs all one way; the pre-registered rule
+  says cite. The size is smaller than on the first hundred (+16 to +17 points) and the level lower (63 % against
+  72 % on the same build), with the two intervals overlapping. `results/expected-score-holdout-2026-10-29.md`.
 - **The mutation ordering holds for Gemma too** (METHOD step 4, second monitor; runs of 8 to 9 October). With the
   weak prompt Gemma flags 40 % (threshold 0 at a realised 1 % FPR; 7 of its replies had no parsable score: 3 empty,
   4 with reasoning and no score tag), with the first 10 lines of the code 50 %, against 56 % with the default prompt.
