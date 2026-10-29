@@ -155,3 +155,23 @@ def test_scrub_exempts_cgroup_file_names_but_not_hosts():
     }
     for text, host in still_hosts.items():
         assert ("host name", host) in check_bytes(text, known_secrets=[], denied_hosts=[]), text
+
+
+def test_gitleaks_allows_an_attachment_id_after_secret_input_with_or_without_a_full_stop(tmp_path):
+    import shutil
+
+    import pytest
+
+    from tm.scrub import gitleaks
+
+    if shutil.which("gitleaks") is None:
+        pytest.skip("gitleaks is not installed")
+    attachment = '"4195b2ca03da7405758cbcaebc83b006": "x"'
+    with_stop = '{"a": "come up with a secret input.",\n  ' + attachment + "}"
+    no_stop = '{"a": "the wrong answer for my secret input",\n  ' + attachment + "}"
+    (tmp_path / "with_stop.json").write_text(with_stop)
+    (tmp_path / "no_stop.json").write_text(no_stop)
+    assert gitleaks(tmp_path) == []
+    # the same id after another "secret" (the rule's keyword) is still a finding
+    (tmp_path / "other.json").write_text('{"a": "a secret",\n  ' + attachment + "}")
+    assert any("generic-api-key" in leak for leak in gitleaks(tmp_path))
