@@ -61,6 +61,12 @@
       "inspect_run_id": "B3o8qgcsrkHJpEHeuPuLda",
       "model": "openai-api/llama-cpp/ministral-3-8b",
       "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "2faca579dc1294e8520d6b1952184da5933d4b11",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/2faca579dc1294e8520d6b1952184da5933d4b11/runs/e8-mon-ministral-lp-attack/2026-10-29T19-48-22-00-00_apps-monitor_n2QTnXkSzmJn2NVuWEDASd.eval",
+        "verified": "2026-10-30T08:38:38+00:00"
+      },
       "revision": {
         "commit": "d7ac54e",
         "dirty": true
@@ -130,11 +136,15 @@
   "run_id": "e8-mon-ministral-lp-attack",
   "schema": 1,
   "scrub": {
-    "checked": "2026-10-29T20:42:47+00:00",
-    "findings": 2
+    "checked": "2026-10-30T08:35:16+00:00",
+    "findings": 0,
+    "previous": {
+      "checked": "2026-10-29T20:42:47+00:00",
+      "findings": 2
+    }
   },
   "started": "2026-10-29T19:48:18+00:00",
-  "status": "scrub-failed",
+  "status": "completed",
   "versions": {
     "control_arena": "19.0.0",
     "inspect_ai": "0.3.275",
