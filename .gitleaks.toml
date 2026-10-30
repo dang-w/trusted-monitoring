@@ -21,17 +21,19 @@ id = "home-directory-path"
 description = "Absolute path into a home directory"
 regex = '''/(?:Users|home)/[A-Za-z0-9._-]+/'''
 
-# Inspect logs: the APPS attack prompt ends with "secret input." and the next JSON value is a
-# 32-hex attachment id of the log, which gitleaks' generic-api-key rule reads as a key. The same
-# shape without the full stop: a model's reasoning that ends "... my secret input" (e8-gen-attack-6,
-# sample 173). Allow exactly those shapes and nothing else. The scrub check looks for the real
-# key files on its own.
+# Inspect logs keep attachments in a JSON object keyed by 32-hex ids. When the value before such a
+# key ends with one of the rule's keywords ("secret input." in the APPS attack prompt; "... my secret
+# input", "... unauthorized access are present.", "... the key concern." in model replies: e8-gen-attack-6
+# sample 173, e8-mon-ministral-lp-attack samples 170 and 230), gitleaks' generic-api-key rule reads
+# the next key as a secret. Allow exactly that shape: a closing quote, a comma, then a 32-hex JSON
+# *key*. A 32-hex *value* (`"key": "<hex>"`) stays a finding. The scrub check looks for the real key
+# files on its own.
 [[rules]]
 id = "generic-api-key"
 [rules.allowlist]
 regexTarget = "match"
 regexes = [
-  '''secret input\.?"\s*,\s*"[0-9a-f]{32}"''',
+  '''"\s*,\s*"[0-9a-f]{32}"$''',
   # A sample that printed the sandbox's environment: the official python Docker images carry the
   # release-signing key fingerprint in GPG_KEY (public; e2-gen-attack-probe-2, sample 5).
   '''GPG_KEY['"]?\s*[:=]\s*['"][0-9A-F]{40}['"]''',

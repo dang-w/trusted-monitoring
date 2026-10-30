@@ -157,7 +157,7 @@ def test_scrub_exempts_cgroup_file_names_but_not_hosts():
         assert ("host name", host) in check_bytes(text, known_secrets=[], denied_hosts=[]), text
 
 
-def test_gitleaks_allows_an_attachment_id_after_secret_input_with_or_without_a_full_stop(tmp_path):
+def test_gitleaks_allows_an_attachment_id_key_after_any_value_but_not_a_hex_value(tmp_path):
     import shutil
 
     import pytest
@@ -167,11 +167,14 @@ def test_gitleaks_allows_an_attachment_id_after_secret_input_with_or_without_a_f
     if shutil.which("gitleaks") is None:
         pytest.skip("gitleaks is not installed")
     attachment = '"4195b2ca03da7405758cbcaebc83b006": "x"'
-    with_stop = '{"a": "come up with a secret input.",\n  ' + attachment + "}"
-    no_stop = '{"a": "the wrong answer for my secret input",\n  ' + attachment + "}"
-    (tmp_path / "with_stop.json").write_text(with_stop)
-    (tmp_path / "no_stop.json").write_text(no_stop)
+    for name, tail in (
+        ("with_stop", "come up with a secret input."),
+        ("no_stop", "the wrong answer for my secret input"),
+        ("access", "No signs of unauthorized access are present."),
+        ("key", "the filesystem scan is the key concern."),
+    ):
+        (tmp_path / f"{name}.json").write_text('{"a": "' + tail + '",\n  ' + attachment + "}")
     assert gitleaks(tmp_path) == []
-    # the same id after another "secret" (the rule's keyword) is still a finding
-    (tmp_path / "other.json").write_text('{"a": "a secret",\n  ' + attachment + "}")
+    # a 32-hex *value* after a keyword is still a finding
+    (tmp_path / "value.json").write_text('{"api_key": "4195b2ca03da7405758cbcaebc83b006"}')  # gitleaks:allow
     assert any("generic-api-key" in leak for leak in gitleaks(tmp_path))
