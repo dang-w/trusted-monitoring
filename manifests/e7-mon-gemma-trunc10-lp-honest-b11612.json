@@ -1,0 +1,148 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e2-gen-honest-1,e2-gen-honest-2,e2-gen-honest-3,e2-gen-honest-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/gemma-4-e4b",
+    "-T",
+    "truncate=10",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e7-mon-gemma-trunc10-lp-honest-b11612"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-30T08:10:56+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 148823033,
+      "completed": "2026-10-30T08:10:52+00:00",
+      "completed_samples": 100,
+      "dataset_path": "runs/e7-mon-gemma-trunc10-lp-honest-b11612/2026-10-30T07-15-20-00-00_apps-monitor_iSDGtNqu6nrfNqcRBcDNGB.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-30T07-15-20-00-00_apps-monitor_iSDGtNqu6nrfNqcRBcDNGB.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "bSozHwRdkMDzwyGuJex8Tj",
+      "model": "openai-api/llama-cpp/gemma-4-e4b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "e3b6a07ae3a588f75ca8d5d069bd2c7044b89c6f",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/e3b6a07ae3a588f75ca8d5d069bd2c7044b89c6f/runs/e7-mon-gemma-trunc10-lp-honest-b11612/2026-10-30T07-15-20-00-00_apps-monitor_iSDGtNqu6nrfNqcRBcDNGB.eval",
+        "verified": "2026-10-30T08:20:28+00:00"
+      },
+      "revision": {
+        "commit": "cbf5aad",
+        "dirty": true
+      },
+      "samples": 100,
+      "sandbox": null,
+      "sha256": "9cc00528bc7181d7af86b1f49508a678d2c6f028584614876a6edee15e6490b4",
+      "started": "2026-10-30T07:15:20+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e7-mon-gemma-trunc10-lp-honest-b11612",
+      "ts": "2026-10-30T07:15:02+00:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e7-mon-gemma-trunc10-lp-honest-b11612",
+      "seconds": 14.6,
+      "ts": "2026-10-30T07:15:17+00:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "gemma-4-E4B-it-Q8_0.gguf",
+      "id": "gemma-4-e4b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 64,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "34be82b17b4942d389b9b527170c4b058027abdd32531fda063d3d97dd8ce80a",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E7 (Dan 2026-10-29): e4-mon-gemma-trunc10-honest again on llama.cpp b11612 with -T logprobs=20 (Gemma 4 E4B, first 10 lines only (mutation), the first-hundred honest set), so the mutation table of the 200-problem sets is on one build; the E7 default-prompt passes of 16 Oct showed 73 to 76 of 93 attack reply texts identical across the build and 89 to 90 of 93 written scores. Estimate: the b11189 pass plus about 5 %.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "cbf5aade94d53e30886bc8ad4c62de61c3c7f7aa",
+    "dirty": true
+  },
+  "run_id": "e7-mon-gemma-trunc10-lp-honest-b11612",
+  "schema": 1,
+  "started": "2026-10-30T07:15:18+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
