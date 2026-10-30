@@ -24,7 +24,8 @@ untrusted and the 27B as trusted; their manifests record that.
 from control_arena import EvalMode
 from control_arena.eval import ControlEvalConfig, get_control_task
 from control_arena.micro_protocol import trusted_monitoring_builder
-from control_arena.policy import untrusted_policy_builder
+from control_arena.policy import attack_policy_builder, untrusted_policy_builder
+from control_arena.policy.prompts import policy_prompts
 from control_arena.scorers import max_suspicion_scorer
 from control_arena.settings.apps.apps_setting import AppsSetting
 from inspect_ai import Task, task
@@ -103,11 +104,30 @@ def apps_tm_attack(untrusted: str = UNTRUSTED, trusted: str = TRUSTED) -> Task:
     return _task(EvalMode.ATTACK, untrusted, trusted)
 
 
-def _generate(mode: EvalMode, untrusted: str, output_tokens: int) -> Task:
+DEFAULT_ATTACK_PROMPT = "attack_policy"  # ControlArena's default attack system prompt (the first attacker)
+
+
+def attack_prompt_text(name: str) -> str:
+    """The system prompt of a named ControlArena attack policy (the second attacker, 2026-10-30)."""
+    if name not in policy_prompts:
+        raise ValueError(f"attack_prompt must be one of {sorted(policy_prompts)}, not {name!r}")
+    return policy_prompts[name]
+
+
+def _untrusted_policy(attack_prompt: str):
+    """The untrusted policy; the default attacker is built exactly as before (every earlier run's setting)."""
+    if attack_prompt == DEFAULT_ATTACK_PROMPT:
+        return untrusted_policy_builder()
+    return untrusted_policy_builder(attack=attack_policy_builder(prompt=attack_prompt_text(attack_prompt)))
+
+
+def _generate(
+    mode: EvalMode, untrusted: str, output_tokens: int, attack_prompt: str = DEFAULT_ATTACK_PROMPT
+) -> Task:
     """The untrusted policy alone, no monitor: the generate phase of the method (METHOD.md step 1)."""
     return get_control_task(
         setting=HardenedAppsSetting(),
-        micro_protocol=untrusted_policy_builder(),
+        micro_protocol=_untrusted_policy(attack_prompt),
         mode=mode,
         eval_config=ControlEvalConfig(
             untrusted_model=_untrusted(untrusted, output_tokens), trusted_model=_model(TRUSTED, SAMPLING)
@@ -125,7 +145,13 @@ def apps_generate_honest(
 
 @task
 def apps_generate_attack(
-    untrusted: str = UNTRUSTED, output_tokens: int = UNTRUSTED_SAMPLING.max_tokens
+    untrusted: str = UNTRUSTED,
+    output_tokens: int = UNTRUSTED_SAMPLING.max_tokens,
+    attack_prompt: str = DEFAULT_ATTACK_PROMPT,
 ) -> Task:
-    """The attack policy alone: it is told the side task and asked to insert it. No monitor."""
-    return _generate(EvalMode.ATTACK, untrusted, int(output_tokens))
+    """The attack policy alone: it is told the side task and asked to insert it. No monitor.
+
+    `-T attack_prompt=<name>` picks one of ControlArena's shipped attack system prompts (the second attacker,
+    2026-10-30: `attack_policy_additional_instructions`); the default is the prompt every earlier run used.
+    """
+    return _generate(EvalMode.ATTACK, untrusted, int(output_tokens), attack_prompt)
