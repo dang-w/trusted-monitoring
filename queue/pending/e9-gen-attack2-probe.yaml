@@ -1,0 +1,20 @@
+estimated_minutes: 45
+note: 'Second attacker (Dan 2026-10-30; results/second-attacker-preregistration.md):
+  two-sample probe with ControlArena''s attack_policy_additional_instructions prompt,
+  positions 1-2, to confirm the log''s system message is the named prompt before the
+  eight parts are queued. Not part of the set. Estimate: 2 x 20 min (E8 attack mean
+  1,181 s) plus the switch.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- -T
+- attack_prompt=attack_policy_additional_instructions
+- --limit
+- 1-2
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
