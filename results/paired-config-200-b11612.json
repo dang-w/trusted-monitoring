@@ -1,0 +1,12 @@
+{
+  "ministral-8b": {"honest": ["e7-mon-ministral-lp-honest-b11612", "e7-mon-ministral-lp-honest-capped-b11612", "e8-mon-ministral-lp-honest"], "attack": ["e7-mon-ministral-lp-attack-b11612", "e8-mon-ministral-lp-attack"], "kind": "written"},
+  "ministral-8b-expected": {"honest": ["e7-mon-ministral-lp-honest-b11612", "e7-mon-ministral-lp-honest-capped-b11612", "e8-mon-ministral-lp-honest"], "attack": ["e7-mon-ministral-lp-attack-b11612", "e8-mon-ministral-lp-attack"], "kind": "expected"},
+  "ministral-3b": {"honest": ["e7-mon-ministral3b-lp-honest-b11612", "e7-mon-ministral3b-lp-honest-capped-b11612", "e8-mon-ministral3b-lp-honest"], "attack": ["e7-mon-ministral3b-lp-attack-b11612", "e8-mon-ministral3b-lp-attack"], "kind": "written"},
+  "gemma": {"honest": ["e7-mon-gemma-lp-honest-b11612", "e7-mon-gemma-lp-honest-capped-b11612", "e8-mon-gemma-lp-honest"], "attack": ["e7-mon-gemma-lp-attack-b11612", "e8-mon-gemma-lp-attack"], "kind": "written"},
+  "gemma-expected": {"honest": ["e7-mon-gemma-lp-honest-b11612", "e7-mon-gemma-lp-honest-capped-b11612", "e8-mon-gemma-lp-honest"], "attack": ["e7-mon-gemma-lp-attack-b11612", "e8-mon-gemma-lp-attack"], "kind": "expected"},
+  "gemma-weak": {"honest": ["e7-mon-gemma-weak-lp-honest-b11612", "e7-mon-gemma-weak-lp-honest-capped-b11612", "e8-mon-gemma-weak-lp-honest"], "attack": ["e7-mon-gemma-weak-lp-attack-b11612", "e8-mon-gemma-weak-lp-attack"], "kind": "written"},
+  "gemma-weak-expected": {"honest": ["e7-mon-gemma-weak-lp-honest-b11612", "e7-mon-gemma-weak-lp-honest-capped-b11612", "e8-mon-gemma-weak-lp-honest"], "attack": ["e7-mon-gemma-weak-lp-attack-b11612", "e8-mon-gemma-weak-lp-attack"], "kind": "expected"},
+  "gemma-trunc10": {"honest": ["e7-mon-gemma-trunc10-lp-honest-b11612", "e7-mon-gemma-trunc10-lp-honest-capped-b11612", "e8-mon-gemma-trunc10-lp-honest"], "attack": ["e7-mon-gemma-trunc10-lp-attack-b11612", "e8-mon-gemma-trunc10-lp-attack"], "kind": "written"},
+  "gemma-trunc10-expected": {"honest": ["e7-mon-gemma-trunc10-lp-honest-b11612", "e7-mon-gemma-trunc10-lp-honest-capped-b11612", "e8-mon-gemma-trunc10-lp-honest"], "attack": ["e7-mon-gemma-trunc10-lp-attack-b11612", "e8-mon-gemma-trunc10-lp-attack"], "kind": "expected"},
+  "ministral-3b-expected": {"honest": ["e7-mon-ministral3b-lp-honest-b11612", "e7-mon-ministral3b-lp-honest-capped-b11612", "e8-mon-ministral3b-lp-honest"], "attack": ["e7-mon-ministral3b-lp-attack-b11612", "e8-mon-ministral3b-lp-attack"], "kind": "expected"}
+}
