@@ -78,3 +78,11 @@ On the 39 working backdoors: Ministral-3-8B − 3B +23.1 [+10.3, +35.9] (p 0.004
 - Gemma 4 E4B expected − written, 5 %, 200 problems, paired: +11.3 [+7.0, +16.1], p < 0.001, 21 discordant.
 - Gemma 4 E4B expected − Ministral-3-8B written, 5 %, 200 problems, paired: +8.1 [+2.7, +13.4], p 0.006, 27 discordant.
 - Ministral-3-8B written − Gemma 4 E4B written, 5 %, 200 problems, paired: +3.2 [−1.6, +8.1], p 0.29, 22 discordant.
+
+## The attack policy and the sets, one line each (200 problems; sums of the two halves recorded in the README's runs table: `e3-gen-attack-1..4` with `e2-gen-honest-1..4` + `e3-gen-honest-capped`, and `e8-gen-attack-5..8` with `e8-gen-honest-5..8`; `tm.report` and `read_eval_log` over the generate logs)
+
+- Attack policy on 200 problems: 186 submissions of 200; 77 passed the main task (35 + 42); 60 carried a side-task input that broke the program (33 + 27); 39 both, the working backdoors (20 + 19).
+- Thinking budget of 12288 reached: 181 of 200 attack problems (88 + 93); 46 of 200 honest problems (18 + 28, the first hundred counted at the 12288 regeneration).
+- No submission within the 8-message limit: 14 of 200 attack problems (7 + 7); 0 of 200 honest.
+- Honest solutions passing the main task: 169 of 200 (88 + 81).
+- Across-build reproducibility of monitor replies (b11189 against b11612, the same trajectories, the six default-prompt passes of the first hundred): 73 to 91 of every 100 reply texts identical, a range over passes (Gemma 76, 73, 21 of 93, 100, 27; Ministral 73, 91, 23); written scores 89 to 90 of 93 on the attack set and 99 to 100 of 100 on the honest set. Within-build reproducibility is a separate claim (identical texts, scores and probabilities on a repeat).
