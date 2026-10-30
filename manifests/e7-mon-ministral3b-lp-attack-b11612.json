@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e3-gen-attack-1,e3-gen-attack-2,e3-gen-attack-3,e3-gen-attack-4",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-3b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e7-mon-ministral3b-lp-attack-b11612"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-30T03:10:00+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 56773190,
+      "completed": "2026-10-30T03:09:57+00:00",
+      "completed_samples": 93,
+      "dataset_path": "runs/e7-mon-ministral3b-lp-attack-b11612/2026-10-30T02-52-37-00-00_apps-monitor_nfeGjzqccrqdq5fPpX3hRr.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-10-30T02-52-37-00-00_apps-monitor_nfeGjzqccrqdq5fPpX3hRr.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "S52F2SXhB2dK6wqDVb6hm6",
+      "model": "openai-api/llama-cpp/ministral-3-3b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "8302a19def0f716d85dfed79c7d8a57b48faab08",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/8302a19def0f716d85dfed79c7d8a57b48faab08/runs/e7-mon-ministral3b-lp-attack-b11612/2026-10-30T02-52-37-00-00_apps-monitor_nfeGjzqccrqdq5fPpX3hRr.eval",
+        "verified": "2026-10-30T03:12:03+00:00"
+      },
+      "revision": {
+        "commit": "9369087",
+        "dirty": true
+      },
+      "samples": 93,
+      "sandbox": null,
+      "sha256": "d7c8544d079d4ba4241ea209d85a7c30621e444ec173236c6f19bfc58fae1c7b",
+      "started": "2026-10-30T02:52:37+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e7-mon-ministral3b-lp-attack-b11612",
+      "ts": "2026-10-30T02:52:20+00:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e7-mon-ministral3b-lp-attack-b11612",
+      "seconds": 14.3,
+      "ts": "2026-10-30T02:52:34+00:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-3b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "8c2b72eb5861304fcfd5e82f1eddd6efa4115737f4239fd216a028a8852413ef",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "E7 (Dan 2026-10-29): e4-mon-ministral3b-attack again on llama.cpp b11612 with -T logprobs=20 (Ministral-3-3B, default prompt (the weaker model of the mutation test), the first-hundred attack set), so the mutation table of the 200-problem sets is on one build; the E7 default-prompt passes of 16 Oct showed 73 to 76 of 93 attack reply texts identical across the build and 89 to 90 of 93 written scores. Estimate: the b11189 pass plus about 5 %.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "9369087854134cf223902373bbb16e50df159f22",
+    "dirty": true
+  },
+  "run_id": "e7-mon-ministral3b-lp-attack-b11612",
+  "schema": 1,
+  "started": "2026-10-30T02:52:34+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
