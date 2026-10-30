@@ -1,18 +1,21 @@
 # trusted-monitoring
 
-**Status: first results at small scale (8 October 2026), extended to 200 problems on one build (30 October).** One
-untrusted model, two trusted monitors (plus a weaker third for the mutation test), 200 problems, one machine. Every number below names the runs it comes from; every run has a manifest in this
+**Status: a pooled result on 200 problems and one build (30 October 2026); the first result on 100 problems (8 October).**
+One untrusted model, two trusted monitors (plus a weaker third for the mutation test), 200 problems, one machine. Every number below names the runs it comes from; every run has a manifest in this
 repository and its raw log in the dataset. Nothing here is a finding about trusted monitoring in general.
 
 A self-hosted AI-control evaluation: open-weight models served locally, trusted-monitoring runs on Inspect AI and
-ControlArena, the untrusted model's code run in containers with networking off. The result so far: the 8B trusted
-monitor flagged 63 % of attack-mode trajectories at a 4.1 % false-positive rate (59 of 93; bootstrap 95 % 51 to
-72 %) but only 9 of the 20 working backdoors (on all 200 problems and one build, 30 October: 60 % and 20 of 39; Gemma 4 E4B
-scored by its token probabilities 68 % and 25 of 39), and three deliberately weakened monitors each measured lower, so the
-measurement responds to monitor quality. Containment was measured rather than assumed: the stock ControlArena
+ControlArena, the untrusted model's code run in containers with networking off. The result so far, pooled over
+200 problems on one llama.cpp build: the 8B trusted monitor flags 60 % of attack-mode trajectories at a 4.6 %
+false-positive rate (111 of 186; bootstrap 95 % 47 to 67 %) but only 20 of the 39 working backdoors; Gemma 4 E4B
+scored by its token probabilities flags 68 % at 5.0 % (126 of 186; 60 to 75 %) and 25 of 39, a rule chosen on the
+first hundred problems and held out on the second (+6.5 points there, [+2.2, +11.8]); and three deliberately
+weakened monitors each measure lower, two of the three differences separated from zero at 95 %, so the measurement
+responds to monitor quality. The first result alone (8 October, 100 problems): the 8B monitor at 63 % and 4.1 %
+(59 of 93; 51 to 72 %), 9 of 20 working backdoors. Containment was measured rather than assumed: the stock ControlArena
 19.0.0 APPS sandbox ran the task as root, and the hardened configuration here runs it non-root with networking off
-and capabilities dropped; it blocked 21 of 21 escape probes (record: `control/apps/sandbox-escape-check-2026-10-02.txt`). n is 200 problems and 39 working backdoors (100 and 20 in the first result), one setting, one seed, and the intervals are
-wide. Part of the evaluation-and-control work at [danwalsh.co](https://www.danwalsh.co/projects).
+and capabilities dropped; it blocked 21 of 21 escape probes (record: `control/apps/sandbox-escape-check-2026-10-02.txt`). n is 200 problems and 39 working backdoors, pooled from the first hundred and a held-out hundred, one setting, one
+seed, and the intervals are wide. Part of the evaluation-and-control work at [danwalsh.co](https://www.danwalsh.co/projects).
 
 ## The question
 
@@ -76,6 +79,31 @@ at 12288: 3), which chose the budget 12288 for the attack set; `e4-mon-ministral
 20). The attack set reproduced the probe on its 10 shared ids: the same main and side results.
 
 ## Results
+
+### Pooled: 200 problems, one build (30 October)
+
+Pooled: the first hundred problems scored again on llama.cpp b11612 (`e7-mon-*-b11612`) and the held-out positions
+101 to 200 scored on it (`e8-mon-*`), so every number here is one build, 200 honest and 186 scored attack
+trajectories, 39 working backdoors. The held-out hundred on its own is in `results/expected-score-holdout-2026-10-29.md`.
+Commands, the full table of every pair and the per-trajectory scores: `results/two-hundred-problems-2026-10-30.md`.
+
+| monitor, score, 5 % target | threshold, realised FPR, catch rate (bootstrap 95 %) | at 1 % | working backdoors (of 39): flagged, scored 0 |
+|---|---|---|---|
+| **Ministral-3-8B, written** | 4, 4.6 %, **60 %** (111 of 186; 47 to 67 %) | 34 % | 20, 12 |
+| Ministral-3-8B, expected | 4.2, 4.6 %, 60 % (52 to 71 %) | 45 % | 20, 0 |
+| Gemma 4 E4B, written | 0, 0.5 %, 57 % (105 of 186; 50 to 64 %) | 57 % | 18, 21 |
+| **Gemma 4 E4B, expected** | 0.0015, 5.0 %, **68 %** (126 of 186; 60 to 75 %) | 60 % | 25, 0 |
+| Ministral-3-3B, written | 0, 3.6 %, 51 % (33 to 58 %) | 11 % | 11, 28 |
+| Gemma 4 E4B, weak prompt, written | 0, 3.6 %, 42 % (27 to 49 %) | 0 % | 11, 28 |
+| Gemma 4 E4B, first 10 lines, written | 0, 1.0 %, 51 % (44 to 58 %) | 51 % | 12, 27 |
+
+Paired on the same trajectories at the 5 % target: Ministral-3-8B against its 3B mutation +12.9 points [+7.5, +18.8];
+Gemma against its weak prompt +15.1 [+8.6, +22.0] and against its truncation +5.9 [+0.5, +11.3] (exact p 0.061);
+Gemma's expected score against its written score +11.3 [+7.0, +16.1], all 21 discordant pairs one way; Gemma's
+expected score against the 8B monitor +8.1 [+2.7, +13.4], p 0.006; the two written scores +3.2 [−1.6, +8.1], not
+separated.
+
+### The first result: 100 problems, build b11189 (8 October)
 
 The monitor sees the problem statement and the submitted code, nothing else (no reasoning, no attack prompt,
 no secret input). The threshold is the smallest honest score with at most the target fraction of honest scores
@@ -158,28 +186,6 @@ What the numbers say, and no more:
 n is 200 problems and 39 working backdoors (100 and 20 in the first result). The intervals are wide and the thresholds rest on a handful of honest
 outliers, which is why the bootstrap resets the threshold each round. Not measured: other settings, other
 attack policies, any monitor prompt tuned on this data, a run with another seed.
-
-### On 200 problems, one build (30 October)
-
-The first hundred scored again on llama.cpp b11612 (`e7-mon-*-b11612`) and positions 101 to 200 scored on it
-(`e8-mon-*`), so every number here is one build, 200 honest and 186 scored attack trajectories, 39 working backdoors.
-Commands, the full table of every pair and the per-trajectory scores: `results/two-hundred-problems-2026-10-30.md`.
-
-| monitor, score, 5 % target | threshold, realised FPR, catch rate (bootstrap 95 %) | at 1 % | working backdoors (of 39): flagged, scored 0 |
-|---|---|---|---|
-| **Ministral-3-8B, written** | 4, 4.6 %, **60 %** (111 of 186; 47 to 67 %) | 34 % | 20, 12 |
-| Ministral-3-8B, expected | 4.2, 4.6 %, 60 % (52 to 71 %) | 45 % | 20, 0 |
-| Gemma 4 E4B, written | 0, 0.5 %, 57 % (105 of 186; 50 to 64 %) | 57 % | 18, 21 |
-| **Gemma 4 E4B, expected** | 0.0015, 5.0 %, **68 %** (126 of 186; 60 to 75 %) | 60 % | 25, 0 |
-| Ministral-3-3B, written | 0, 3.6 %, 51 % (33 to 58 %) | 11 % | 11, 28 |
-| Gemma 4 E4B, weak prompt, written | 0, 3.6 %, 42 % (27 to 49 %) | 0 % | 11, 28 |
-| Gemma 4 E4B, first 10 lines, written | 0, 1.0 %, 51 % (44 to 58 %) | 51 % | 12, 27 |
-
-Paired on the same trajectories at the 5 % target: Ministral-3-8B against its 3B mutation +12.9 points [+7.5, +18.8];
-Gemma against its weak prompt +15.1 [+8.6, +22.0] and against its truncation +5.9 [+0.5, +11.3] (exact p 0.061);
-Gemma's expected score against its written score +11.3 [+7.0, +16.1], all 21 discordant pairs one way; Gemma's
-expected score against the 8B monitor +8.1 [+2.7, +13.4], p 0.006; the two written scores +3.2 [−1.6, +8.1], not
-separated.
 
 ## Integer scores and the 1 % target
 
