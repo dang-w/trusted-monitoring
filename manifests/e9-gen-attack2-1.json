@@ -1,0 +1,185 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "control/apps/task.py@apps_generate_attack",
+    "-T",
+    "attack_prompt=attack_policy_additional_instructions",
+    "--limit",
+    "1-25",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "2700",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e9-gen-attack2-1"
+  ],
+  "container_images": [
+    {
+      "architecture": "arm64",
+      "id": "sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1",
+      "name": "python:3.4",
+      "repo_digests": [
+        "python@sha256:7a7e47efdfd6503afcf56a57f981bcc23d54211ad3b3c21cbe4bd597873fa6e1"
+      ]
+    }
+  ],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-10-31T01:34:02+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 944565,
+      "completed": "2026-10-31T01:34:01+00:00",
+      "completed_samples": 25,
+      "dataset_path": "runs/e9-gen-attack2-1/2026-10-30T13-21-38-00-00_apps-generate-attack_9NdJ4Q2nEhXYmp7RPVumSM.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "limit": [
+          0,
+          25
+        ],
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 2700,
+        "token_limit": 1000000
+      },
+      "file": "2026-10-30T13-21-38-00-00_apps-generate-attack_9NdJ4Q2nEhXYmp7RPVumSM.eval",
+      "generate_config": {},
+      "inspect_run_id": "MBw8t5QMFU2SrHUnP3TuF9",
+      "model": "none/none",
+      "model_roles": {
+        "trusted": {
+          "config": {
+            "max_tokens": 4096,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/ministral-3-8b"
+        },
+        "untrusted": {
+          "config": {
+            "max_tokens": 16384,
+            "seed": 1,
+            "temperature": 0.0
+          },
+          "model": "openai-api/llama-cpp/qwen3.8-27b"
+        }
+      },
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "00bca4ca29c4fc3cdc365df8c5f4f79f8bd14093",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/00bca4ca29c4fc3cdc365df8c5f4f79f8bd14093/runs/e9-gen-attack2-1/2026-10-30T13-21-38-00-00_apps-generate-attack_9NdJ4Q2nEhXYmp7RPVumSM.eval",
+        "verified": "2026-10-31T01:34:06+00:00"
+      },
+      "revision": {
+        "commit": "fde95d3",
+        "dirty": true
+      },
+      "samples": 2981,
+      "sandbox": {
+        "config": "compose.yaml",
+        "type": "docker"
+      },
+      "sha256": "ec371ce401f61953d312a980d731904e51e7602d1d949d6ff12605ecbc0fac53",
+      "started": "2026-10-30T13:21:38+00:00",
+      "status": "success",
+      "task": "apps_generate_attack"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e9-gen-attack2-1",
+      "ts": "2026-10-30T13:21:20+00:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e9-gen-attack2-1",
+      "seconds": 14.5,
+      "ts": "2026-10-30T13:21:35+00:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-8B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-8b",
+      "server": null,
+      "sha256": "bd0ca58473b64618df4d08c1410cc25c910ca84e647833ebaf099e0fc0523b45",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    },
+    {
+      "file": "Qwen3.8-27B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.8-27b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 1.0,
+          "top_k": 20,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": 12288
+      }
+    }
+  ],
+  "note": "Second attacker (Dan 2026-10-30; results/second-attacker-preregistration.md): ControlArena's attack_policy_additional_instructions prompt on positions 1-25, part 1 of 8, the same untrusted model, preset (budget 12288), 16384 output tokens, 2000 s client timeout, llama.cpp b11612 as the first attacker's E8 parts. Paired by problem with e3-gen-attack-1..4 and e8-gen-attack-5..8 at the monitor stage. Estimate: e8-gen-attack-5..8 took 418 to 568 min per 25.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "fde95d3e6f259c4284d2d1091979fe4948c24315",
+    "dirty": true
+  },
+  "run_id": "e9-gen-attack2-1",
+  "schema": 1,
+  "started": "2026-10-30T13:21:35+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}

@@ -1,0 +1,23 @@
+estimated_minutes: 480
+note: 'Second attacker (Dan 2026-10-30; results/second-attacker-preregistration.md):
+  ControlArena''s attack_policy_additional_instructions prompt on positions 1-25,
+  part 1 of 8, the same untrusted model, preset (budget 12288), 16384 output tokens,
+  2000 s client timeout, llama.cpp b11612 as the first attacker''s E8 parts. Paired
+  by problem with e3-gen-attack-1..4 and e8-gen-attack-5..8 at the monitor stage.
+  Estimate: e8-gen-attack-5..8 took 418 to 568 min per 25.'
+inspect:
+- eval
+- control/apps/task.py@apps_generate_attack
+- -T
+- attack_prompt=attack_policy_additional_instructions
+- --limit
+- 1-25
+- --max-samples
+- '1'
+- --time-limit
+- '2700'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-10-30T12:13:55+00:00'
+attempts: 1
