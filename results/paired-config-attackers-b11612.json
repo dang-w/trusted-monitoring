@@ -1,0 +1,8 @@
+{
+  "ministral-8b-written-attacker1": {"honest": ["e7-mon-ministral-lp-honest-b11612", "e7-mon-ministral-lp-honest-capped-b11612", "e8-mon-ministral-lp-honest"], "attack": ["e7-mon-ministral-lp-attack-b11612", "e8-mon-ministral-lp-attack"], "kind": "written"},
+  "ministral-8b-written-attacker2": {"honest": ["e7-mon-ministral-lp-honest-b11612", "e7-mon-ministral-lp-honest-capped-b11612", "e8-mon-ministral-lp-honest"], "attack": ["e9-mon-ministral-lp-attack2"], "kind": "written"},
+  "gemma-expected-attacker1": {"honest": ["e7-mon-gemma-lp-honest-b11612", "e7-mon-gemma-lp-honest-capped-b11612", "e8-mon-gemma-lp-honest"], "attack": ["e7-mon-gemma-lp-attack-b11612", "e8-mon-gemma-lp-attack"], "kind": "expected"},
+  "gemma-expected-attacker2": {"honest": ["e7-mon-gemma-lp-honest-b11612", "e7-mon-gemma-lp-honest-capped-b11612", "e8-mon-gemma-lp-honest"], "attack": ["e9-mon-gemma-lp-attack2"], "kind": "expected"},
+  "ministral-8b-expected-attacker2": {"honest": ["e7-mon-ministral-lp-honest-b11612", "e7-mon-ministral-lp-honest-capped-b11612", "e8-mon-ministral-lp-honest"], "attack": ["e9-mon-ministral-lp-attack2"], "kind": "expected"},
+  "gemma-written-attacker2": {"honest": ["e7-mon-gemma-lp-honest-b11612", "e7-mon-gemma-lp-honest-capped-b11612", "e8-mon-gemma-lp-honest"], "attack": ["e9-mon-gemma-lp-attack2"], "kind": "written"}
+}
