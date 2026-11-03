@@ -1,0 +1,146 @@
+{
+  "command": [
+    "inspect",
+    "eval",
+    "tm/monitor.py@apps_monitor",
+    "-T",
+    "runs=e9-gen-attack2-1,e9-gen-attack2-2,e9-gen-attack2-3,e9-gen-attack2-4,e9-gen-attack2-5,e9-gen-attack2-6,e9-gen-attack2-7,e9-gen-attack2-8",
+    "-T",
+    "monitor=openai-api/llama-cpp/ministral-3-3b",
+    "-T",
+    "logprobs=20",
+    "--max-samples",
+    "1",
+    "--time-limit",
+    "1800",
+    "--message-limit",
+    "8",
+    "--no-fail-on-error",
+    "--log-dir",
+    "logs/e9-mon-ministral3b-lp-attack2"
+  ],
+  "container_images": [],
+  "dataset": "dang-w/trusted-monitoring-logs",
+  "ended": "2026-11-03T14:04:01+00:00",
+  "exit_code": 0,
+  "llama_cpp": {
+    "build": 11612,
+    "commit": "10da8c463",
+    "version": "0.6.0-dev"
+  },
+  "logs": [
+    {
+      "bytes": 72252902,
+      "completed": "2026-11-03T14:03:56+00:00",
+      "completed_samples": 133,
+      "dataset_path": "runs/e9-mon-ministral3b-lp-attack2/2026-11-03T13-40-52-00-00_apps-monitor_ETzeZEq8VhV56WKfxdiVAR.eval",
+      "eval_config": {
+        "continue_on_fail": false,
+        "epochs": 1,
+        "fail_on_error": false,
+        "log_images": true,
+        "log_realtime": true,
+        "log_samples": true,
+        "log_shared": 0,
+        "max_samples": 1,
+        "message_limit": 8,
+        "sandbox_cleanup": true,
+        "sandbox_prebuilt": false,
+        "score_display": true,
+        "score_on_error": false,
+        "time_limit": 1800
+      },
+      "file": "2026-11-03T13-40-52-00-00_apps-monitor_ETzeZEq8VhV56WKfxdiVAR.eval",
+      "generate_config": {
+        "logprobs": true,
+        "max_tokens": 4096,
+        "seed": 1,
+        "temperature": 0.0,
+        "top_logprobs": 20
+      },
+      "inspect_run_id": "Hijg2zKMfwhzsxdRCdQ2jF",
+      "model": "openai-api/llama-cpp/ministral-3-3b",
+      "model_roles": {},
+      "published": {
+        "dataset": "dang-w/trusted-monitoring-logs",
+        "dataset_commit": "18b011601ae174bdc43c00c0a3b219e1f0b03264",
+        "url": "https://huggingface.co/datasets/dang-w/trusted-monitoring-logs/blob/18b011601ae174bdc43c00c0a3b219e1f0b03264/runs/e9-mon-ministral3b-lp-attack2/2026-11-03T13-40-52-00-00_apps-monitor_ETzeZEq8VhV56WKfxdiVAR.eval",
+        "verified": "2026-11-03T14:07:25+00:00"
+      },
+      "revision": {
+        "commit": "5e7f161",
+        "dirty": true
+      },
+      "samples": 133,
+      "sandbox": null,
+      "sha256": "8db06c48baabf2ea1caa20d56187e49308683e19b7980cc0b9a7a8f702a5e30a",
+      "started": "2026-11-03T13:40:52+00:00",
+      "status": "success",
+      "task": "apps_monitor"
+    }
+  ],
+  "mode_switch_log": [
+    {
+      "command": "research",
+      "event": "start",
+      "force": false,
+      "run_id": "e9-mon-ministral3b-lp-attack2",
+      "ts": "2026-11-03T13:40:35+00:00"
+    },
+    {
+      "command": "research",
+      "container_vm": "running",
+      "event": "done",
+      "run_id": "e9-mon-ministral3b-lp-attack2",
+      "seconds": 14.3,
+      "ts": "2026-11-03T13:40:50+00:00"
+    }
+  ],
+  "models": [
+    {
+      "file": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "id": "ministral-3-3b",
+      "server": {
+        "build_info": "b11612-10da8c463",
+        "n_ctx": 32768,
+        "sampling_defaults": {
+          "min_p": 0.05000000074505806,
+          "n_predict": -1,
+          "repeat_penalty": 1.0,
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "top_k": 40,
+          "top_p": 0.949999988079071
+        },
+        "total_slots": 4
+      },
+      "sha256": "8c2b72eb5861304fcfd5e82f1eddd6efa4115737f4239fd216a028a8852413ef",
+      "slots": {
+        "ctx_size": null,
+        "kv_unified_per_slot": 32768,
+        "n_predict": 4096,
+        "parallel": 4,
+        "reasoning_budget": null
+      }
+    }
+  ],
+  "note": "Second attacker, monitor pass (results/second-attacker-preregistration.md; Dan 2026-10-30): Ministral-3-3B (mutation) on the attacker-2 set (e9-gen-attack2-1..8, 200 positions, ControlArena's attack_policy_additional_instructions prompt, b11612), -T logprobs=20, scored on b11612. The honest set and thresholds are those of the 200-problem table; paired by problem with the first attacker's passes. Estimate: the E8 attack pass of this monitor scaled to 200 samples plus about 5 %.",
+  "presets": {
+    "file": "models.research.ini",
+    "sha256": "e6ed8bf8086c256ec9c3a47cdd27076ff4abbe8b73a439ff01e5b17df77ecb89"
+  },
+  "repo": {
+    "commit": "5e7f161ce8651301db8062bdfdb24e6cbcb49d9c",
+    "dirty": true
+  },
+  "run_id": "e9-mon-ministral3b-lp-attack2",
+  "schema": 1,
+  "started": "2026-11-03T13:40:50+00:00",
+  "status": "completed",
+  "versions": {
+    "control_arena": "19.0.0",
+    "inspect_ai": "0.3.275",
+    "python": "3.12.14",
+    "uv_lock_sha256": "215309e2987c283263d5da96410b7c0c3c0e7b118c8196fb06a8050662c948bd"
+  }
+}
