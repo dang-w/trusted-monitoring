@@ -174,6 +174,11 @@ def test_gitleaks_allows_an_attachment_id_key_after_any_value_but_not_a_hex_valu
         ("key", "the filesystem scan is the key concern."),
     ):
         (tmp_path / f"{name}.json").write_text('{"a": "' + tail + '",\n  ' + attachment + "}")
+    # the same key shape under another rule's keyword ("linear"), and the attack policy's own secret input
+    (tmp_path / "linear.json").write_text('{"a": "the input is a linear",\n  ' + attachment + "}")
+    (tmp_path / "secret_input.json").write_text(
+        '{"a": "my plan:\\n- Secret input: k=987654321098.\\n- Bug: x"}'
+    )
     assert gitleaks(tmp_path) == []
     # a 32-hex *value* after a keyword is still a finding
     (tmp_path / "value.json").write_text('{"api_key": "4195b2ca03da7405758cbcaebc83b006"}')  # gitleaks:allow

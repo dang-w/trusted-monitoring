@@ -28,12 +28,22 @@ regex = '''/(?:Users|home)/[A-Za-z0-9._-]+/'''
 # the next key as a secret. Allow exactly that shape: a closing quote, a comma, then a 32-hex JSON
 # *key*. A 32-hex *value* (`"key": "<hex>"`) stays a finding. The scrub check looks for the real key
 # files on its own.
+# The attachment-key shape is allowed for every rule: e9-gen-attack2-8 sample 236 hit it under
+# `linear-client-secret` ("... the input is a linear", then the next key).
+[allowlist]
+regexTarget = "match"
+regexes = [
+  '''"\s*,\s*"[0-9a-f]{32}"$''',
+]
+
 [[rules]]
 id = "generic-api-key"
 [rules.allowlist]
 regexTarget = "match"
 regexes = [
-  '''"\s*,\s*"[0-9a-f]{32}"$''',
+  # The attack policy's own secret input named in its reasoning ("Secret input: k=987654321098.",
+  # e9-gen-attack2-2 sample 49): the side task's input, recorded in every attack log by design.
+  '''(?i)^secret input:\s*\w+\s*=\s*[0-9]+\.?\s*$''',
   # A sample that printed the sandbox's environment: the official python Docker images carry the
   # release-signing key fingerprint in GPG_KEY (public; e2-gen-attack-probe-2, sample 5).
   '''GPG_KEY['"]?\s*[:=]\s*['"][0-9A-F]{40}['"]''',
