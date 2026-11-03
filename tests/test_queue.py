@@ -1,6 +1,7 @@
 """Tests of the pure parts of the queue runner (no machine, no model)."""
 
 import datetime as dt
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -175,3 +176,76 @@ def test_a_publish_timeout_is_a_failed_publish_not_a_dead_runner(
     spec = queue.Spec(path=tmp_path / "r1.yaml", estimated_minutes=1, inspect=["eval", "t"])
     assert runner.publish(spec) == (False, "publish-timeout")
     assert lines and "no answer after" in lines[0] and "uploaded 1 file" in lines[0]
+
+
+# ---------------------------------------------------------------- push_main: origin moved on
+
+
+def _git(cwd: Path, *argv: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", "-c", "user.email=t@example.org", "-c", "user.name=t", *argv],
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def _remote_and_two_clones(tmp_path: Path) -> tuple[Path, Path, Path]:
+    """A bare origin on main, the runner's clone and the laptop's clone; one initial commit both know."""
+    bare = tmp_path / "origin.git"
+    _git(tmp_path, "init", "-q", "--bare", "-b", "main", str(bare))
+    runner = tmp_path / "runner"
+    _git(tmp_path, "clone", "-q", str(bare), str(runner))
+    (runner / "manifests").mkdir()
+    (runner / "manifests/first.json").write_text("{}\n")
+    _git(runner, "add", "-A")
+    _git(runner, "commit", "-q", "-m", "first")
+    assert _git(runner, "push", "-q", "origin", "HEAD:main").returncode == 0
+    laptop = tmp_path / "laptop"
+    _git(tmp_path, "clone", "-q", str(bare), str(laptop))
+    return bare, runner, laptop
+
+
+def test_push_main_plain_push(tmp_path: Path) -> None:
+    _, runner, _ = _remote_and_two_clones(tmp_path)
+    (runner / "manifests/second.json").write_text("{}\n")
+    _git(runner, "add", "-A")
+    _git(runner, "commit", "-q", "-m", "second")
+    assert queue.push_main(cwd=runner) == (True, "")
+
+
+def test_push_main_rebases_when_origin_moved_on(tmp_path: Path) -> None:
+    bare, runner, laptop = _remote_and_two_clones(tmp_path)
+    (laptop / "AGENTS.md").write_text("rules\n")
+    _git(laptop, "add", "-A")
+    _git(laptop, "commit", "-q", "-m", "laptop: AGENTS.md")
+    assert _git(laptop, "push", "-q", "origin", "HEAD:main").returncode == 0
+    (runner / "manifests/second.json").write_text("{}\n")
+    _git(runner, "add", "-A")
+    _git(runner, "commit", "-q", "-m", "runner: second")
+    (runner / "untracked.log").write_text("x\n")  # an untracked file must not stop the rebase
+    pushed, note = queue.push_main(cwd=runner)
+    assert pushed and "rebase" in note
+    tree = _git(runner, "ls-tree", "--name-only", "-r", "origin/main").stdout.split()
+    assert "AGENTS.md" in tree and "manifests/second.json" in tree
+    origin_head = _git(bare, "log", "--oneline", "-1", "main").stdout[:7]
+    assert _git(runner, "log", "--oneline", "-1").stdout.startswith(origin_head)
+    assert not (runner / ".git/rebase-merge").exists()
+
+
+def test_push_main_conflict_aborts_and_keeps_the_clone(tmp_path: Path) -> None:
+    _, runner, laptop = _remote_and_two_clones(tmp_path)
+    (laptop / "manifests/first.json").write_text('{"laptop": 1}\n')
+    _git(laptop, "add", "-A")
+    _git(laptop, "commit", "-q", "-m", "laptop edits first")
+    assert _git(laptop, "push", "-q", "origin", "HEAD:main").returncode == 0
+    (runner / "manifests/first.json").write_text('{"runner": 1}\n')
+    _git(runner, "add", "-A")
+    _git(runner, "commit", "-q", "-m", "runner edits first")
+    head = _git(runner, "rev-parse", "HEAD").stdout.strip()
+    pushed, note = queue.push_main(cwd=runner)
+    assert not pushed and "aborted" in note
+    assert _git(runner, "rev-parse", "HEAD").stdout.strip() == head
+    assert not (runner / ".git/rebase-merge").exists()
+    assert (runner / "manifests/first.json").read_text() == '{"runner": 1}\n'

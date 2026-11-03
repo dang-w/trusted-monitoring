@@ -187,8 +187,36 @@ def notify(message: str, *, title: str = "research-mini: queue", priority: int |
     log(f"notify ({outcome}): {message}")
 
 
-def git(*argv: str) -> subprocess.CompletedProcess[str]:
-    return run("git", *argv)
+def git(*argv: str, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+    return run("git", *argv, cwd=cwd)
+
+
+def push_main(cwd: Path | None = None) -> tuple[bool, str]:
+    """Push HEAD to origin/main; (pushed, note).
+
+    A plain push is rejected when origin has moved on (a commit pushed from the laptop while the runner's
+    clone was behind). Then: one fetch, a rebase of the local commits onto origin/main (with autostash, so a
+    dirty working tree does not stop it), and one more push. The runner's own commits touch queue/ and
+    manifests/ only, so the rebase onto unrelated commits is clean; a conflict aborts the rebase, leaves the
+    clone as it was, and the push stays failed with the reason in the note.
+    """
+
+    def tail(result: subprocess.CompletedProcess[str]) -> str:
+        return (result.stderr or result.stdout).strip()[-300:]
+
+    if git("push", "-q", "origin", "HEAD:main", cwd=cwd).returncode == 0:
+        return True, ""
+    fetched = git("fetch", "-q", "origin", cwd=cwd)
+    if fetched.returncode != 0:
+        return False, f"push rejected and the fetch failed: {tail(fetched)}"
+    rebased = git("rebase", "-q", "--autostash", "origin/main", cwd=cwd)
+    if rebased.returncode != 0:
+        git("rebase", "--abort", cwd=cwd)
+        return False, f"push rejected; the rebase onto origin/main failed and was aborted: {tail(rebased)}"
+    second = git("push", "-q", "origin", "HEAD:main", cwd=cwd)
+    if second.returncode == 0:
+        return True, "origin had moved on; pushed after a rebase onto origin/main"
+    return False, f"push rejected twice: {tail(second)}"
 
 
 # ---------------------------------------------------------------- specs
@@ -506,7 +534,9 @@ class Runner:
                 log(f"{spec.run_id}: commit FAILED: {(result.stderr or result.stdout).strip()[-600:]}")
                 return False, False
             log(f"{spec.run_id}: committed {git('rev-parse', '--short', 'HEAD').stdout.strip()}")
-        pushed = git("push", "-q", "origin", "HEAD:main").returncode == 0
+        pushed, note = push_main()
+        if note:
+            log(f"{spec.run_id}: {note}")
         if not pushed:
             log(f"{spec.run_id}: push FAILED")
         return committed, pushed
