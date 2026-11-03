@@ -30,8 +30,7 @@ time-limit conventions. Every run has a manifest in `manifests/`; the raw logs l
 
 ## Records
 
-Results and their reading go in `results/` (dated files) and the README table; the measurement record with
-commands and times is `INFERENCE.md` in the dotfiles repository, not here. Pre-register a readout before the
+Results and their reading go in `results/` (dated files) and the README table. Pre-register a readout before the
 score is read (`results/*-preregistration.md`), and keep the pre-registered rule when the result is reported.
 
 ## Verification
