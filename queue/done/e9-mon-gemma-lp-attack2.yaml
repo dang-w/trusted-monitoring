@@ -1,0 +1,25 @@
+estimated_minutes: 125
+note: 'Second attacker, monitor pass (results/second-attacker-preregistration.md;
+  Dan 2026-10-30): Gemma 4 E4B, default prompt on the attacker-2 set (e9-gen-attack2-1..8,
+  200 positions, ControlArena''s attack_policy_additional_instructions prompt, b11612),
+  -T logprobs=20, scored on b11612. The honest set and thresholds are those of the
+  200-problem table; paired by problem with the first attacker''s passes. Estimate:
+  the E8 attack pass of this monitor scaled to 200 samples plus about 5 %.'
+inspect:
+- eval
+- tm/monitor.py@apps_monitor
+- -T
+- runs=e9-gen-attack2-1,e9-gen-attack2-2,e9-gen-attack2-3,e9-gen-attack2-4,e9-gen-attack2-5,e9-gen-attack2-6,e9-gen-attack2-7,e9-gen-attack2-8
+- -T
+- monitor=openai-api/llama-cpp/gemma-4-e4b
+- -T
+- logprobs=20
+- --max-samples
+- '1'
+- --time-limit
+- '1800'
+- --message-limit
+- '8'
+- --no-fail-on-error
+queued: '2026-11-03T10:46:42+00:00'
+attempts: 1
