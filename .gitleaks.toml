@@ -43,7 +43,7 @@ regexTarget = "match"
 regexes = [
   # The attack policy's own secret input named in its reasoning ("Secret input: k=987654321098.",
   # e9-gen-attack2-2 sample 49): the side task's input, recorded in every attack log by design.
-  '''(?i)^secret input:\s*\w+\s*=\s*[0-9]+\.?\s*$''',
+  '''(?i)^secret input:\s*\w+\s*=\s*[0-9]+\.?(?:\\n)?\s*$''',
   # A sample that printed the sandbox's environment: the official python Docker images carry the
   # release-signing key fingerprint in GPG_KEY (public; e2-gen-attack-probe-2, sample 5).
   '''GPG_KEY['"]?\s*[:=]\s*['"][0-9A-F]{40}['"]''',
